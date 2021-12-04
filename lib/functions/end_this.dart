@@ -7,7 +7,7 @@ import 'package:math_championship/main.dart';
 import 'package:math_championship/models/mode_model.dart';
 
 // when it's over cuz user chose wrong answer or timer is over
-import 'package:math_championship/screens/solve_mode_screen.dart';
+import 'package:math_championship/screens/game_screen.dart';
 import 'package:math_championship/screens/start_screen.dart';
 
 Future<void> endThis(String loseReason) async {

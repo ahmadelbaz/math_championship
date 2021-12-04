@@ -4,40 +4,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:math_championship/functions/end_this.dart';
 import 'package:math_championship/functions/timer.dart';
-import 'package:math_championship/providers/solve_mode_provider.dart';
+import 'package:math_championship/providers/game_provider.dart';
 import 'package:math_championship/screens/start_screen.dart';
 import 'package:math_championship/widgets/keyboard.dart';
 import '../constants.dart';
 
 final solveChangeNotifierProvider =
-    ChangeNotifierProvider<SolveModeProvider>((ref) => SolveModeProvider());
-
-// final timerStateProvider = StateProvider<Timer>((ref) {
-//   return Timer(const Duration(milliseconds: 1), () {});
-// });
+    ChangeNotifierProvider<GameProvider>((ref) => GameProvider());
 
 final answerStateProvider = StateProvider<String>((ref) => '');
 
-// final timeFutureProvider = FutureProvider((ref) async {
-//   final _gameProvider = ref.read(solveChangeNotifierProvider);
-//   // final _timerProvider = ref.read(timerStateProvider);
-//   // Timer _timer = Timer(const Duration(milliseconds: 1), () {});
-//   WidgetsBinding.instance!.addPostFrameCallback((duration) {
-//     // questionTimer();
-//   });
-// });
-
-class SolveModeScreen extends ConsumerWidget {
+class GameScreen extends ConsumerWidget {
   bool hasFinished = false;
-  // Timer _timer = Timer(const Duration(milliseconds: 1), () {});
-  // int _answer = 0;
+
+  GameScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, watch) {
-    // _questionTimer(watch);
     final _size = MediaQuery.of(context).size;
     final _solveProvider = watch(solveChangeNotifierProvider);
     final _answerProvider = watch(answerStateProvider);
-    // final futureProvider = watch(timeFutureProvider);
     final inGameProvder = watch(inGameStateProvider);
     WidgetsBinding.instance!.addPostFrameCallback((duration) {
       if (!hasFinished) {
@@ -66,12 +51,7 @@ class SolveModeScreen extends ConsumerWidget {
         elevation: 0.0,
       ),
       backgroundColor: kMainColor,
-      body:
-          // futureProvider.when(
-          //   data: (data) {
-          //     // questionTimer();
-          //     return
-          SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           children: [
             SizedBox(
@@ -141,10 +121,6 @@ class SolveModeScreen extends ConsumerWidget {
           ],
         ),
       ),
-      //   },
-      //   loading: () => const Center(child: CircularProgressIndicator()),
-      //   error: (e, st) => Center(child: Text('Error: $e')),
-      // ),
     );
   }
 
@@ -152,7 +128,6 @@ class SolveModeScreen extends ConsumerWidget {
   void checkAnswer(T Function<T>(ProviderBase<Object?, T>) watch) {
     final _gameProvider = watch(solveChangeNotifierProvider);
     final _answerProvider = watch(answerStateProvider);
-    // _timer.cancel();
     if (int.parse(_answerProvider.state) ==
         _gameProvider.getGame().trueAnswer) {
       _answerProvider.state = '';
@@ -166,46 +141,4 @@ class SolveModeScreen extends ConsumerWidget {
       endThis('WOWWWWW, Congratulations');
     }
   }
-
-  // // when it's over cuz user chose wrong answer or timer is over
-  // void endThis(
-  //     T Function<T>(ProviderBase<Object?, T>) watch, String loseReason) async {
-  //   final _solveProvider = watch(solveChangeNotifierProvider);
-  //   final _modesProvider = watch(modesChangeNotifierProvider);
-  //   // message to show to user in result screen ( if he got new high score it tells him)
-  //   String message = 'Keep going';
-  //   // 2 variables to throw score and highScore to result screen
-  //   String score = '${_solveProvider.getGame().score}';
-  //   String highScore = '${_modesProvider.modes[0].highScore}';
-  //   // string that shows the question that user didn't solve or answered it wrong
-  //   String lastQs =
-  //       '${_solveProvider.getGame().firstNum}     ${_solveProvider.getGame().sign}     ${_solveProvider.getGame().secondNum}     =     ${_solveProvider.getGame().trueAnswer}';
-  //   if (_solveProvider.getGame().score > _modesProvider.modes[0].highScore) {
-  //     message = 'Congrats, you got new High Score';
-  //     Mode mode = Mode(
-  //         id: _modesProvider.modes[0].id,
-  //         name: _modesProvider.modes[0].name,
-  //         highScore: _solveProvider.getGame().score,
-  //         highScoreDateTime: DateTime.now());
-  //     await _modesProvider.updateHighScore(mode, _modesProvider.modes[0].id);
-  //   }
-  //   log(' this is score ${_solveProvider.getGame().score}');
-  //   if (_solveProvider.getGame().score == 70) {
-  //     message = 'You are winner!!';
-  //   }
-  //   watch(answerStateProvider).state = '';
-  //   _solveProvider.resetGame();
-  //   navigatorKey.currentState!.pushReplacementNamed(
-  //     '/result_screen',
-  //     arguments: [
-  //       loseReason,
-  //       message,
-  //       score,
-  //       highScore,
-  //       lastQs,
-  //       '/solve_screen',
-  //       '0'
-  //     ],
-  //   );
-  // }
 }

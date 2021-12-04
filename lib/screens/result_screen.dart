@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:math_championship/constants.dart';
 import 'package:math_championship/functions/start_mode_function.dart';
-import 'package:math_championship/screens/solve_mode_screen.dart';
 import 'package:math_championship/screens/start_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:math_championship/widgets/coins_icon.dart';
 
 class ResultScreen extends StatelessWidget {
+  const ResultScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final _size = MediaQuery.of(context).size;
     final _args = ModalRoute.of(context)!.settings.arguments as List<String>;
     final _pointsProvider = context.read(pointsChangeNotifierProvider);
-    final _gameProvider = context.read(solveChangeNotifierProvider);
     _pointsProvider.updatePoints(int.parse(_args[2]));
     // close inGame provider
     WidgetsBinding.instance!.addPostFrameCallback((duration) {
       context.read(inGameStateProvider).state = false;
     });
-    // log('after game ? ${context.read(inGameStateProvider).state}');
     return Scaffold(
       backgroundColor: kMainColor,
       appBar: AppBar(

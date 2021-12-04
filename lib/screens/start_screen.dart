@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:math_championship/functions/start_mode_function.dart';
-import 'package:math_championship/models/solve_game_model.dart';
 import 'package:math_championship/providers/modes_provider.dart';
 import 'package:math_championship/providers/points_provider.dart';
-import 'package:math_championship/screens/solve_mode_screen.dart';
-import 'package:math_championship/screens/timeiseverthing_mode_screen.dart';
 import 'package:math_championship/widgets/mode_widget.dart';
 import 'package:math_championship/widgets/score_board.dart';
 
@@ -30,6 +27,8 @@ final modesFutureProvider = FutureProvider(
 );
 
 class StartScreen extends ConsumerWidget {
+  const StartScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context, watch) {
     final _size = MediaQuery.of(context).size;

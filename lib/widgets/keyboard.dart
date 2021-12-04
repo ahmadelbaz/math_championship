@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:math_championship/screens/solve_mode_screen.dart';
+import 'package:math_championship/screens/game_screen.dart';
 
 class KeyboardContainer extends ConsumerWidget {
   final VoidCallback endThis;

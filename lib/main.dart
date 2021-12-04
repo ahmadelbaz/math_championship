@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:math_championship/screens/solve_mode_screen.dart';
+import 'package:math_championship/screens/game_screen.dart';
 import 'package:math_championship/screens/home_screen.dart';
 import 'package:math_championship/screens/result_screen.dart';
 import 'package:math_championship/screens/start_screen.dart';
-import 'package:math_championship/screens/timeiseverthing_mode_screen.dart';
 
 import 'constants.dart';
 
@@ -47,13 +46,11 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         // '/': (ctx) => HomeScreen(),
-        '/': (ctx) => StartScreen(),
+        '/': (ctx) => const StartScreen(),
         '/home_screen': (ctx) => HomeScreen(),
-        '/solve_screen': (ctx) => SolveModeScreen(),
-        '/time_screen': (ctx) => TimeIsEveryThingModeScreen(),
-        '/result_screen': (ctx) => ResultScreen(),
+        '/solve_screen': (ctx) => GameScreen(),
+        '/result_screen': (ctx) => const ResultScreen(),
       },
-      // home: HomeScreen(),
     );
   }
 }
