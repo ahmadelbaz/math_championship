@@ -5,6 +5,7 @@ import 'package:math_championship/providers/modes_provider.dart';
 import 'package:math_championship/providers/points_provider.dart';
 import 'package:math_championship/widgets/mode_widget.dart';
 import 'package:math_championship/widgets/score_board.dart';
+import 'package:flutter/services.dart';
 
 import '../constants.dart';
 
@@ -31,6 +32,11 @@ class StartScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, watch) {
+    // Disable Screen Rotation Orientation
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
+    // get screen size
     final _size = MediaQuery.of(context).size;
     final _modesProvider = watch(modesChangeNotifierProvider);
     final _pointsProvider = watch(pointsChangeNotifierProvider);

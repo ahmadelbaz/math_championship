@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,6 +13,8 @@ final solveChangeNotifierProvider =
 
 final answerStateProvider = StateProvider<String>((ref) => '');
 
+final widthStateProvider = StateProvider<double>((ref) => 10.0);
+
 class GameScreen extends ConsumerWidget {
   bool hasFinished = false;
 
@@ -23,10 +24,11 @@ class GameScreen extends ConsumerWidget {
     final _size = MediaQuery.of(context).size;
     final _solveProvider = watch(solveChangeNotifierProvider);
     final _answerProvider = watch(answerStateProvider);
-    final inGameProvder = watch(inGameStateProvider);
+    final inGameProvider = watch(inGameStateProvider);
+    final widthProvider = watch(widthStateProvider);
     WidgetsBinding.instance!.addPostFrameCallback((duration) {
       if (!hasFinished) {
-        inGameProvder.state = true;
+        inGameProvider.state = true;
         hasFinished = true;
         questionTimer();
       }
@@ -78,9 +80,12 @@ class GameScreen extends ConsumerWidget {
               height: _size.height * 0.07,
             ),
             Container(
+              height: _size.height * 0.1,
               margin: const EdgeInsets.symmetric(horizontal: 20.0),
               decoration: BoxDecoration(
-                  border: Border.all(color: Theme.of(context).primaryColor)),
+                  border: Border.all(
+                      color: Theme.of(context).primaryColor,
+                      width: widthProvider.state)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -133,6 +138,11 @@ class GameScreen extends ConsumerWidget {
       _answerProvider.state = '';
       _gameProvider.updateScore();
       _gameProvider.setQuestion();
+      if (watch(widthStateProvider).state == 1) {
+        watch(widthStateProvider).state = 5;
+      } else {
+        watch(widthStateProvider).state = 1;
+      }
     } else {
       _answerProvider.state = '';
       endThis('Wrong Answer, try again!');
