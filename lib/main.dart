@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:math_championship/screens/game_screen.dart';
-import 'package:math_championship/screens/home_screen.dart';
+import 'package:math_championship/screens/profile_screen.dart';
+import 'package:math_championship/screens/welcome_screen.dart';
 import 'package:math_championship/screens/result_screen.dart';
 import 'package:math_championship/screens/start_screen.dart';
 
@@ -9,12 +10,12 @@ import 'constants.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-void main() {
+void main() async {
   runApp(ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -48,8 +49,9 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         // '/': (ctx) => HomeScreen(),
-        '/': (ctx) => const StartScreen(),
-        '/home_screen': (ctx) => HomeScreen(),
+        '/': (ctx) => const WelcomeScreen(),
+        '/profile_screen': (ctx) => ProfileScreen(),
+        '/start_screen': (ctx) => StartScreen(),
         '/solve_screen': (ctx) => GameScreen(),
         '/result_screen': (ctx) => const ResultScreen(),
       },

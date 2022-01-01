@@ -105,7 +105,7 @@ class ResultScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(15)),
                   ),
                   onPressed: () {
-                    Navigator.of(context).pushReplacementNamed('/');
+                    Navigator.of(context).pushReplacementNamed('/start_screen');
                   },
                   child: const Text('Main menu'),
                 ),

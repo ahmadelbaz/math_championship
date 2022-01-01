@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:math_championship/models/database_model.dart';
 import 'package:math_championship/models/mode_model.dart';
 import 'package:math_championship/models/point_model.dart';
+import 'package:math_championship/models/user_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -30,6 +31,9 @@ class MyDatabase extends ChangeNotifier {
     // add initial values for mathPoints and mathCoins
     DatabaseModel pointsAndCoins =
         Point(id: '321', mathPoints: 0, mathCoins: 0);
+    // add initial values for User data
+    DatabaseModel userData =
+        User(id: '1000', name: 'guest', mathPoints: 0, mathCoins: 0);
     // DatabaseModel pu = PowerUps(id: '5', name: 'Revive', count: 4, price: 120);
     void _createTablesV1(Batch batch) {
       batch.execute('DROP TABLE IF EXISTS modes');
@@ -44,11 +48,17 @@ class MyDatabase extends ChangeNotifier {
       batch.execute('''CREATE TABLE powerups (
     id TEXT PRIMARY KEY, name TEXT, count INTEGER, price INTEGER
 )''');
+      batch.execute('DROP TABLE IF EXISTS user');
+      batch.execute('''CREATE TABLE user (
+    id TEXT PRIMARY KEY, name TEXT, mathpoints INTEGER, mathcoins INTEGER
+)''');
       batch.insert('modes', solveMode.toMap()!,
           conflictAlgorithm: ConflictAlgorithm.replace);
       batch.insert('modes', timeIsEveyThing.toMap()!,
           conflictAlgorithm: ConflictAlgorithm.replace);
       batch.insert('points', pointsAndCoins.toMap()!,
+          conflictAlgorithm: ConflictAlgorithm.replace);
+      batch.insert('user', userData.toMap()!,
           conflictAlgorithm: ConflictAlgorithm.replace);
     }
 
@@ -127,17 +137,21 @@ class MyDatabase extends ChangeNotifier {
     return table == 'modes' ? modesModel : powerUpsModel;
   }
 
-  Future<DatabaseModel> getAllPoints(String table, String dbName) async {
+  Future<DatabaseModel> getAllPointsOrUser(String table, String dbName) async {
     final db = await getDatabaseByName(dbName);
     final List<Map<String, dynamic>> maps = await db.query(table);
     Point points = Point(id: '', mathPoints: 0, mathCoins: 0);
+    User user = User(id: '', name: '', mathPoints: 0, mathCoins: 0);
     for (var item in maps) {
       switch (table) {
         case 'points':
           points = Point.fromMap(item);
           break;
+        case 'user':
+          user = User.fromMap(item);
+          break;
       }
     }
-    return points;
+    return table == 'points' ? points : user;
   }
 }

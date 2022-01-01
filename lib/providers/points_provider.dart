@@ -11,14 +11,6 @@ class PointsProvider extends ChangeNotifier {
     return _points;
   }
 
-  // void updateMathPoints(int points) async {
-  //   _points =
-  //       Point(id: _points.id, mathPoints: points, mathCoins: _points.mathCoins);
-  //   await myDatabase.mathDatabase();
-  //   await myDatabase.update(_points);
-  //   notifyListeners();
-  // }
-
   void updatePoints(int score) async {
     int newPoints = score;
     int newCoins = (score / 5).floor();
@@ -33,7 +25,8 @@ class PointsProvider extends ChangeNotifier {
 
   Future<void> getAllPoints() async {
     await myDatabase.mathDatabase();
-    _points = await myDatabase.getAllPoints('points', 'math_database') as Point;
+    _points =
+        await myDatabase.getAllPointsOrUser('points', 'math_database') as Point;
     notifyListeners();
   }
 }

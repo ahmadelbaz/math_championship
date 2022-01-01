@@ -1,14 +1,21 @@
 import 'package:math_championship/models/database_model.dart';
 
-class Point implements DatabaseModel {
+class User implements DatabaseModel {
   String id = '';
+  String name = '';
   int mathPoints = 0;
   int mathCoins = 0;
 
-  Point({required this.id, required this.mathPoints, required this.mathCoins});
+  User({
+    required this.id,
+    required this.name,
+    required this.mathPoints,
+    required this.mathCoins,
+  });
 
-  Point.fromMap(Map<String, dynamic> map) {
+  User.fromMap(Map<String, dynamic> map) {
     id = map['id'];
+    name = map['name'];
     mathPoints = map['mathpoints'];
     mathCoins = map['mathcoins'];
   }
@@ -25,13 +32,14 @@ class Point implements DatabaseModel {
 
   @override
   String? table() {
-    return 'points';
+    return 'user';
   }
 
   @override
   Map<String, dynamic>? toMap() {
     return {
       'id': id,
+      'name': name,
       'mathpoints': mathPoints,
       'mathcoins': mathCoins,
     };

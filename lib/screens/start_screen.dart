@@ -28,7 +28,8 @@ final modesFutureProvider = FutureProvider(
 );
 
 class StartScreen extends ConsumerWidget {
-  const StartScreen({Key? key}) : super(key: key);
+  bool isFirst = false;
+  StartScreen({Key? key, this.isFirst = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context, watch) {

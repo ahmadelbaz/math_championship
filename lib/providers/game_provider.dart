@@ -3,7 +3,7 @@ import 'dart:math';
 import 'dart:developer' as log;
 
 import 'package:flutter/material.dart';
-import 'package:math_championship/models/solve_game_model.dart';
+import 'package:math_championship/models/game_model.dart';
 
 class GameProvider extends ChangeNotifier {
   GameModel _gameModel = GameModel(0, 0, 0, 0, 'sign', 1, 0);
