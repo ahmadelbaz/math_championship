@@ -24,6 +24,9 @@ class MyApp extends StatelessWidget {
       navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        appBarTheme: const AppBarTheme(
+            foregroundColor: Colors.teal //here you can give the text color
+            ),
         primaryColor: Colors.teal,
         textTheme: const TextTheme(
           headline1: TextStyle(
@@ -45,7 +48,7 @@ class MyApp extends StatelessWidget {
           headline5: TextStyle(fontSize: 21.0, color: Colors.black),
         ),
       ).copyWith(
-        colorScheme: ThemeData().colorScheme.copyWith(secondary: Colors.amber),
+        colorScheme: ThemeData().colorScheme.copyWith(secondary: Colors.teal),
       ),
       routes: {
         // '/': (ctx) => HomeScreen(),

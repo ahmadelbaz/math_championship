@@ -33,97 +33,103 @@ class GameScreen extends ConsumerWidget {
         questionTimer();
       }
     });
-    return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Text(
-              'Level  ${_solveProvider.getGame().level}',
-              style: Theme.of(context).textTheme.headline5,
-            ),
-            Text(
-              'Score  ${_solveProvider.getGame().score}',
-              style: const TextStyle(color: Colors.indigo),
-            ),
-          ],
+    return WillPopScope(
+      onWillPop: () async {
+        endThis('You ended this, try again!');
+        return false;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text(
+                'Level  ${_solveProvider.getGame().level}',
+                style: Theme.of(context).textTheme.headline5,
+              ),
+              Text(
+                'Score  ${_solveProvider.getGame().score}',
+                style: const TextStyle(color: Colors.indigo),
+              ),
+            ],
+          ),
+          automaticallyImplyLeading: false,
+          backgroundColor: kMainColor,
+          elevation: 0.0,
         ),
-        automaticallyImplyLeading: false,
         backgroundColor: kMainColor,
-        elevation: 0.0,
-      ),
-      backgroundColor: kMainColor,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: _size.height * 0.05,
-            ),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(
-                  Icons.timer,
-                  size: 50,
-                  color: Colors.black,
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
-                Text(
-                  '   ${_solveProvider.getGame().remainSeconds}',
-                  style: Theme.of(context).textTheme.subtitle2,
-                ),
-              ],
-            ),
-            SizedBox(
-              height: _size.height * 0.07,
-            ),
-            Container(
-              height: _size.height * 0.1,
-              margin: const EdgeInsets.symmetric(horizontal: 20.0),
-              decoration: BoxDecoration(
-                  border: Border.all(
-                      color: Theme.of(context).primaryColor,
-                      width: widthProvider.state)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                height: _size.height * 0.05,
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    '${_solveProvider.getGame().firstNum}',
-                    style: Theme.of(context).textTheme.headline4,
+                  const Icon(
+                    Icons.timer,
+                    size: 50,
+                    color: Colors.black,
                   ),
-                  Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: _size.width * 0.1),
-                    child: Text(
-                      _solveProvider.getGame().sign,
-                      style: Theme.of(context).textTheme.headline4,
-                    ),
+                  const SizedBox(
+                    width: 5,
                   ),
                   Text(
-                    '${_solveProvider.getGame().secondNum}',
-                    style: Theme.of(context).textTheme.headline4,
+                    '   ${_solveProvider.getGame().remainSeconds}',
+                    style: Theme.of(context).textTheme.subtitle2,
                   ),
                 ],
               ),
-            ),
-            SizedBox(
-              height: _size.height * 0.03,
-            ),
-            Center(
-              child: Text(_answerProvider.state),
-            ),
-            SizedBox(
-              height: _size.height * 0.03,
-            ),
-            KeyboardContainer(() {
-              endThis('You ended this, try again!');
-            }, () {
-              log('we want to check answer');
-              checkAnswer(watch);
-            }, watch(solveChangeNotifierProvider)),
-          ],
+              SizedBox(
+                height: _size.height * 0.07,
+              ),
+              Container(
+                height: _size.height * 0.1,
+                margin: const EdgeInsets.symmetric(horizontal: 20.0),
+                decoration: BoxDecoration(
+                    border: Border.all(
+                        color: Theme.of(context).primaryColor,
+                        width: widthProvider.state)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      '${_solveProvider.getGame().firstNum}',
+                      style: Theme.of(context).textTheme.headline4,
+                    ),
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: _size.width * 0.1),
+                      child: Text(
+                        _solveProvider.getGame().sign,
+                        style: Theme.of(context).textTheme.headline4,
+                      ),
+                    ),
+                    Text(
+                      '${_solveProvider.getGame().secondNum}',
+                      style: Theme.of(context).textTheme.headline4,
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: _size.height * 0.03,
+              ),
+              Center(
+                child: Text(_answerProvider.state),
+              ),
+              SizedBox(
+                height: _size.height * 0.03,
+              ),
+              KeyboardContainer(() {
+                endThis('You ended this, try again!');
+              }, () {
+                log('we want to check answer');
+                checkAnswer(watch);
+              }, watch(solveChangeNotifierProvider)),
+            ],
+          ),
         ),
       ),
     );

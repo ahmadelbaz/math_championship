@@ -46,6 +46,7 @@ class StartScreen extends ConsumerWidget {
       appBar: AppBar(
         backgroundColor: kMainColor,
         elevation: 0.0,
+        automaticallyImplyLeading: false,
         title: ScoreBoard(_pointsProvider.getPoints().mathPoints,
             _pointsProvider.getPoints().mathCoins),
         actions: [
