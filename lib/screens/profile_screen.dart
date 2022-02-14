@@ -18,7 +18,10 @@ class ProfileScreen extends ConsumerWidget {
       appBar: AppBar(
         backgroundColor: kMainColor,
         elevation: 0.0,
-        title: Text(_userProvider.getUser().name),
+        title: Text(
+          _userProvider.getUser().name,
+          style: TextStyle(color: Theme.of(context).primaryColor),
+        ),
       ),
       backgroundColor: kMainColor,
       body: Column(
@@ -49,12 +52,11 @@ class ProfileScreen extends ConsumerWidget {
                   borderRadius: const BorderRadius.all(
                     Radius.circular(20),
                   ),
-                  borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.secondary),
+                  borderSide: BorderSide(color: Theme.of(context).primaryColor),
                 ),
                 prefixIcon: Icon(
                   Icons.supervised_user_circle,
-                  color: Theme.of(context).colorScheme.secondary,
+                  color: Theme.of(context).primaryColor,
                 ),
               ),
             ),
@@ -73,7 +75,7 @@ class ProfileScreen extends ConsumerWidget {
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size.fromHeight(_size.height * 0.07),
-                      primary: Theme.of(context).colorScheme.secondary,
+                      primary: Theme.of(context).primaryColor,
                       onPrimary: kMainColor,
                       shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -89,7 +91,10 @@ class ProfileScreen extends ConsumerWidget {
                         Navigator.of(context).pop();
                       }
                     },
-                    child: const Text('Save'),
+                    child: const Text(
+                      'Save',
+                      style: TextStyle(fontSize: 22),
+                    ),
                   ),
                 ),
               ],

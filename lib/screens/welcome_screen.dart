@@ -32,11 +32,13 @@ class WelcomeScreen extends ConsumerWidget {
           backgroundColor: kMainColor,
           elevation: 0.0,
           title: FittedBox(
-              child: Text(
-            _userProvider.getUser().name == 'guest'
-                ? 'Welcome to MathChampionship'
-                : 'Welcome ${_userProvider.getUser().name}',
-          )),
+            child: Text(
+              _userProvider.getUser().name == 'guest'
+                  ? 'Welcome to MathChampionship'
+                  : 'Welcome ${_userProvider.getUser().name}',
+              style: TextStyle(color: Theme.of(context).primaryColor),
+            ),
+          ),
         ),
         backgroundColor: kMainColor,
         body: Column(
@@ -80,7 +82,7 @@ class WelcomeScreen extends ConsumerWidget {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         minimumSize: Size.fromHeight(_size.height * 0.07),
-                        primary: Theme.of(context).colorScheme.secondary,
+                        primary: Theme.of(context).primaryColor,
                         onPrimary: kMainColor,
                         shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -89,9 +91,12 @@ class WelcomeScreen extends ConsumerWidget {
                       onPressed: () {
                         Navigator.of(context).pushNamed('/start_screen');
                       },
-                      child: Text(_userProvider.getUser().name == 'guest'
-                          ? 'Play as guest'
-                          : 'Play'),
+                      child: Text(
+                        _userProvider.getUser().name == 'guest'
+                            ? 'Play as guest'
+                            : 'Play',
+                        style: const TextStyle(fontSize: 55),
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -99,19 +104,68 @@ class WelcomeScreen extends ConsumerWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            minimumSize:
+                                Size(_size.width * 0.5, _size.height * 0.07),
+                            primary: Theme.of(context).primaryColor,
+                            onPrimary: kMainColor,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)),
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pushNamed('/profile_screen');
+                          },
+                          child: const Text(
+                            'Profile',
+                            style: TextStyle(fontSize: 28),
+                          ),
+                        ),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            minimumSize:
+                                Size(_size.width * 0.2, _size.height * 0.07),
+                            primary: Theme.of(context).primaryColor,
+                            onPrimary: kMainColor,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)),
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pushNamed('/settings_screen');
+                          },
+                          child: const Icon(Icons.settings),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: _size.height * 0.04,
+                  ),
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: _size.width * 0.3),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        minimumSize: Size.fromHeight(_size.height * 0.07),
-                        primary: Theme.of(context).colorScheme.secondary,
+                        minimumSize:
+                            Size(_size.width * 0.2, _size.height * 0.07),
+                        primary: Theme.of(context).primaryColor,
                         onPrimary: kMainColor,
                         shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(20)),
                         ),
                       ),
-                      onPressed: () {
-                        Navigator.of(context).pushNamed('/profile_screen');
-                      },
-                      child: const Text('Profile'),
+                      onPressed: () {},
+                      child: const Text(
+                        'Quit',
+                        style: TextStyle(fontSize: 28),
+                      ),
                     ),
                   ),
                 ],

@@ -51,10 +51,12 @@ class StartScreen extends ConsumerWidget {
             _pointsProvider.getPoints().mathCoins),
         actions: [
           IconButton(
-            onPressed: () {},
-            icon: const Icon(
+            onPressed: () {
+              Navigator.of(context).pushNamed('/settings_screen');
+            },
+            icon: Icon(
               Icons.settings,
-              color: Colors.black,
+              color: Theme.of(context).primaryColor,
             ),
           ),
         ],

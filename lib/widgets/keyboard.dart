@@ -12,7 +12,9 @@ class KeyboardContainer extends ConsumerWidget {
   final VoidCallback checkAnswer;
   final dynamic providerMode;
 
-  KeyboardContainer(this.endThis, this.checkAnswer, this.providerMode);
+  const KeyboardContainer(this.endThis, this.checkAnswer, this.providerMode,
+      {Key? key})
+      : super(key: key);
   @override
   Widget build(BuildContext context, watch) {
     // final variable to get the device size to use it in dimensions
@@ -37,7 +39,7 @@ class KeyboardContainer extends ConsumerWidget {
       'End',
     ];
 
-    return Container(
+    return SizedBox(
       width: deviceSize.width * 0.85,
       child: GridView.builder(
         itemCount: gridButtons.length,
@@ -45,70 +47,71 @@ class KeyboardContainer extends ConsumerWidget {
           onTap: () {},
           child: GridTile(
             child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Theme.of(context).primaryColor,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)),
-                ),
-                onPressed: () {
-                  if (gridButtons[index] == 'End') {
-                    // this means user wanna quit and enough with current score,
-                    // so navigate him to result screen
-                    // Navigate user to result screen with current score
-                    endThis();
-                  } else if (gridButtons[index] == 'Clear') {
-                    log('u r in clear');
-                    // This means true answer is more that 1 digit
-                    //  and the user wanna clear something he wrote
-                    if (_answerProvider.state.isNotEmpty) {
-                      log('answer is not empty');
-                      _answerProvider.state = _answerProvider.state
-                          .substring(0, _answerProvider.state.length - 1);
-                    }
-                  } else {
-                    log('this is what u clicked ${gridButtons[index]}');
-                    if (providerMode.getGame().trueAnswer < 10) {
+              style: ElevatedButton.styleFrom(
+                primary: Theme.of(context).primaryColor,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15)),
+              ),
+              onPressed: () {
+                if (gridButtons[index] == 'End') {
+                  // this means user wanna quit and enough with current score,
+                  // so navigate him to result screen
+                  // Navigate user to result screen with current score
+                  endThis();
+                } else if (gridButtons[index] == 'Clear') {
+                  log('u r in clear');
+                  // This means true answer is more that 1 digit
+                  //  and the user wanna clear something he wrote
+                  if (_answerProvider.state.isNotEmpty) {
+                    log('answer is not empty');
+                    _answerProvider.state = _answerProvider.state
+                        .substring(0, _answerProvider.state.length - 1);
+                  }
+                } else {
+                  log('this is what u clicked ${gridButtons[index]}');
+                  if (providerMode.getGame().trueAnswer < 10) {
+                    _answerProvider.state = gridButtons[index];
+                    checkAnswer();
+                  } else if (providerMode.getGame().trueAnswer > 9 &&
+                      providerMode.getGame().trueAnswer < 100) {
+                    if (_answerProvider.state.isEmpty) {
                       _answerProvider.state = gridButtons[index];
+                      log(_answerProvider.state);
+                    } else {
+                      _answerProvider.state += gridButtons[index];
+                      log(_answerProvider.state);
                       checkAnswer();
-                    } else if (providerMode.getGame().trueAnswer > 9 &&
-                        providerMode.getGame().trueAnswer < 100) {
-                      if (_answerProvider.state.isEmpty) {
-                        _answerProvider.state = gridButtons[index];
-                        log(_answerProvider.state);
-                      } else {
-                        _answerProvider.state += gridButtons[index];
-                        log(_answerProvider.state);
-                        checkAnswer();
-                      }
-                    } else if (providerMode.getGame().trueAnswer > 99 &&
-                        providerMode.getGame().trueAnswer < 1000) {
-                      if (_answerProvider.state.isEmpty) {
-                        _answerProvider.state = gridButtons[index];
-                        log(_answerProvider.state);
-                      } else if (_answerProvider.state.length == 1) {
-                        _answerProvider.state += gridButtons[index];
-                      } else {
-                        _answerProvider.state += gridButtons[index];
-                        log(_answerProvider.state);
-                        checkAnswer();
-                      }
-                    } else if (providerMode.getGame().trueAnswer > 999 &&
-                        providerMode.getGame().trueAnswer < 10000) {
-                      if (_answerProvider.state.isEmpty) {
-                        _answerProvider.state = gridButtons[index];
-                        log(_answerProvider.state);
-                      } else if (_answerProvider.state.length == 1 ||
-                          _answerProvider.state.length == 2) {
-                        _answerProvider.state += gridButtons[index];
-                      } else {
-                        _answerProvider.state += gridButtons[index];
-                        log(_answerProvider.state);
-                        checkAnswer();
-                      }
+                    }
+                  } else if (providerMode.getGame().trueAnswer > 99 &&
+                      providerMode.getGame().trueAnswer < 1000) {
+                    if (_answerProvider.state.isEmpty) {
+                      _answerProvider.state = gridButtons[index];
+                      log(_answerProvider.state);
+                    } else if (_answerProvider.state.length == 1) {
+                      _answerProvider.state += gridButtons[index];
+                    } else {
+                      _answerProvider.state += gridButtons[index];
+                      log(_answerProvider.state);
+                      checkAnswer();
+                    }
+                  } else if (providerMode.getGame().trueAnswer > 999 &&
+                      providerMode.getGame().trueAnswer < 10000) {
+                    if (_answerProvider.state.isEmpty) {
+                      _answerProvider.state = gridButtons[index];
+                      log(_answerProvider.state);
+                    } else if (_answerProvider.state.length == 1 ||
+                        _answerProvider.state.length == 2) {
+                      _answerProvider.state += gridButtons[index];
+                    } else {
+                      _answerProvider.state += gridButtons[index];
+                      log(_answerProvider.state);
+                      checkAnswer();
                     }
                   }
-                },
-                child: Text(gridButtons[index])),
+                }
+              },
+              child: Text(gridButtons[index]),
+            ),
             // header: ,
           ),
         ),

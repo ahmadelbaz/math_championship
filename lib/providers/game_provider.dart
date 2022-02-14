@@ -8,6 +8,8 @@ import 'package:math_championship/models/game_model.dart';
 class GameProvider extends ChangeNotifier {
   GameModel _gameModel = GameModel(0, 0, 0, 0, 'sign', 1, 0);
 
+  int lastFirst = 0, lastSecond = 0;
+
   // variable to know which game mode are we in now
   int _gameMode = 0;
 
@@ -206,13 +208,35 @@ class GameProvider extends ChangeNotifier {
     setSign(sign);
     setFirstNum(generateRandomNum(firstNumMin, firstNumMax));
     setSecondNum(generateRandomNum(secondNumMin, secondNumMax));
-    setTrueAnswer();
-    notifyListeners();
+    checkRepetationAndSubmit(
+        firstNumMin, firstNumMax, secondNumMin, secondNumMax);
   }
 
   int generateRandomNum(int min, int max) {
     Random r = Random();
     return min + r.nextInt(max);
+  }
+
+  // method to check repetation and submit the question
+  void checkRepetationAndSubmit(
+      int firstNumMin, int firstNumMax, int secondNumMin, int secondNumMax) {
+    if (_gameModel.firstNum == lastFirst ||
+        _gameModel.firstNum == lastSecond &&
+            _gameModel.secondNum == lastFirst ||
+        _gameModel.secondNum == lastSecond) {
+      log.log('REPETATION!');
+      // there is a repetation so set new numbers
+      setFirstNum(generateRandomNum(firstNumMin, firstNumMax));
+      setSecondNum(generateRandomNum(secondNumMin, secondNumMax));
+      checkRepetationAndSubmit(
+          firstNumMin, firstNumMax, secondNumMin, secondNumMax);
+    } else {
+      // no repetation so submit the question
+      lastFirst = _gameModel.firstNum;
+      lastSecond = _gameModel.secondNum;
+      setTrueAnswer();
+      notifyListeners();
+    }
   }
 
   void youAreWinner() {}

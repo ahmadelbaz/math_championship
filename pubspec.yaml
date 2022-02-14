@@ -82,6 +82,18 @@ flutter:
     - family: points
       fonts:
         - asset: assets/fonts/points.ttf
+    - family: BubblegumSans
+      fonts:
+        - asset: assets/fonts/BubblegumSans-Regular.ttf
+    - family: MotionControl-Bold
+      fonts:
+        - asset: assets/fonts/MotionControl-Bold.otf
+    - family: rimouski
+      fonts:
+        - asset: assets/fonts/rimouski.otf
+    - family: wheaton-capitals
+      fonts:
+        - asset: assets/fonts/wheaton-capitals.otf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

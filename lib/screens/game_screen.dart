@@ -49,7 +49,7 @@ class GameScreen extends ConsumerWidget {
               ),
               Text(
                 'Score  ${_solveProvider.getGame().score}',
-                style: const TextStyle(color: Colors.indigo),
+                style: const TextStyle(color: Color(0xFF085750)),
               ),
             ],
           ),
@@ -67,10 +67,10 @@ class GameScreen extends ConsumerWidget {
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.timer,
                     size: 50,
-                    color: Colors.black,
+                    color: Theme.of(context).primaryColor,
                   ),
                   const SizedBox(
                     width: 5,

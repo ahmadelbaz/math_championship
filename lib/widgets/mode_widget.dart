@@ -6,7 +6,7 @@ class ModeWidget extends StatelessWidget {
   final int modeHighScore;
   final DateTime highScoreDateTime;
 
-  ModeWidget(this.widgetTapped, this.modeName, this.modeHighScore,
+  const ModeWidget(this.widgetTapped, this.modeName, this.modeHighScore,
       this.highScoreDateTime);
 
   @override
@@ -63,9 +63,13 @@ class ModeWidget extends StatelessWidget {
           ),
           child: Column(
             children: [
-              Text(
-                modeName,
-                style: Theme.of(context).textTheme.headline6,
+              FittedBox(
+                fit: BoxFit.contain,
+                child: Text(
+                  modeName,
+                  style: Theme.of(context).textTheme.headline6,
+                  maxLines: 1,
+                ),
               ),
               SizedBox(
                 height: _size.height * 0.03,
