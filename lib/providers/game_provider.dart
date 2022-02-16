@@ -139,7 +139,12 @@ class GameProvider extends ChangeNotifier {
   void setQuestion() {
     // lvl 1 question (score > 5, sign '+')
     if (_gameModel.level == 1) {
-      setQestionDetails(5, '+', 1, 4, 1, 4);
+      // First question (special case) (score = 0, sign '+')
+      if (_gameModel.score == 0) {
+        setQestionDetails(8, '+', 1, 4, 1, 4);
+      } else {
+        setQestionDetails(5, '+', 1, 4, 1, 4);
+      }
     }
     // lvl 2 question (5 < score > 10, sign '+')
     else if (_gameModel.level == 2) {
@@ -202,7 +207,7 @@ class GameProvider extends ChangeNotifier {
       setRemainingSeconds(remSeconds);
     } else if (_gameMode == 1) {
       if (_gameModel.score == 0) {
-        setRemainingSeconds(30);
+        setRemainingSeconds(33);
       }
     }
     setSign(sign);

@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:math_championship/screens/game_screen.dart';
 
 import '../functions/clear_button_sound.dart';
-import '../functions/ingame_click_sound.dart';
 
 class KeyboardContainer extends ConsumerWidget {
   final VoidCallback endThis;
@@ -73,7 +72,7 @@ class KeyboardContainer extends ConsumerWidget {
                   }
                 } else {
                   // sounds is here
-                  playInGameClickSound();
+                  // playInGameClickSound();
                   log('this is what u clicked ${gridButtons[index]}');
                   if (providerMode.getGame().trueAnswer < 10) {
                     _answerProvider.state = gridButtons[index];

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:math_championship/constants.dart';
-import 'package:math_championship/functions/stage_timer.dart';
 import 'package:math_championship/screens/start_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:math_championship/widgets/coins_icon.dart';
 
 import '../functions/general_click_sound.dart';
+import '../functions/start_mode_function.dart';
 
 class ResultScreen extends StatelessWidget {
   const ResultScreen({Key? key}) : super(key: key);
@@ -95,10 +95,7 @@ class ResultScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(15)),
                   ),
                   onPressed: () {
-                    // playGeneralClickSound();
-                    // playStartNewGameSound();
-                    // startMode(context.read, context, int.parse(_args[6]));
-                    stageTimer(context.read, context, int.parse(_args[6]));
+                    startMode(context.read, context, int.parse(_args[6]));
                   },
                   child: const Text('Play again'),
                 ),

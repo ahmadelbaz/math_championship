@@ -4,11 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:math_championship/screens/start_screen.dart';
 
-import 'start_mode_function.dart';
 import 'start_new_game_sound.dart';
 
-void stageTimer(T Function<T>(ProviderBase<Object?, T>) watch,
-    BuildContext context, int index) {
+Future<void> stageTimer(
+    T Function<T>(ProviderBase<Object?, T>) watch, BuildContext context) async {
   playStartNewGameSound();
   watch(timerProvider).state = 3;
   watch(stageStateProvider).state = true;
@@ -17,7 +16,7 @@ void stageTimer(T Function<T>(ProviderBase<Object?, T>) watch,
     oneSec,
     (Timer timer) {
       if (watch(timerProvider).state == 1) {
-        startMode(watch, context, index);
+        // startMode(watch, context, index);
         timer.cancel();
         watch(stageStateProvider).state = false;
       } else {

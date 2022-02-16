@@ -8,7 +8,7 @@ import 'package:math_championship/widgets/score_board.dart';
 import 'package:flutter/services.dart';
 
 import '../constants.dart';
-import '../functions/stage_timer.dart';
+import '../functions/start_mode_function.dart';
 
 final modesChangeNotifierProvider =
     ChangeNotifierProvider<ModesProvider>((ref) => ModesProvider());
@@ -70,39 +70,30 @@ class StartScreen extends ConsumerWidget {
         ],
       ),
       backgroundColor: kMainColor,
-      body: _stageProvider.state
-          ? Center(
-              child: Text('${_timerProvider.state}'),
-            )
-          : _futureProvider.when(
-              data: (data) {
-                return ListView.builder(
-                  itemCount: _modesProvider.modes.length,
-                  itemBuilder: (ctx, index) {
-                    return Column(
-                      children: [
-                        SizedBox(
-                          height: _size.height * 0.05,
-                        ),
-                        ModeWidget(() async {
-                          stageTimer(watch, context, index);
-                          // startMode(watch, context, index);
-                          // await Future.delayed(
-                          //     const Duration(milliseconds: 3000), () {
-                          //   startMode(watch, context, index);
-                          // });
-                        },
-                            _modesProvider.modes[index].name,
-                            _modesProvider.modes[index].highScore,
-                            _modesProvider.modes[index].highScoreDateTime),
-                      ],
-                    );
+      body: _futureProvider.when(
+        data: (data) {
+          return ListView.builder(
+            itemCount: _modesProvider.modes.length,
+            itemBuilder: (ctx, index) {
+              return Column(
+                children: [
+                  SizedBox(
+                    height: _size.height * 0.05,
+                  ),
+                  ModeWidget(() async {
+                    startMode(watch, context, index);
                   },
-                );
-              },
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (e, st) => Center(child: Text('Error: $e')),
-            ),
+                      _modesProvider.modes[index].name,
+                      _modesProvider.modes[index].highScore,
+                      _modesProvider.modes[index].highScoreDateTime),
+                ],
+              );
+            },
+          );
+        },
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (e, st) => Center(child: Text('Error: $e')),
+      ),
     );
   }
 }
