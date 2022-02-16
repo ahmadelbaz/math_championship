@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:math_championship/screens/game_screen.dart';
 
+import '../functions/clear_button_sound.dart';
+import '../functions/ingame_click_sound.dart';
+
 class KeyboardContainer extends ConsumerWidget {
   final VoidCallback endThis;
   // String answer;
@@ -59,6 +62,7 @@ class KeyboardContainer extends ConsumerWidget {
                   // Navigate user to result screen with current score
                   endThis();
                 } else if (gridButtons[index] == 'Clear') {
+                  playclearButtonSound();
                   log('u r in clear');
                   // This means true answer is more that 1 digit
                   //  and the user wanna clear something he wrote
@@ -68,6 +72,8 @@ class KeyboardContainer extends ConsumerWidget {
                         .substring(0, _answerProvider.state.length - 1);
                   }
                 } else {
+                  // sounds is here
+                  playInGameClickSound();
                   log('this is what u clicked ${gridButtons[index]}');
                   if (providerMode.getGame().trueAnswer < 10) {
                     _answerProvider.state = gridButtons[index];

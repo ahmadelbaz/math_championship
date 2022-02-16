@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:math_championship/constants.dart';
 import 'package:math_championship/providers/user_provider.dart';
 
+import '../functions/general_click_sound.dart';
+
 final userChangeNotifierProvider =
     ChangeNotifierProvider<UserProvider>((ref) => UserProvider());
 
@@ -89,6 +91,7 @@ class WelcomeScreen extends ConsumerWidget {
                         ),
                       ),
                       onPressed: () {
+                        playGeneralClickSound();
                         Navigator.of(context).pushNamed('/start_screen');
                       },
                       child: Text(
@@ -119,6 +122,7 @@ class WelcomeScreen extends ConsumerWidget {
                             ),
                           ),
                           onPressed: () {
+                            playGeneralClickSound();
                             Navigator.of(context).pushNamed('/profile_screen');
                           },
                           child: const Text(
@@ -138,6 +142,7 @@ class WelcomeScreen extends ConsumerWidget {
                             ),
                           ),
                           onPressed: () {
+                            playGeneralClickSound();
                             Navigator.of(context).pushNamed('/settings_screen');
                           },
                           child: const Icon(Icons.settings),
@@ -161,7 +166,9 @@ class WelcomeScreen extends ConsumerWidget {
                           borderRadius: BorderRadius.all(Radius.circular(20)),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        playGeneralClickSound();
+                      },
                       child: const Text(
                         'Quit',
                         style: TextStyle(fontSize: 28),

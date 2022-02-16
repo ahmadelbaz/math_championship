@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:math_championship/constants.dart';
+import 'package:math_championship/functions/general_click_sound.dart';
 import 'package:math_championship/screens/welcome_screen.dart';
 import 'package:math_championship/widgets/custom_snack_bar.dart';
 
@@ -82,6 +83,7 @@ class ProfileScreen extends ConsumerWidget {
                       ),
                     ),
                     onPressed: () {
+                      playGeneralClickSound();
                       if (nameController.text.isEmpty) {
                         customSnackBar('Please enter a name');
                       } else if (nameController.text == 'guest') {

@@ -10,7 +10,10 @@ import 'package:math_championship/models/mode_model.dart';
 import 'package:math_championship/screens/game_screen.dart';
 import 'package:math_championship/screens/start_screen.dart';
 
+import 'game_over_sound.dart';
+
 Future<void> endThis(String loseReason) async {
+  playGameOverSound();
   // we get context ftom globalKey to use it here
   BuildContext? context = navigatorKey.currentContext;
   final _solveProvider = context?.read(solveChangeNotifierProvider);

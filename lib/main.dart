@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         // '/': (ctx) => HomeScreen(),
-        '/': (ctx) => const WelcomeScreen(),
+        '/': (ctx) => WelcomeScreen(),
         '/profile_screen': (ctx) => ProfileScreen(),
         '/start_screen': (ctx) => StartScreen(),
         '/solve_screen': (ctx) => GameScreen(),
