@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:math_championship/functions/general_click_sound.dart';
 import 'package:math_championship/providers/modes_provider.dart';
 import 'package:math_championship/providers/points_provider.dart';
 import 'package:math_championship/widgets/mode_widget.dart';
@@ -8,6 +7,7 @@ import 'package:math_championship/widgets/score_board.dart';
 import 'package:flutter/services.dart';
 
 import '../constants.dart';
+import '../functions/play_sounds.dart';
 import '../functions/start_mode_function.dart';
 
 final modesChangeNotifierProvider =

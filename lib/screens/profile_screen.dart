@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:math_championship/constants.dart';
-import 'package:math_championship/functions/general_click_sound.dart';
 import 'package:math_championship/screens/welcome_screen.dart';
 import 'package:math_championship/widgets/custom_snack_bar.dart';
+
+import '../functions/play_sounds.dart';
 
 class ProfileScreen extends ConsumerWidget {
   ProfileScreen({Key? key}) : super(key: key);
@@ -86,7 +87,7 @@ class ProfileScreen extends ConsumerWidget {
                       playGeneralClickSound();
                       if (nameController.text.isEmpty) {
                         customSnackBar('Please enter a name');
-                      } else if (nameController.text == 'guest') {
+                      } else if (nameController.text == 'gguest') {
                         customSnackBar('Enter another name');
                       } else {
                         _userProvider.updateUserName(nameController.text);

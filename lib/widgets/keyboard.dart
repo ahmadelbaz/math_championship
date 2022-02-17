@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:math_championship/screens/game_screen.dart';
 
-import '../functions/clear_button_sound.dart';
+import '../functions/play_sounds.dart';
 
 class KeyboardContainer extends ConsumerWidget {
   final VoidCallback endThis;

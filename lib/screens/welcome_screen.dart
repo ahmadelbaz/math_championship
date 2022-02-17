@@ -5,8 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:math_championship/constants.dart';
 import 'package:math_championship/providers/user_provider.dart';
 import 'package:math_championship/widgets/custom_snack_bar.dart';
-
-import '../functions/general_click_sound.dart';
+import 'package:lottie/lottie.dart';
+import '../functions/play_sounds.dart';
 
 final userChangeNotifierProvider =
     ChangeNotifierProvider<UserProvider>((ref) => UserProvider());
@@ -44,6 +44,8 @@ class WelcomeScreen extends ConsumerWidget {
     TextStyle defaultStyle =
         TextStyle(color: Theme.of(context).primaryColor, fontSize: 20.0);
     TextStyle linkStyle = TextStyle(
+      fontFamily: 'rimouski',
+      fontSize: 32,
       color: Theme.of(context).primaryColor,
       decoration: TextDecoration.underline,
     );
@@ -69,22 +71,24 @@ class WelcomeScreen extends ConsumerWidget {
               Expanded(
                 child: ListView(
                   children: [
-                    SizedBox(
-                      height: _size.height * 0.2,
-                    ),
+                    Lottie.asset('assets/animations/math.json'),
+                    // SizedBox(
+                    //   height: _size.height * 0.2,
+                    // ),
                     RichText(
                       textAlign: TextAlign.center,
                       text: TextSpan(
                         style: defaultStyle,
                         children: <TextSpan>[
                           TextSpan(
+                              style: const TextStyle(fontFamily: 'rimouski'),
                               text: _userProvider.getUser().name == 'guest'
-                                  ? 'You are playing as a guest, wanna create a profile? '
+                                  ? 'You are playing as a guest, wanna '
                                   : ''),
                           TextSpan(
                             style: linkStyle,
                             text: _userProvider.getUser().name == 'guest'
-                                ? 'Create Profile'
+                                ? 'Create Profile ?'
                                 : '',
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
@@ -115,11 +119,14 @@ class WelcomeScreen extends ConsumerWidget {
                           playGeneralClickSound();
                           Navigator.of(context).pushNamed('/start_screen');
                         },
-                        child: Text(
-                          _userProvider.getUser().name == 'guest'
-                              ? 'Play as guest'
-                              : 'Play',
-                          style: const TextStyle(fontSize: 55),
+                        child: FittedBox(
+                          child: Text(
+                            _userProvider.getUser().name == 'guest'
+                                ? 'Play as guest'
+                                : 'Play',
+                            style: const TextStyle(fontSize: 55),
+                            maxLines: 1,
+                          ),
                         ),
                       ),
                     ),

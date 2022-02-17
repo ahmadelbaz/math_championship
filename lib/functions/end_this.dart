@@ -3,14 +3,13 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:math_championship/functions/play_sounds.dart';
 import 'package:math_championship/main.dart';
 import 'package:math_championship/models/mode_model.dart';
 
 // when it's over cuz user chose wrong answer or timer is over
 import 'package:math_championship/screens/game_screen.dart';
 import 'package:math_championship/screens/start_screen.dart';
-
-import 'game_over_sound.dart';
 
 Future<void> endThis(String loseReason) async {
   playGameOverSound();

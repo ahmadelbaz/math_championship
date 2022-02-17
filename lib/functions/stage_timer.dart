@@ -2,9 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:math_championship/functions/play_sounds.dart';
 import 'package:math_championship/screens/start_screen.dart';
-
-import 'start_new_game_sound.dart';
 
 Future<void> stageTimer(
     T Function<T>(ProviderBase<Object?, T>) watch, BuildContext context) async {

@@ -8,7 +8,7 @@ import 'package:math_championship/providers/game_provider.dart';
 import 'package:math_championship/screens/start_screen.dart';
 import 'package:math_championship/widgets/keyboard.dart';
 import '../constants.dart';
-import '../functions/correct_answer_sound.dart';
+import '../functions/play_sounds.dart';
 
 final solveChangeNotifierProvider =
     ChangeNotifierProvider<GameProvider>((ref) => GameProvider());
@@ -103,9 +103,13 @@ class GameScreen extends ConsumerWidget {
                           height: _size.height * 0.1,
                           margin: const EdgeInsets.symmetric(horizontal: 20.0),
                           decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: Theme.of(context).primaryColor,
-                                  width: widthProvider.state)),
+                            border: Border.all(
+                                color: Theme.of(context).primaryColor,
+                                width: widthProvider.state),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(_size.width * 0.06),
+                            ),
+                          ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
