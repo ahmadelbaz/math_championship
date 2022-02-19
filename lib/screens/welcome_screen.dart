@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -36,6 +38,38 @@ class WelcomeScreen extends ConsumerWidget {
     }
   }
 
+  Future<bool> _onBackAlertDialog(BuildContext context) async {
+    bool _quitOrNot = false;
+    await showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Are you sure?'),
+        content: const Text('You will close the game, Are you sure ?'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+
+              _quitOrNot = false;
+            },
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () async {
+              _quitOrNot = true;
+              Navigator.of(context).pop();
+              await SystemChannels.platform
+                  .invokeMethod<void>('SystemNavigator.pop');
+            },
+            child: const Text('Quit'),
+          ),
+        ],
+      ),
+    );
+    log('this is return $_quitOrNot');
+    return _quitOrNot;
+  }
+
   @override
   Widget build(BuildContext context, watch) {
     final _size = MediaQuery.of(context).size;
@@ -51,7 +85,7 @@ class WelcomeScreen extends ConsumerWidget {
     );
     return _futureProvider.when(
       data: (data) => WillPopScope(
-        onWillPop: _onBackPressed,
+        onWillPop: () => _onBackAlertDialog(context),
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: kMainColor,
@@ -198,7 +232,7 @@ class WelcomeScreen extends ConsumerWidget {
                         ),
                         onPressed: () {
                           playGeneralClickSound();
-                          _onBackPressed();
+                          _onBackAlertDialog(context);
                         },
                         child: const Text(
                           'Quit',

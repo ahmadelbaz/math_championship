@@ -32,8 +32,17 @@ class ResultScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Lottie.asset('assets/animations/sadrobot.json',
-                width: 200, height: 200),
+            _args[0] == 'Wrong Answer, try again!'
+                ? Lottie.asset('assets/animations/sadrobot.json',
+                    width: 200, height: 200)
+                : Lottie.network(
+                    _args[0] == 'You ended this, try again!'
+                        ? 'https://assets10.lottiefiles.com/packages/lf20_lKvkGl.json'
+                        : _args[0] == 'Time\'s Up, try again!'
+                            ? 'https://assets7.lottiefiles.com/packages/lf20_LL5C7n.json'
+                            : 'https://assets5.lottiefiles.com/packages/lf20_xldzoar8.json',
+                    width: 200,
+                    height: 200),
             SizedBox(
               height: _size.height * 0.02,
             ),
