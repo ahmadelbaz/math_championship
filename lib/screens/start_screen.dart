@@ -72,23 +72,81 @@ class StartScreen extends ConsumerWidget {
       backgroundColor: kMainColor,
       body: _futureProvider.when(
         data: (data) {
-          return ListView.builder(
-            itemCount: _modesProvider.modes.length,
-            itemBuilder: (ctx, index) {
-              return Column(
-                children: [
-                  SizedBox(
-                    height: _size.height * 0.05,
-                  ),
-                  ModeWidget(() async {
-                    startMode(watch, context, index);
-                  },
-                      _modesProvider.modes[index].name,
-                      _modesProvider.modes[index].highScore,
-                      _modesProvider.modes[index].highScoreDateTime),
-                ],
-              );
-            },
+          return Padding(
+            padding: EdgeInsets.only(top: _size.height * 0.05),
+            child: ListView.builder(
+              itemCount: _modesProvider.modes.length,
+              itemBuilder: (ctx, index) {
+                return Column(
+                  children: [
+                    ModeWidget(
+                      index,
+                      () async {
+                        if (_modesProvider.modes[index].locked == 1) {
+                          if (_modesProvider.checkPrice(
+                              _modesProvider.modes[index].id,
+                              _pointsProvider.getPoints().mathCoins)) {
+                            showDialog(
+                              context: context,
+                              builder: (ctx) => AlertDialog(
+                                title: const Text('Unlock Mode'),
+                                content: Text(
+                                    'Do you want to unlock \'${_modesProvider.modes[index].name.toString()}\' mode ?'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text('Cancel'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () async {
+                                      Navigator.of(context).pop();
+                                      _modesProvider.unlockMode(
+                                          _modesProvider.modes[index].id,
+                                          _pointsProvider.getPoints().mathCoins,
+                                          _pointsProvider);
+                                    },
+                                    child: const Text('Unlock'),
+                                  ),
+                                ],
+                              ),
+                            );
+                          } else {
+                            showDialog(
+                                context: context,
+                                builder: (ctx) => AlertDialog(
+                                      title: const Text('Not enough money!'),
+                                      content: const Text(
+                                          'You don\'t have enough coins, keep going and try again later.'),
+                                      actions: [
+                                        TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: const Text('Sure'))
+                                      ],
+                                    ));
+                          }
+                        } else {
+                          startMode(watch, context, index);
+                        }
+
+                        // _modesProvider.modes[index].locked == 1
+                        //     ? _modesProvider.checkPrice(
+                        //         _modesProvider.modes[index].id,
+                        //         _pointsProvider.getPoints().mathCoins) ? _modesProvider.unlockMode(_modesProvider.modes[index].id,
+                        //         _pointsProvider.getPoints().mathCoins, _pointsProvider)
+                        //     : startMode(watch, context, index);
+                      },
+                    ),
+                    SizedBox(
+                      height: _size.height * 0.05,
+                    ),
+                  ],
+                );
+              },
+            ),
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),

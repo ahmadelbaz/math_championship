@@ -4,12 +4,16 @@ class Mode implements DatabaseModel {
   String id = '';
   String name = '';
   int highScore = 0;
+  int price = 0;
+  int locked = 0;
   DateTime highScoreDateTime = DateTime.now();
 
   Mode(
       {required this.id,
       required this.name,
       required this.highScore,
+      required this.price,
+      required this.locked,
       required this.highScoreDateTime});
 
   Mode.fromMap(Map<String, dynamic> map) {
@@ -17,6 +21,8 @@ class Mode implements DatabaseModel {
     id = map['id'];
     name = map['name'];
     highScore = map['highscore'];
+    price = map['price'];
+    locked = map['locked'];
     highScoreDateTime = dateTime;
   }
 
@@ -42,6 +48,8 @@ class Mode implements DatabaseModel {
       'id': id,
       'name': name,
       'highscore': highScore,
+      'price': price,
+      'locked': locked,
       'dateTime': storedDateTime
     };
   }

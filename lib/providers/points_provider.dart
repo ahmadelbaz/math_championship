@@ -23,6 +23,14 @@ class PointsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void updateCoins(int newCoins) async {
+    _points = Point(
+        id: _points.id, mathPoints: _points.mathPoints, mathCoins: newCoins);
+    await myDatabase.mathDatabase();
+    await myDatabase.update(_points);
+    notifyListeners();
+  }
+
   Future<void> getAllPoints() async {
     await myDatabase.mathDatabase();
     _points =

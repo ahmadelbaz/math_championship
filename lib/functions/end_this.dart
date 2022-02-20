@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:math_championship/functions/play_sounds.dart';
 import 'package:math_championship/main.dart';
-import 'package:math_championship/models/mode_model.dart';
 
 // when it's over cuz user chose wrong answer or timer is over
 import 'package:math_championship/screens/game_screen.dart';
@@ -29,13 +28,8 @@ Future<void> endThis(String loseReason) async {
   if (_solveProvider.getGame().score >
       _modesProvider.modes[_solveProvider.getGameMode()].highScore) {
     message = 'Congrats, you got new High Score';
-    Mode mode = Mode(
-        id: _modesProvider.modes[_solveProvider.getGameMode()].id,
-        name: _modesProvider.modes[_solveProvider.getGameMode()].name,
-        highScore: _solveProvider.getGame().score,
-        highScoreDateTime: DateTime.now());
-    await _modesProvider.updateHighScore(
-        mode, _modesProvider.modes[_solveProvider.getGameMode()].id);
+    await _modesProvider.updateHighScore(_solveProvider.getGame().score,
+        _modesProvider.modes[_solveProvider.getGameMode()].id);
   }
   log(' this is score ${_solveProvider.getGame().score}');
   if (_solveProvider.getGame().score == 70) {

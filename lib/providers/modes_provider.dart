@@ -1,9 +1,9 @@
 import 'dart:collection';
-import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:math_championship/database/database.dart';
 import 'package:math_championship/models/mode_model.dart';
+import 'package:math_championship/providers/points_provider.dart';
 
 class ModesProvider extends ChangeNotifier {
   List<Mode> _modes = [];
@@ -12,14 +12,36 @@ class ModesProvider extends ChangeNotifier {
 
   UnmodifiableListView get modes => UnmodifiableListView(_modes);
 
-  Future<void> updateHighScore(Mode mode, String id) async {
+  Future<void> updateHighScore(int newHighScore, String id) async {
     Mode newMode = _modes.firstWhere((element) => element.id == id);
-    log(mode.name);
-    log('${mode.highScore}');
     int index = _modes.indexOf(newMode);
-    _modes[index] = mode;
+    _modes[index].highScore = newHighScore;
+    _modes[index].highScoreDateTime = DateTime.now();
     await myDatabase.mathDatabase();
-    await myDatabase.update(mode);
+    await myDatabase.update(_modes[index]);
+    notifyListeners();
+  }
+
+  bool checkPrice(String id, int currentCoins) {
+    Mode newMode = _modes.firstWhere((element) => element.id == id);
+    int index = _modes.indexOf(newMode);
+    if (_modes[index].price <= currentCoins) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  void unlockMode(
+      String id, int currentCoins, PointsProvider pointsProvider) async {
+    Mode newMode = _modes.firstWhere((element) => element.id == id);
+    int index = _modes.indexOf(newMode);
+    // if (_modes[index].price >= currentCoins) {
+    _modes[index].locked = 0;
+    int newCoins = currentCoins - _modes[index].price;
+    pointsProvider.updateCoins(newCoins);
+    await myDatabase.mathDatabase();
+    await myDatabase.update(_modes[index]);
     notifyListeners();
   }
 

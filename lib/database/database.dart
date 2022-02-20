@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:math_championship/models/database_model.dart';
 import 'package:math_championship/models/mode_model.dart';
@@ -18,19 +16,52 @@ class MyDatabase extends ChangeNotifier {
     // we will create all modes and add it here
     // first mode 'Solve'
     DatabaseModel solveMode = Mode(
-        id: '100',
-        name: 'Solve',
-        highScore: 0,
-        highScoreDateTime: DateTime.now());
+      id: '100',
+      name: 'Solve',
+      highScore: 0,
+      price: 0,
+      locked: 0,
+      highScoreDateTime: DateTime.now(),
+    );
     // second mode 'Time is everything'
     DatabaseModel timeIsEveyThing = Mode(
-        id: '101',
-        name: 'Time is eveything',
-        highScore: 0,
-        highScoreDateTime: DateTime.now());
+      id: '101',
+      name: 'Time is eveything',
+      highScore: 0,
+      price: 20,
+      locked: 1,
+      highScoreDateTime: DateTime.now(),
+    );
+    // third mode 'Random Sign'
+    DatabaseModel randomSign = Mode(
+      id: '102',
+      name: 'Random Sign',
+      highScore: 0,
+      price: 50,
+      locked: 1,
+      highScoreDateTime: DateTime.now(),
+    );
+    // Fourth mode 'Double Value'
+    DatabaseModel doubleValue = Mode(
+      id: '103',
+      name: 'Double Value',
+      highScore: 0,
+      price: 50,
+      locked: 1,
+      highScoreDateTime: DateTime.now(),
+    );
+    // Fifth mode 'Square Root'
+    DatabaseModel sqrRoot = Mode(
+      id: '104',
+      name: 'Square Root',
+      highScore: 0,
+      price: 50,
+      locked: 1,
+      highScoreDateTime: DateTime.now(),
+    );
     // add initial values for mathPoints and mathCoins
     DatabaseModel pointsAndCoins =
-        Point(id: '321', mathPoints: 0, mathCoins: 0);
+        Point(id: '321', mathPoints: 0, mathCoins: 1000);
     // add initial values for User data
     DatabaseModel userData =
         User(id: '1000', name: 'guest', mathPoints: 0, mathCoins: 0);
@@ -38,7 +69,7 @@ class MyDatabase extends ChangeNotifier {
     void _createTablesV1(Batch batch) {
       batch.execute('DROP TABLE IF EXISTS modes');
       batch.execute('''CREATE TABLE modes (
-    id TEXT PRIMARY KEY, name TEXT, highscore INTEGER, datetime INTEGER
+    id TEXT PRIMARY KEY, name TEXT, highscore INTEGER, price INEGER, locked INEGER, datetime INTEGER
 )''');
       batch.execute('DROP TABLE IF EXISTS points');
       batch.execute('''CREATE TABLE points (
@@ -55,6 +86,12 @@ class MyDatabase extends ChangeNotifier {
       batch.insert('modes', solveMode.toMap()!,
           conflictAlgorithm: ConflictAlgorithm.replace);
       batch.insert('modes', timeIsEveyThing.toMap()!,
+          conflictAlgorithm: ConflictAlgorithm.replace);
+      batch.insert('modes', randomSign.toMap()!,
+          conflictAlgorithm: ConflictAlgorithm.replace);
+      batch.insert('modes', doubleValue.toMap()!,
+          conflictAlgorithm: ConflictAlgorithm.replace);
+      batch.insert('modes', sqrRoot.toMap()!,
           conflictAlgorithm: ConflictAlgorithm.replace);
       batch.insert('points', pointsAndCoins.toMap()!,
           conflictAlgorithm: ConflictAlgorithm.replace);
