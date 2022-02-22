@@ -75,6 +75,10 @@ class GameProvider extends ChangeNotifier {
     } else if (_gameModel.sign == 'X') {
       _trueAnswer = _gameModel.firstNum * _gameModel.secondNum;
     }
+    // else if (_gameModel.sign == '/') {
+    //   _trueAnswer = _gameModel.firstNum / _gameModel.secondNum;
+    // }
+
     // else if(_gameModel.sign == '/'){
     //   _trueAnswer = _gameModel.firstNum / _gameModel.secondNum;
     // }
@@ -200,26 +204,44 @@ class GameProvider extends ChangeNotifier {
     }
   }
 
+  // method to setQuestion for 'Random Sign' mode
+  void setRandomSignQuestion() {}
+
   // method gets details of the question and set the values in their functions
   void setQestionDetails(int remSeconds, String sign, int firstNumMin,
       int firstNumMax, int secondNumMin, secondNumMax) {
-    if (_gameMode == 0) {
+    // For random sign mode
+    if (_gameMode == 2) {
       setRemainingSeconds(remSeconds);
-    } else if (_gameMode == 1) {
-      if (_gameModel.score == 0) {
-        setRemainingSeconds(33);
+      setSign(generateRandomSign());
+      setFirstNum(generateRandomNum(4, 9));
+      setSecondNum(generateRandomNum(1, 4));
+      checkRepetationAndSubmit(4, 9, 1, 4);
+    } else {
+      if (_gameMode == 0) {
+        setRemainingSeconds(remSeconds);
+      } else if (_gameMode == 1) {
+        if (_gameModel.score == 0) {
+          setRemainingSeconds(33);
+        }
       }
+      setSign(sign);
+      setFirstNum(generateRandomNum(firstNumMin, firstNumMax));
+      setSecondNum(generateRandomNum(secondNumMin, secondNumMax));
+      checkRepetationAndSubmit(
+          firstNumMin, firstNumMax, secondNumMin, secondNumMax);
     }
-    setSign(sign);
-    setFirstNum(generateRandomNum(firstNumMin, firstNumMax));
-    setSecondNum(generateRandomNum(secondNumMin, secondNumMax));
-    checkRepetationAndSubmit(
-        firstNumMin, firstNumMax, secondNumMin, secondNumMax);
   }
 
   int generateRandomNum(int min, int max) {
     Random r = Random();
     return min + r.nextInt(max);
+  }
+
+  // method to generate random sign
+  String generateRandomSign() {
+    List<String> signs = ['+', '-', 'X', '/'];
+    return signs[generateRandomNum(0, 3)];
   }
 
   // method to check repetation and submit the question
