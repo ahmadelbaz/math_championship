@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import '../constants.dart';
 import '../functions/play_sounds.dart';
 import '../functions/start_mode_function.dart';
+import '../main.dart';
 
 final modesChangeNotifierProvider =
     ChangeNotifierProvider<ModesProvider>((ref) => ModesProvider());
@@ -49,17 +50,19 @@ class StartScreen extends ConsumerWidget {
     final _timerProvider = watch(timerProvider);
     final _stageProvider = watch(stageStateProvider);
     final _futureProvider = watch(modesFutureProvider);
+    final _settingsProvider = watch(settingsChangeNotifierProvider);
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: kMainColor,
-        elevation: 0.0,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         automaticallyImplyLeading: false,
         title: ScoreBoard(_pointsProvider.getPoints().mathPoints,
             _pointsProvider.getPoints().mathCoins),
         actions: [
           IconButton(
             onPressed: () {
-              playGeneralClickSound();
+              playGeneralSound(_settingsProvider.sounds[1]);
               Navigator.of(context).pushNamed('/settings_screen');
             },
             icon: Icon(

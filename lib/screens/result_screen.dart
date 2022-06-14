@@ -8,6 +8,7 @@ import 'package:math_championship/widgets/point_icon.dart';
 
 import '../functions/play_sounds.dart';
 import '../functions/start_mode_function.dart';
+import '../main.dart';
 
 class ResultScreen extends StatelessWidget {
   const ResultScreen({Key? key}) : super(key: key);
@@ -17,6 +18,7 @@ class ResultScreen extends StatelessWidget {
     final _size = MediaQuery.of(context).size;
     final _args = ModalRoute.of(context)!.settings.arguments as List<String>;
     final _pointsProvider = context.read(pointsChangeNotifierProvider);
+    final _settingsProvider = context.read(settingsChangeNotifierProvider);
     _pointsProvider.updatePoints(int.parse(_args[2]));
     // close inGame provider
     WidgetsBinding.instance!.addPostFrameCallback((duration) {
@@ -24,33 +26,41 @@ class ResultScreen extends StatelessWidget {
     });
     return Scaffold(
       backgroundColor: kMainColor,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: kMainColor,
-        elevation: 0.0,
-      ),
+      // appBar: AppBar(
+      //   automaticallyImplyLeading: false,
+      //   backgroundColor: kMainColor,
+      //   elevation: 0.0,
+      // ),
       body: SingleChildScrollView(
         child: Column(
           children: [
+            SizedBox(
+              height: _size.height * 0.04,
+            ),
             _args[0] == 'Wrong Answer, try again!'
-                ? Lottie.asset('assets/animations/sadrobot.json',
-                    width: 200, height: 200)
-                : Lottie.network(
+                ? Lottie.asset(wrongAnswerAnimation, width: 200, height: 200)
+                : Lottie.asset(
                     _args[0] == 'You ended this, try again!'
-                        ? 'https://assets10.lottiefiles.com/packages/lf20_lKvkGl.json'
+                        ? youEndedThisAnimation
                         : _args[0] == 'Time\'s Up, try again!'
-                            ? 'https://assets7.lottiefiles.com/packages/lf20_LL5C7n.json'
-                            : 'https://assets5.lottiefiles.com/packages/lf20_xldzoar8.json',
+                            ? timeIsUpAnimation
+                            : 'assets/animations/congrats.json',
                     width: 200,
                     height: 200),
             SizedBox(
               height: _size.height * 0.02,
             ),
-            Text(_args[0]),
+            Text(
+              _args[0],
+              style: const TextStyle(fontSize: 18),
+            ),
             SizedBox(
               height: _size.height * 0.02,
             ),
-            Text(_args[1]),
+            Text(
+              _args[1],
+              style: const TextStyle(fontSize: 18),
+            ),
             SizedBox(
               height: _size.height * 0.04,
             ),
@@ -125,7 +135,7 @@ class ResultScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(15)),
                   ),
                   onPressed: () {
-                    playGeneralClickSound();
+                    playGeneralSound(_settingsProvider.sounds[1]);
                     Navigator.of(context).pushReplacementNamed('/start_screen');
                   },
                   child: const Text('Main menu'),

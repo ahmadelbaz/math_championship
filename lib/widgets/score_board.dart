@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/src/provider.dart';
 import 'package:math_championship/widgets/custom_snack_bar.dart';
 
 import '../functions/play_sounds.dart';
+import '../main.dart';
 import 'coin_icon.dart';
 import 'point_icon.dart';
 
@@ -13,6 +15,7 @@ class ScoreBoard extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final _settingsProvider = context.read(settingsChangeNotifierProvider);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
@@ -20,7 +23,7 @@ class ScoreBoard extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: () {
-              playSnackBarClickSound();
+              playScoreBoardSound(_settingsProvider.sounds[3]);
               customSnackBar('Math Points');
             },
             child: Row(
@@ -37,7 +40,7 @@ class ScoreBoard extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              playSnackBarClickSound();
+              playScoreBoardSound(_settingsProvider.sounds[3]);
               customSnackBar('Math Coins');
             },
             child: Row(

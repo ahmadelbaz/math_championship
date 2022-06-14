@@ -9,6 +9,7 @@ import 'package:math_championship/providers/user_provider.dart';
 import 'package:math_championship/widgets/custom_snack_bar.dart';
 import 'package:lottie/lottie.dart';
 import '../functions/play_sounds.dart';
+import '../main.dart';
 
 final userChangeNotifierProvider =
     ChangeNotifierProvider<UserProvider>((ref) => UserProvider());
@@ -75,6 +76,7 @@ class WelcomeScreen extends ConsumerWidget {
     final _size = MediaQuery.of(context).size;
     var _userProvider = watch(userChangeNotifierProvider);
     var _futureProvider = watch(userFutureProvider);
+    final _settingsProvider = watch(settingsChangeNotifierProvider);
     TextStyle defaultStyle =
         TextStyle(color: Theme.of(context).primaryColor, fontSize: 20.0);
     TextStyle linkStyle = TextStyle(
@@ -106,9 +108,6 @@ class WelcomeScreen extends ConsumerWidget {
                 child: ListView(
                   children: [
                     Lottie.asset('assets/animations/math.json'),
-                    // SizedBox(
-                    //   height: _size.height * 0.2,
-                    // ),
                     RichText(
                       textAlign: TextAlign.center,
                       text: TextSpan(
@@ -150,7 +149,7 @@ class WelcomeScreen extends ConsumerWidget {
                           ),
                         ),
                         onPressed: () {
-                          playGeneralClickSound();
+                          playGeneralSound(_settingsProvider.sounds[1]);
                           Navigator.of(context).pushNamed('/start_screen');
                         },
                         child: FittedBox(
@@ -184,7 +183,7 @@ class WelcomeScreen extends ConsumerWidget {
                               ),
                             ),
                             onPressed: () {
-                              playGeneralClickSound();
+                              playGeneralSound(_settingsProvider.sounds[1]);
                               Navigator.of(context)
                                   .pushNamed('/profile_screen');
                             },
@@ -205,7 +204,7 @@ class WelcomeScreen extends ConsumerWidget {
                               ),
                             ),
                             onPressed: () {
-                              playGeneralClickSound();
+                              playGeneralSound(_settingsProvider.sounds[1]);
                               Navigator.of(context)
                                   .pushNamed('/settings_screen');
                             },
@@ -231,7 +230,7 @@ class WelcomeScreen extends ConsumerWidget {
                           ),
                         ),
                         onPressed: () {
-                          playGeneralClickSound();
+                          playGeneralSound(_settingsProvider.sounds[1]);
                           _onBackAlertDialog(context);
                         },
                         child: const Text(

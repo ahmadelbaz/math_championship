@@ -5,10 +5,10 @@ import 'dart:developer' as log;
 import 'package:flutter/material.dart';
 import 'package:math_championship/models/game_model.dart';
 
-class GameProvider extends ChangeNotifier {
+class SolveProvider extends ChangeNotifier {
   GameModel _gameModel = GameModel(0, 0, 0, 0, 'sign', 1, 0);
 
-  int lastFirst = 0, lastSecond = 0;
+  int _lastFirst = 0, _lastSecond = 0;
 
   // variable to know which game mode are we in now
   int _gameMode = 0;
@@ -74,14 +74,9 @@ class GameProvider extends ChangeNotifier {
       _trueAnswer = _gameModel.firstNum - _gameModel.secondNum;
     } else if (_gameModel.sign == 'X') {
       _trueAnswer = _gameModel.firstNum * _gameModel.secondNum;
+    } else if (_gameModel.sign == '/') {
+      _trueAnswer = _gameModel.firstNum ~/ _gameModel.secondNum;
     }
-    // else if (_gameModel.sign == '/') {
-    //   _trueAnswer = _gameModel.firstNum / _gameModel.secondNum;
-    // }
-
-    // else if(_gameModel.sign == '/'){
-    //   _trueAnswer = _gameModel.firstNum / _gameModel.secondNum;
-    // }
     _gameModel = GameModel(
         _gameModel.firstNum,
         _gameModel.secondNum,
@@ -91,7 +86,6 @@ class GameProvider extends ChangeNotifier {
         _gameModel.level,
         _gameModel.score);
     notifyListeners();
-    log.log('this is true answer HERE ${_gameModel.trueAnswer}');
   }
 
   void setSign(String sign) {
@@ -141,6 +135,16 @@ class GameProvider extends ChangeNotifier {
   }
 
   void setQuestion() {
+    // If 'Random Sign' mode
+    if (_gameMode == 2) {
+      setRandomSignQuestion();
+      // other modes (until now)
+    } else {
+      setSolveQuestion();
+    }
+  }
+
+  void setSolveQuestion() {
     // lvl 1 question (score > 5, sign '+')
     if (_gameModel.level == 1) {
       // First question (special case) (score = 0, sign '+')
@@ -148,6 +152,7 @@ class GameProvider extends ChangeNotifier {
         setQestionDetails(8, '+', 1, 4, 1, 4);
       } else {
         setQestionDetails(5, '+', 1, 4, 1, 4);
+        // createDivisionQs();
       }
     }
     // lvl 2 question (5 < score > 10, sign '+')
@@ -205,29 +210,57 @@ class GameProvider extends ChangeNotifier {
   }
 
   // method to setQuestion for 'Random Sign' mode
-  void setRandomSignQuestion() {}
+  void setRandomSignQuestion() {
+    if (_gameModel.level == 1) {
+      // First question (special case) (score = 0, sign 'random')
+      if (_gameModel.score == 0) {
+        setQestionDetails(8, generateRandomSign(), 3, 4, 1, 3);
+      } else {
+        // setQestionDetails(5, generateRandomSign(), 3, 4, 1, 3);
+        createDivisionQs();
+      }
+    }
+    // lvl 2 question (5 < score > 10, sign 'random')
+    else if (_gameModel.level == 2) {
+      setQestionDetails(5, generateRandomSign(), 6, 4, 1, 3);
+    }
+    // lvl 3 question (10 < score > 15, sign 'random')
+    else if (_gameModel.level == 3) {
+      setQestionDetails(5, generateRandomSign(), 6, 4, 3, 4);
+    }
+    // lvl 4 question (15 < score > 20, sign 'random')
+    else if (_gameModel.level == 4) {
+      setQestionDetails(5, generateRandomSign(), 9, 4, 1, 3);
+    }
+    // lvl 5 question (20 < score > 25, sign 'random')
+    else if (_gameModel.level == 5) {
+      setQestionDetails(5, generateRandomSign(), 9, 4, 3, 4);
+    }
+    // lvl 6 question (25 < score > 30, sign 'random')
+    else if (_gameModel.level == 6) {
+      setQestionDetails(5, generateRandomSign(), 9, 4, 6, 3);
+    }
+  }
 
   // method gets details of the question and set the values in their functions
   void setQestionDetails(int remSeconds, String sign, int firstNumMin,
       int firstNumMax, int secondNumMin, secondNumMax) {
-    // For random sign mode
-    if (_gameMode == 2) {
-      setRemainingSeconds(remSeconds);
-      setSign(generateRandomSign());
-      setFirstNum(generateRandomNum(4, 9));
-      setSecondNum(generateRandomNum(1, 4));
-      checkRepetationAndSubmit(4, 9, 1, 4);
+    // For another modes
+    if (_gameMode == 5) {
+      // setRemainingSeconds(remSeconds);
+      // setSign(generateRandomSign());
+      // checkRepetationAndSubmit(4, 9, 1, 4);
     } else {
-      if (_gameMode == 0) {
+      // For 'Solve' mode
+      if (_gameMode == 0 || _gameMode == 2) {
         setRemainingSeconds(remSeconds);
+        // For 'TimeIsEverything' mode
       } else if (_gameMode == 1) {
         if (_gameModel.score == 0) {
           setRemainingSeconds(33);
         }
       }
       setSign(sign);
-      setFirstNum(generateRandomNum(firstNumMin, firstNumMax));
-      setSecondNum(generateRandomNum(secondNumMin, secondNumMax));
       checkRepetationAndSubmit(
           firstNumMin, firstNumMax, secondNumMin, secondNumMax);
     }
@@ -247,23 +280,47 @@ class GameProvider extends ChangeNotifier {
   // method to check repetation and submit the question
   void checkRepetationAndSubmit(
       int firstNumMin, int firstNumMax, int secondNumMin, int secondNumMax) {
-    if (_gameModel.firstNum == lastFirst ||
-        _gameModel.firstNum == lastSecond &&
-            _gameModel.secondNum == lastFirst ||
-        _gameModel.secondNum == lastSecond) {
+    // set first and second nums
+    setFirstAndSecondNums(firstNumMin, firstNumMax, secondNumMin, secondNumMax);
+    if (_gameModel.firstNum == _lastFirst ||
+        _gameModel.firstNum == _lastSecond &&
+            _gameModel.secondNum == _lastFirst ||
+        _gameModel.secondNum == _lastSecond) {
       log.log('REPETATION!');
       // there is a repetation so set new numbers
-      setFirstNum(generateRandomNum(firstNumMin, firstNumMax));
-      setSecondNum(generateRandomNum(secondNumMin, secondNumMax));
+      setFirstAndSecondNums(
+          firstNumMin, firstNumMax, secondNumMin, secondNumMax);
       checkRepetationAndSubmit(
           firstNumMin, firstNumMax, secondNumMin, secondNumMax);
     } else {
       // no repetation so submit the question
-      lastFirst = _gameModel.firstNum;
-      lastSecond = _gameModel.secondNum;
+      _lastFirst = _gameModel.firstNum;
+      _lastSecond = _gameModel.secondNum;
       setTrueAnswer();
       notifyListeners();
     }
+  }
+
+  // method to set first and second nums
+  void setFirstAndSecondNums(
+      int firstNumMin, int firstNumMax, int secondNumMin, int secondNumMax) {
+    setFirstNum(generateRandomNum(firstNumMin, firstNumMax));
+    setSecondNum(generateRandomNum(secondNumMin, secondNumMax));
+  }
+
+  void createDivisionQs() {
+    int firstNum = generateRandomNum(1, 5);
+    int factorNum = generateRandomNum(2, 5);
+    int secondNum = firstNum * factorNum;
+    setRemainingSeconds(5);
+    setFirstNum(secondNum);
+    setSecondNum(firstNum);
+    setSign('/');
+    setTrueAnswer();
+    log.log('first num = $firstNum');
+    log.log('factor num = $factorNum');
+    log.log('second num = $secondNum');
+    notifyListeners();
   }
 
   void youAreWinner() {}

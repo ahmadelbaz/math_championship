@@ -74,6 +74,9 @@ flutter:
     - assets/animations/coin.json
     - assets/animations/point.json
     - assets/animations/sadrobot.json
+    - assets/animations/uendedthis.json
+    - assets/animations/time.json
+    - assets/animations/congrats.json
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

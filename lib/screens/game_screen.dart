@@ -9,9 +9,10 @@ import 'package:math_championship/screens/start_screen.dart';
 import 'package:math_championship/widgets/keyboard.dart';
 import '../constants.dart';
 import '../functions/play_sounds.dart';
+import '../main.dart';
 
 final solveChangeNotifierProvider =
-    ChangeNotifierProvider<GameProvider>((ref) => GameProvider());
+    ChangeNotifierProvider<SolveProvider>((ref) => SolveProvider());
 
 final answerStateProvider = StateProvider<String>((ref) => '');
 
@@ -158,9 +159,10 @@ class GameScreen extends ConsumerWidget {
   void checkAnswer(T Function<T>(ProviderBase<Object?, T>) watch) {
     final _gameProvider = watch(solveChangeNotifierProvider);
     final _answerProvider = watch(answerStateProvider);
+    final _settingsProvider = watch(settingsChangeNotifierProvider);
     if (int.parse(_answerProvider.state) ==
         _gameProvider.getGame().trueAnswer) {
-      playCorrectAnswerSound();
+      playCorrectAnswerSound(_settingsProvider.sounds[4]);
       _answerProvider.state = '';
       _gameProvider.updateScore();
       _gameProvider.setQuestion();

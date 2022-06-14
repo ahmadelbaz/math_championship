@@ -4,7 +4,7 @@ import 'package:lottie/lottie.dart';
 Widget coinIcon() {
   return Lottie.asset(
     'assets/animations/coin.json',
-    width: 30,
-    height: 30,
+    width: 40,
+    height: 40,
   );
 }

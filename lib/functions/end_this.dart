@@ -11,11 +11,13 @@ import 'package:math_championship/screens/game_screen.dart';
 import 'package:math_championship/screens/start_screen.dart';
 
 Future<void> endThis(String loseReason) async {
-  playGameOverSound();
   // we get context ftom globalKey to use it here
   BuildContext? context = navigatorKey.currentContext;
   final _solveProvider = context?.read(solveChangeNotifierProvider);
   final _modesProvider = context?.read(modesChangeNotifierProvider);
+  final _settingsProvider = context?.read(settingsChangeNotifierProvider);
+  // Play 'endthis' sound if its enabled
+  playGameOverSound(_settingsProvider!.sounds[4]);
   // message to show to user in result screen ( if he got new high score it tells him)
   String message = 'Keep going';
   // 2 variables to throw score and highScore to result screen

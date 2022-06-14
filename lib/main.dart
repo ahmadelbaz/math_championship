@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:math_championship/providers/settings_provider.dart';
 import 'package:math_championship/screens/game_screen.dart';
 import 'package:math_championship/screens/profile_screen.dart';
 import 'package:math_championship/screens/settings_screen.dart';
@@ -10,6 +11,9 @@ import 'package:math_championship/screens/start_screen.dart';
 import 'constants.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+final settingsChangeNotifierProvider =
+    ChangeNotifierProvider<SettingsProvider>((ref) => SettingsProvider());
 
 void main() async {
   runApp(const ProviderScope(child: MyApp()));
@@ -29,7 +33,7 @@ class MyApp extends StatelessWidget {
         appBarTheme: const AppBarTheme(
             foregroundColor: Colors.teal //here you can give the text color
             ),
-        primaryColor: const Color(0xFF033B3D),
+        primaryColor: primaryColor,
         textTheme: const TextTheme(
           headline1: TextStyle(
             fontSize: 72.0,

@@ -5,6 +5,7 @@ import 'package:math_championship/screens/welcome_screen.dart';
 import 'package:math_championship/widgets/custom_snack_bar.dart';
 
 import '../functions/play_sounds.dart';
+import '../main.dart';
 
 class ProfileScreen extends ConsumerWidget {
   ProfileScreen({Key? key}) : super(key: key);
@@ -15,6 +16,7 @@ class ProfileScreen extends ConsumerWidget {
   Widget build(BuildContext context, watch) {
     final _size = MediaQuery.of(context).size;
     var _userProvider = watch(userChangeNotifierProvider);
+    final _settingsProvider = watch(settingsChangeNotifierProvider);
     // var _futureProvider = watch(userFutureProvider);
     return Scaffold(
       appBar: AppBar(
@@ -84,7 +86,7 @@ class ProfileScreen extends ConsumerWidget {
                       ),
                     ),
                     onPressed: () {
-                      playGeneralClickSound();
+                      playGeneralSound(_settingsProvider.sounds[1]);
                       if (nameController.text.isEmpty) {
                         customSnackBar('Please enter a name');
                       } else if (nameController.text == 'gguest') {

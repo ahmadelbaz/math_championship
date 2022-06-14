@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:math_championship/main.dart';
 import 'package:math_championship/screens/game_screen.dart';
 
 import '../functions/play_sounds.dart';
@@ -24,6 +25,7 @@ class KeyboardContainer extends ConsumerWidget {
     // providers we want to use here
     // final _modeProvider = watch(providerMode);
     final _answerProvider = watch(answerStateProvider);
+    final _settingsProvider = watch(settingsChangeNotifierProvider);
 
     // grid view values
     List<String> gridButtons = [
@@ -61,7 +63,7 @@ class KeyboardContainer extends ConsumerWidget {
                   // Navigate user to result screen with current score
                   endThis();
                 } else if (gridButtons[index] == 'Clear') {
-                  playclearButtonSound();
+                  playInGameClearSound(_settingsProvider.sounds[6]);
                   log('u r in clear');
                   // This means true answer is more that 1 digit
                   //  and the user wanna clear something he wrote

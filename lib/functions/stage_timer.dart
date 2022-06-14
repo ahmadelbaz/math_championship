@@ -5,9 +5,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:math_championship/functions/play_sounds.dart';
 import 'package:math_championship/screens/start_screen.dart';
 
+import '../main.dart';
+
 Future<void> stageTimer(
     T Function<T>(ProviderBase<Object?, T>) watch, BuildContext context) async {
-  playStartNewGameSound();
+  final _settingsProvider = context.read(settingsChangeNotifierProvider);
+  playStartGameSound(_settingsProvider.sounds[2]);
   watch(timerProvider).state = 3;
   watch(stageStateProvider).state = true;
   const oneSec = Duration(seconds: 1);
