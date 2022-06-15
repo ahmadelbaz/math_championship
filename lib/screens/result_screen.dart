@@ -26,11 +26,6 @@ class ResultScreen extends StatelessWidget {
     });
     return Scaffold(
       backgroundColor: _settingsProvider.currentTheme[0],
-      // appBar: AppBar(
-      //   automaticallyImplyLeading: false,
-      //   backgroundColor: kMainColor,
-      //   elevation: 0.0,
-      // ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -79,10 +74,6 @@ class ResultScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Icon(
-                //   MyFlutterApp.points,
-                //   color: Theme.of(context).primaryColor,
-                // ),
                 pointIcon(),
                 Text(' +${_args[2]}',
                     style: Theme.of(context).textTheme.headline5),
@@ -91,10 +82,6 @@ class ResultScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Icon(
-                //   MyFlutterApp.coins, // point_of_sale
-                //   color: Theme.of(context).primaryColor,
-                // ),
                 coinIcon(),
                 Text(
                   ' +${(int.parse(_args[2]) / 5).floor()}',
@@ -125,7 +112,12 @@ class ResultScreen extends StatelessWidget {
                   onPressed: () {
                     startMode(context.read, context, int.parse(_args[6]));
                   },
-                  child: const Text('Play again'),
+                  child: Text(
+                    'Play again',
+                    style: TextStyle(
+                      color: _settingsProvider.currentTheme[0],
+                    ),
+                  ),
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -138,7 +130,12 @@ class ResultScreen extends StatelessWidget {
                     playGeneralSound(_settingsProvider.sounds[1]);
                     Navigator.of(context).pushReplacementNamed('/start_screen');
                   },
-                  child: const Text('Main menu'),
+                  child: Text(
+                    'Main menu',
+                    style: TextStyle(
+                      color: _settingsProvider.currentTheme[0],
+                    ),
+                  ),
                 ),
               ],
             )

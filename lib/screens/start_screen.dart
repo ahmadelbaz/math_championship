@@ -53,7 +53,7 @@ class StartScreen extends ConsumerWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: _settingsProvider.currentTheme[0],
         elevation: 0,
         automaticallyImplyLeading: false,
         title: ScoreBoard(_pointsProvider.getPoints().mathPoints,

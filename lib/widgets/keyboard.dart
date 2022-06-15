@@ -117,7 +117,12 @@ class KeyboardContainer extends ConsumerWidget {
                   }
                 }
               },
-              child: Text(gridButtons[index]),
+              child: Text(
+                gridButtons[index],
+                style: TextStyle(
+                  color: _settingsProvider.currentTheme[0],
+                ),
+              ),
             ),
             // header: ,
           ),

@@ -23,7 +23,6 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, watch) {
     final _settingsProvider = watch(settingsChangeNotifierProvider);
-    print(_settingsProvider.currentTheme[0].toString());
     return MaterialApp(
       // onGenerateRoute: generateRoute,
       navigatorKey: navigatorKey,

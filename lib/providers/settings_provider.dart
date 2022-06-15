@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:math_championship/constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsProvider extends ChangeNotifier {
+  SettingsProvider() {
+    _getTheme();
+    _getSoundSettings();
+  }
+
   final List<bool> _sounds = [true, true, true, true, true, true, true];
 
   List<bool> get sounds => _sounds;
@@ -40,49 +47,95 @@ class SettingsProvider extends ChangeNotifier {
     for (int n = 0; n < _sounds.length; n++) {
       _sounds[n] = value;
     }
+    _setSoundSettings();
     notifyListeners();
   }
 
   switchGeneralSound(value) {
     _sounds[1] = value;
+    _setSoundSettings();
     notifyListeners();
   }
 
   switchStartGameSound(value) {
     _sounds[2] = value;
+    _setSoundSettings();
     notifyListeners();
   }
 
   switchScoreBoardSound(value) {
     _sounds[3] = value;
+    _setSoundSettings();
     notifyListeners();
   }
 
   switchCorrectAnswerSound(value) {
     _sounds[4] = value;
+    _setSoundSettings();
     notifyListeners();
   }
 
   switchWrongAnswerSound(value) {
     _sounds[5] = value;
+    _setSoundSettings();
     notifyListeners();
   }
 
   switchInGameClearSound(value) {
     _sounds[6] = value;
+    _setSoundSettings();
     notifyListeners();
   }
 
   changeCurrentTheme(int index) async {
     for (int n = 0; n < 4; n++) {
-      print('before : ${_currentTheme[n]}');
       _currentTheme[n] = _themes[index]![n];
-      print('after : ${_currentTheme[n]}');
     }
-    // _currentTheme.clear();
-    // _currentTheme. addAll(_themes[index]);
-    // isLightTheme.add(_themes[index]!);
-    // _currentTheme = _themes[key];
+    await _setTheme();
+    notifyListeners();
+  }
+
+  _getTheme() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (!prefs.containsKey(cashedThemeData)) {
+      return;
+    }
+    var value = prefs.getStringList(cashedThemeData);
+    for (int n = 0; n < value!.length; n++) {
+      _currentTheme[n] = Color(int.parse(value[n]));
+    }
+    notifyListeners();
+  }
+
+  _setTheme() async {
+    List<String> storedList = [];
+    for (Color c in _currentTheme) {
+      storedList.add(c.value.toString());
+    }
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList(cashedThemeData, storedList);
+    notifyListeners();
+  }
+
+  _getSoundSettings() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (!prefs.containsKey(cashedSoundData)) {
+      return;
+    }
+    var value = prefs.getStringList(cashedSoundData);
+    for (int n = 0; n < value!.length; n++) {
+      sounds[n] = int.parse(value[n]) == 0 ? false : true;
+    }
+    notifyListeners();
+  }
+
+  _setSoundSettings() async {
+    List<String> _storedBools = [];
+    for (bool b in _sounds) {
+      _storedBools.add((b ? 1 : 0).toString());
+    }
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList(cashedSoundData, _storedBools);
     notifyListeners();
   }
 }
