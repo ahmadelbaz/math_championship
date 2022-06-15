@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../main.dart';
 import '../screens/start_screen.dart';
 
 class ModeWidget extends ConsumerWidget {
@@ -16,6 +17,7 @@ class ModeWidget extends ConsumerWidget {
   Widget build(BuildContext context, watch) {
     // needed modes provider
     final _modesProvider = watch(modesChangeNotifierProvider);
+    final _settingsProvider = watch(settingsChangeNotifierProvider);
     final _size = MediaQuery.of(context).size;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: _size.width * 0.06),
@@ -57,9 +59,9 @@ class ModeWidget extends ConsumerWidget {
                             SizedBox(
                               width: _size.width * 0.03,
                             ),
-                            const Icon(
+                            Icon(
                               Icons.star,
-                              color: Colors.yellow,
+                              color: _settingsProvider.currentTheme[3],
                             ),
                             SizedBox(
                               width: _size.width * 0.03,

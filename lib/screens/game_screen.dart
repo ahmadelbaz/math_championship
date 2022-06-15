@@ -7,7 +7,6 @@ import 'package:math_championship/functions/timer.dart';
 import 'package:math_championship/providers/game_provider.dart';
 import 'package:math_championship/screens/start_screen.dart';
 import 'package:math_championship/widgets/keyboard.dart';
-import '../constants.dart';
 import '../functions/play_sounds.dart';
 import '../main.dart';
 
@@ -31,6 +30,7 @@ class GameScreen extends ConsumerWidget {
     final widthProvider = watch(widthStateProvider);
     final _stageProvider = watch(stageStateProvider);
     final _timerProvider = watch(timerProvider);
+    final _settingsProvider = watch(settingsChangeNotifierProvider);
     WidgetsBinding.instance!.addPostFrameCallback((duration) async {
       if (!hasFinished) {
         await stageTimer(watch, context);
@@ -54,15 +54,15 @@ class GameScreen extends ConsumerWidget {
               ),
               Text(
                 'Score  ${_solveProvider.getGame().score}',
-                style: const TextStyle(color: Color(0xFF085750)),
+                style: TextStyle(color: Theme.of(context).primaryColor),
               ),
             ],
           ),
           automaticallyImplyLeading: false,
-          backgroundColor: kMainColor,
+          backgroundColor: _settingsProvider.currentTheme[0],
           elevation: 0.0,
         ),
-        backgroundColor: kMainColor,
+        backgroundColor: _settingsProvider.currentTheme[0],
         body: _stageProvider.state
             ? Center(
                 child: Text(

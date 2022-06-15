@@ -6,7 +6,6 @@ import 'package:math_championship/widgets/mode_widget.dart';
 import 'package:math_championship/widgets/score_board.dart';
 import 'package:flutter/services.dart';
 
-import '../constants.dart';
 import '../functions/play_sounds.dart';
 import '../functions/start_mode_function.dart';
 import '../main.dart';
@@ -72,7 +71,7 @@ class StartScreen extends ConsumerWidget {
           ),
         ],
       ),
-      backgroundColor: kMainColor,
+      backgroundColor: _settingsProvider.currentTheme[0],
       body: _futureProvider.when(
         data: (data) {
           return Padding(

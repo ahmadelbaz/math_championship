@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:math_championship/main.dart';
 
-import '../constants.dart';
-
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({Key? key}) : super(key: key);
 
@@ -12,16 +10,18 @@ class SettingsScreen extends ConsumerWidget {
     final _size = MediaQuery.of(context).size;
     final _settingsProvider = watch(settingsChangeNotifierProvider);
     return Scaffold(
-      backgroundColor: kMainColor,
+      backgroundColor: _settingsProvider.currentTheme[0],
       body: ListView(
         children: [
           SizedBox(
             height: _size.height * 0.02,
           ),
           Row(
-            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Text('Sound effects'),
+            children: [
+              Text(
+                'Sound effects',
+                style: TextStyle(color: Theme.of(context).primaryColor),
+              ),
               // there is more to add here
             ],
           ),
@@ -29,17 +29,23 @@ class SettingsScreen extends ConsumerWidget {
             height: _size.height * 0.02,
           ),
           ListTile(
-            title: const Text('Enable Sounds'),
+            title: Text(
+              'Enable Sounds',
+              style: TextStyle(color: Theme.of(context).primaryColor),
+            ),
             trailing: Switch(
               value: _settingsProvider.sounds[0],
               onChanged: (value) {
                 _settingsProvider.switchSounds(value);
               },
-              activeColor: primaryColor,
+              activeColor: _settingsProvider.currentTheme[3],
             ),
           ),
           ListTile(
-            title: const Text('Enable General sound'),
+            title: Text(
+              'Enable General sound',
+              style: TextStyle(color: Theme.of(context).primaryColor),
+            ),
             trailing: Switch(
               value: _settingsProvider.sounds[0]
                   ? _settingsProvider.sounds[1]
@@ -47,11 +53,14 @@ class SettingsScreen extends ConsumerWidget {
               onChanged: (value) {
                 _settingsProvider.switchGeneralSound(value);
               },
-              activeColor: primaryColor,
+              activeColor: _settingsProvider.currentTheme[3],
             ),
           ),
           ListTile(
-            title: const Text('Enable Start game sound'),
+            title: Text(
+              'Enable Start game sound',
+              style: TextStyle(color: Theme.of(context).primaryColor),
+            ),
             trailing: Switch(
               value: _settingsProvider.sounds[0]
                   ? _settingsProvider.sounds[2]
@@ -59,11 +68,14 @@ class SettingsScreen extends ConsumerWidget {
               onChanged: (value) {
                 _settingsProvider.switchStartGameSound(value);
               },
-              activeColor: primaryColor,
+              activeColor: _settingsProvider.currentTheme[3],
             ),
           ),
           ListTile(
-            title: const Text('Enable Score board sound'),
+            title: Text(
+              'Enable Score board sound',
+              style: TextStyle(color: Theme.of(context).primaryColor),
+            ),
             trailing: Switch(
               value: _settingsProvider.sounds[0]
                   ? _settingsProvider.sounds[3]
@@ -71,11 +83,14 @@ class SettingsScreen extends ConsumerWidget {
               onChanged: (value) {
                 _settingsProvider.switchScoreBoardSound(value);
               },
-              activeColor: primaryColor,
+              activeColor: _settingsProvider.currentTheme[3],
             ),
           ),
           ListTile(
-            title: const Text('Enable Correct Answer sound'),
+            title: Text(
+              'Enable Correct Answer sound',
+              style: TextStyle(color: Theme.of(context).primaryColor),
+            ),
             trailing: Switch(
               value: _settingsProvider.sounds[0]
                   ? _settingsProvider.sounds[4]
@@ -83,11 +98,14 @@ class SettingsScreen extends ConsumerWidget {
               onChanged: (value) {
                 _settingsProvider.switchCorrectAnswerSound(value);
               },
-              activeColor: primaryColor,
+              activeColor: _settingsProvider.currentTheme[3],
             ),
           ),
           ListTile(
-            title: const Text('Enable Wrong Answer sound'),
+            title: Text(
+              'Enable Wrong Answer sound',
+              style: TextStyle(color: Theme.of(context).primaryColor),
+            ),
             trailing: Switch(
               value: _settingsProvider.sounds[0]
                   ? _settingsProvider.sounds[5]
@@ -95,11 +113,14 @@ class SettingsScreen extends ConsumerWidget {
               onChanged: (value) {
                 _settingsProvider.switchWrongAnswerSound(value);
               },
-              activeColor: primaryColor,
+              activeColor: _settingsProvider.currentTheme[3],
             ),
           ),
           ListTile(
-            title: const Text('Enable InGame Clear sound'),
+            title: Text(
+              'Enable InGame Clear sound',
+              style: TextStyle(color: Theme.of(context).primaryColor),
+            ),
             trailing: Switch(
               value: _settingsProvider.sounds[0]
                   ? _settingsProvider.sounds[6]
@@ -107,18 +128,67 @@ class SettingsScreen extends ConsumerWidget {
               onChanged: (value) {
                 _settingsProvider.switchInGameClearSound(value);
               },
-              activeColor: primaryColor,
+              activeColor: _settingsProvider.currentTheme[3],
+              // inactiveThumbColor: Colors.yellow,
+              // inactiveTrackColor: ,
             ),
           ),
-
           SizedBox(
-            height: _size.height * 0.2,
+            height: _size.height * 0.03,
           ),
           Text(
             'Theme',
-            style: Theme.of(context).textTheme.headline2,
+            style: TextStyle(color: Theme.of(context).primaryColor),
           ),
-          // there is more to add hered
+          SizedBox(
+            height: _size.height * 0.02,
+          ),
+          SizedBox(
+            width: 70,
+            height: 70,
+            child: Center(
+              child: ListView.builder(
+                physics: const ClampingScrollPhysics(),
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                itemCount: _settingsProvider.themes.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          _settingsProvider.changeCurrentTheme(index);
+                        },
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Container(
+                              width: 60,
+                              height: 60,
+                              color: _settingsProvider.themes[index]![0],
+                            ),
+                            Container(
+                              width: 30,
+                              height: 30,
+                              color: _settingsProvider.themes[index]![1],
+                            ),
+                            Container(
+                              width: 15,
+                              height: 15,
+                              color: _settingsProvider.themes[index]![3],
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
+          ),
         ],
       ),
     );

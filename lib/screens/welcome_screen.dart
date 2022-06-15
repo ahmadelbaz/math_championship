@@ -4,7 +4,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:math_championship/constants.dart';
 import 'package:math_championship/providers/user_provider.dart';
 import 'package:math_championship/widgets/custom_snack_bar.dart';
 import 'package:lottie/lottie.dart';
@@ -90,7 +89,7 @@ class WelcomeScreen extends ConsumerWidget {
         onWillPop: () => _onBackAlertDialog(context),
         child: Scaffold(
           appBar: AppBar(
-            backgroundColor: kMainColor,
+            backgroundColor: _settingsProvider.currentTheme[0],
             elevation: 0.0,
             title: FittedBox(
               child: Text(
@@ -101,7 +100,7 @@ class WelcomeScreen extends ConsumerWidget {
               ),
             ),
           ),
-          backgroundColor: kMainColor,
+          backgroundColor: _settingsProvider.currentTheme[0],
           body: Column(
             children: [
               Expanded(
@@ -143,7 +142,7 @@ class WelcomeScreen extends ConsumerWidget {
                         style: ElevatedButton.styleFrom(
                           minimumSize: Size.fromHeight(_size.height * 0.07),
                           primary: Theme.of(context).primaryColor,
-                          onPrimary: kMainColor,
+                          onPrimary: _settingsProvider.currentTheme[0],
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(20)),
                           ),
@@ -176,7 +175,7 @@ class WelcomeScreen extends ConsumerWidget {
                               minimumSize:
                                   Size(_size.width * 0.5, _size.height * 0.07),
                               primary: Theme.of(context).primaryColor,
-                              onPrimary: kMainColor,
+                              onPrimary: _settingsProvider.currentTheme[0],
                               shape: const RoundedRectangleBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20)),
@@ -197,7 +196,7 @@ class WelcomeScreen extends ConsumerWidget {
                               minimumSize:
                                   Size(_size.width * 0.2, _size.height * 0.07),
                               primary: Theme.of(context).primaryColor,
-                              onPrimary: kMainColor,
+                              onPrimary: _settingsProvider.currentTheme[0],
                               shape: const RoundedRectangleBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20)),
@@ -224,7 +223,7 @@ class WelcomeScreen extends ConsumerWidget {
                           minimumSize:
                               Size(_size.width * 0.2, _size.height * 0.07),
                           primary: Theme.of(context).primaryColor,
-                          onPrimary: kMainColor,
+                          onPrimary: _settingsProvider.currentTheme[0],
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(20)),
                           ),

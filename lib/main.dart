@@ -8,8 +8,6 @@ import 'package:math_championship/screens/welcome_screen.dart';
 import 'package:math_championship/screens/result_screen.dart';
 import 'package:math_championship/screens/start_screen.dart';
 
-import 'constants.dart';
-
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 final settingsChangeNotifierProvider =
@@ -19,11 +17,13 @@ void main() async {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, watch) {
+    final _settingsProvider = watch(settingsChangeNotifierProvider);
+    print(_settingsProvider.currentTheme[0].toString());
     return MaterialApp(
       // onGenerateRoute: generateRoute,
       navigatorKey: navigatorKey,
@@ -31,31 +31,36 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'wheaton-capitals',
         appBarTheme: const AppBarTheme(
-            foregroundColor: Colors.teal //here you can give the text color
+            // foregroundColor: Colors.teal //here you can give the text color
             ),
-        primaryColor: primaryColor,
-        textTheme: const TextTheme(
-          headline1: TextStyle(
+        primaryColor: _settingsProvider.currentTheme[1],
+        textTheme: TextTheme(
+          headline1: const TextStyle(
             fontSize: 72.0,
           ),
-          headline6: TextStyle(fontSize: 36.0, color: kMainColor),
+          headline6: TextStyle(
+              fontSize: 36.0, color: _settingsProvider.currentTheme[0]),
           bodyText1: TextStyle(
             fontSize: 30.0,
-            color: Colors.yellow,
+            color: _settingsProvider.currentTheme[3],
           ),
-          bodyText2: TextStyle(
+          bodyText2: const TextStyle(
             fontSize: 24.0,
           ),
-          subtitle2: TextStyle(fontSize: 35.0, color: Color(0xFF474306)),
-          headline2: TextStyle(fontSize: 18.0, color: Color(0xFF085750)),
-          headline3: TextStyle(fontSize: 14.0, color: kMainColor),
+          subtitle2: TextStyle(
+              fontSize: 35.0, color: _settingsProvider.currentTheme[2]),
+          headline2: TextStyle(
+              fontSize: 18.0, color: _settingsProvider.currentTheme[1]),
+          headline3: TextStyle(
+              fontSize: 14.0, color: _settingsProvider.currentTheme[0]),
           headline4: TextStyle(
-              fontSize: 32.0, color: Color(0xFF033B3D), fontFamily: 'rimouski'),
+              fontSize: 32.0,
+              color: _settingsProvider.currentTheme[1],
+              fontFamily: 'rimouski'),
           // this is for appBar
-          headline5: TextStyle(fontSize: 21.0, color: Color(0xFF033B3D)),
+          headline5: TextStyle(
+              fontSize: 21.0, color: _settingsProvider.currentTheme[1]),
         ),
-      ).copyWith(
-        colorScheme: ThemeData().colorScheme.copyWith(secondary: Colors.teal),
       ),
       routes: {
         // '/': (ctx) => HomeScreen(),

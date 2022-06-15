@@ -25,7 +25,7 @@ class ResultScreen extends StatelessWidget {
       context.read(inGameStateProvider).state = false;
     });
     return Scaffold(
-      backgroundColor: kMainColor,
+      backgroundColor: _settingsProvider.currentTheme[0],
       // appBar: AppBar(
       //   automaticallyImplyLeading: false,
       //   backgroundColor: kMainColor,

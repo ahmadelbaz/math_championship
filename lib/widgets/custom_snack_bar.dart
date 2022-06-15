@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:math_championship/constants.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../main.dart';
 
 // because we have a lot of snackbars in the app
@@ -7,12 +7,14 @@ import '../main.dart';
 void customSnackBar(String content) {
   // we get context ftom globalKey to use it here
   BuildContext? context = navigatorKey.currentContext;
+
   // we want to remove any snackbar on screen if a new snackbar is coming
   ScaffoldMessenger.of(context!).removeCurrentSnackBar();
+  final _settingsProvider = context.read(settingsChangeNotifierProvider);
   final snackBar = SnackBar(
     content: Text(
       content,
-      style: const TextStyle(color: kMainColor),
+      style: TextStyle(color: _settingsProvider.currentTheme[0]),
     ),
     behavior: SnackBarBehavior.floating,
     backgroundColor: Theme.of(context).primaryColor,
