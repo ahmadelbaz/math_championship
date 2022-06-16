@@ -28,11 +28,7 @@ class ScoreBoard extends StatelessWidget {
             },
             child: Row(
               children: [
-                // Icon(
-                //   MyFlutterApp.points,
-                //   color: Theme.of(context).primaryColor,
-                // ),
-                pointIcon(),
+                pointIcon(_settingsProvider.currentTheme[1]),
                 Text(' $mathPoints',
                     style: Theme.of(context).textTheme.headline5),
               ],
@@ -45,10 +41,6 @@ class ScoreBoard extends StatelessWidget {
             },
             child: Row(
               children: [
-                // Icon(
-                //   MyFlutterApp.coins, // point_of_sale
-                //   color: Theme.of(context).primaryColor,
-                // ),
                 coinIcon(),
                 Text(
                   ' $mathCoins',

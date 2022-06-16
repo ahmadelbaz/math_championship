@@ -33,7 +33,8 @@ class ResultScreen extends StatelessWidget {
               height: _size.height * 0.04,
             ),
             _args[0] == 'Wrong Answer, try again!'
-                ? Lottie.asset(wrongAnswerAnimation, width: 200, height: 200)
+                ? Lottie.asset(wrongAnswerAnimation,
+                    width: _size.width * 0.56, height: _size.height * 0.25)
                 : Lottie.asset(
                     _args[0] == 'You ended this, try again!'
                         ? youEndedThisAnimation
@@ -47,14 +48,16 @@ class ResultScreen extends StatelessWidget {
             ),
             Text(
               _args[0],
-              style: const TextStyle(fontSize: 18),
+              style: TextStyle(
+                  fontSize: 18, color: _settingsProvider.currentTheme[1]),
             ),
             SizedBox(
               height: _size.height * 0.02,
             ),
             Text(
               _args[1],
-              style: const TextStyle(fontSize: 18),
+              style: TextStyle(
+                  fontSize: 18, color: _settingsProvider.currentTheme[1]),
             ),
             SizedBox(
               height: _size.height * 0.04,
@@ -74,7 +77,7 @@ class ResultScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                pointIcon(),
+                pointIcon(_settingsProvider.currentTheme[1]),
                 Text(' +${_args[2]}',
                     style: Theme.of(context).textTheme.headline5),
               ],

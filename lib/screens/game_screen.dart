@@ -2,8 +2,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:math_championship/functions/end_this.dart';
-import 'package:math_championship/functions/stage_timer.dart';
-import 'package:math_championship/functions/timer.dart';
 import 'package:math_championship/providers/game_provider.dart';
 import 'package:math_championship/screens/start_screen.dart';
 import 'package:math_championship/widgets/keyboard.dart';
@@ -18,27 +16,29 @@ final answerStateProvider = StateProvider<String>((ref) => '');
 final widthStateProvider = StateProvider<double>((ref) => 10.0);
 
 class GameScreen extends ConsumerWidget {
-  bool hasFinished = false;
+  // bool hasFinished = false;
 
-  GameScreen({Key? key}) : super(key: key);
+  const GameScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, watch) {
     final _size = MediaQuery.of(context).size;
     final _solveProvider = watch(solveChangeNotifierProvider);
     final _answerProvider = watch(answerStateProvider);
-    final inGameProvider = watch(inGameStateProvider);
+    // final inGameProvider = watch(inGameStateProvider);
     final widthProvider = watch(widthStateProvider);
     final _stageProvider = watch(stageStateProvider);
     final _timerProvider = watch(timerProvider);
     final _settingsProvider = watch(settingsChangeNotifierProvider);
-    WidgetsBinding.instance!.addPostFrameCallback((duration) async {
-      if (!hasFinished) {
-        await stageTimer(watch, context);
-        inGameProvider.state = true;
-        hasFinished = true;
-        questionTimer();
-      }
-    });
+    // WidgetsBinding.instance!.addPostFrameCallback(
+    //   (duration) async {
+    //     // if (!hasFinished) {
+    //     //   // await stageTimer(watch, context);
+    //     //   // inGameProvider.state = true;
+    //     //   // hasFinished = true;
+    //     //   // questionTimer();
+    //     // }
+    //   },
+    // );
     return WillPopScope(
       onWillPop: () async {
         return false;
@@ -70,87 +70,83 @@ class GameScreen extends ConsumerWidget {
                   style: const TextStyle(fontSize: 48),
                 ),
               )
-            : _stageProvider.state
-                ? Center(
-                    child: Text('${_timerProvider.state}'),
-                  )
-                : SingleChildScrollView(
-                    child: Column(
+            : SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: _size.height * 0.05,
+                    ),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        SizedBox(
-                          height: _size.height * 0.05,
+                        Icon(
+                          Icons.timer,
+                          size: 50,
+                          color: Theme.of(context).primaryColor,
                         ),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              Icons.timer,
-                              size: 50,
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              '   ${_solveProvider.getGame().remainSeconds}',
-                              style: Theme.of(context).textTheme.subtitle2,
-                            ),
-                          ],
+                        const SizedBox(
+                          width: 5,
                         ),
-                        SizedBox(
-                          height: _size.height * 0.07,
+                        Text(
+                          '   ${_solveProvider.getGame().remainSeconds}',
+                          style: Theme.of(context).textTheme.subtitle2,
                         ),
-                        Container(
-                          height: _size.height * 0.1,
-                          margin: const EdgeInsets.symmetric(horizontal: 20.0),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                                color: Theme.of(context).primaryColor,
-                                width: widthProvider.state),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(_size.width * 0.06),
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                '${_solveProvider.getGame().firstNum}',
-                                style: Theme.of(context).textTheme.headline4,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: _size.width * 0.1),
-                                child: Text(
-                                  _solveProvider.getGame().sign,
-                                  style: Theme.of(context).textTheme.headline4,
-                                ),
-                              ),
-                              Text(
-                                '${_solveProvider.getGame().secondNum}',
-                                style: Theme.of(context).textTheme.headline4,
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: _size.height * 0.03,
-                        ),
-                        Center(
-                          child: Text(_answerProvider.state),
-                        ),
-                        SizedBox(
-                          height: _size.height * 0.03,
-                        ),
-                        KeyboardContainer(() {
-                          endThis('You ended this, try again!');
-                        }, () {
-                          log('we want to check answer');
-                          checkAnswer(watch);
-                        }, watch(solveChangeNotifierProvider)),
                       ],
                     ),
-                  ),
+                    SizedBox(
+                      height: _size.height * 0.07,
+                    ),
+                    Container(
+                      height: _size.height * 0.1,
+                      margin: const EdgeInsets.symmetric(horizontal: 20.0),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            color: Theme.of(context).primaryColor,
+                            width: widthProvider.state),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(_size.width * 0.06),
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            '${_solveProvider.getGame().firstNum}',
+                            style: Theme.of(context).textTheme.headline4,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: _size.width * 0.1),
+                            child: Text(
+                              _solveProvider.getGame().sign,
+                              style: Theme.of(context).textTheme.headline4,
+                            ),
+                          ),
+                          Text(
+                            '${_solveProvider.getGame().secondNum}',
+                            style: Theme.of(context).textTheme.headline4,
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: _size.height * 0.03,
+                    ),
+                    Center(
+                      child: Text(_answerProvider.state),
+                    ),
+                    SizedBox(
+                      height: _size.height * 0.03,
+                    ),
+                    KeyboardContainer(() {
+                      endThis('You ended this, try again!');
+                    }, () {
+                      log('we want to check answer');
+                      checkAnswer(watch);
+                    }, watch(solveChangeNotifierProvider)),
+                  ],
+                ),
+              ),
       ),
     );
   }

@@ -147,13 +147,7 @@ class SolveProvider extends ChangeNotifier {
   void setSolveQuestion() {
     // lvl 1 question (score > 5, sign '+')
     if (_gameModel.level == 1) {
-      // First question (special case) (score = 0, sign '+')
-      if (_gameModel.score == 0) {
-        setQestionDetails(8, '+', 1, 4, 1, 4);
-      } else {
-        setQestionDetails(5, '+', 1, 4, 1, 4);
-        // createDivisionQs();
-      }
+      setQestionDetails(5, '+', 1, 4, 1, 4);
     }
     // lvl 2 question (5 < score > 10, sign '+')
     else if (_gameModel.level == 2) {
@@ -257,7 +251,7 @@ class SolveProvider extends ChangeNotifier {
         // For 'TimeIsEverything' mode
       } else if (_gameMode == 1) {
         if (_gameModel.score == 0) {
-          setRemainingSeconds(33);
+          setRemainingSeconds(30);
         }
       }
       setSign(sign);
