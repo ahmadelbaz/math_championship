@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:math_championship/providers/settings_provider.dart';
 import 'package:math_championship/screens/game_screen.dart';
@@ -15,6 +16,11 @@ final settingsChangeNotifierProvider =
 
 void main() async {
   runApp(const ProviderScope(child: MyApp()));
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky,
+      overlays: []);
+  // SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+  //   statusBarColor: Colors.pink, // status bar color
+  // ));
 }
 
 class MyApp extends ConsumerWidget {
@@ -22,6 +28,7 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, watch) {
+    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     final _settingsProvider = watch(settingsChangeNotifierProvider);
     return MaterialApp(
       // onGenerateRoute: generateRoute,
@@ -66,7 +73,7 @@ class MyApp extends ConsumerWidget {
         '/': (ctx) => WelcomeScreen(),
         '/profile_screen': (ctx) => ProfileScreen(),
         '/start_screen': (ctx) => StartScreen(),
-        '/solve_screen': (ctx) => GameScreen(),
+        '/solve_screen': (ctx) => const GameScreen(),
         '/result_screen': (ctx) => const ResultScreen(),
         '/settings_screen': (ctx) => const SettingsScreen(),
       },

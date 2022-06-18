@@ -139,6 +139,8 @@ class SolveProvider extends ChangeNotifier {
     if (_gameMode == 2) {
       setRandomSignQuestion();
       // other modes (until now)
+    } else if (_gameMode == 3) {
+      setDoubleValueQuestion();
     } else {
       setSolveQuestion();
     }
@@ -206,13 +208,7 @@ class SolveProvider extends ChangeNotifier {
   // method to setQuestion for 'Random Sign' mode
   void setRandomSignQuestion() {
     if (_gameModel.level == 1) {
-      // First question (special case) (score = 0, sign 'random')
-      if (_gameModel.score == 0) {
-        setQestionDetails(8, generateRandomSign(), 3, 4, 1, 3);
-      } else {
-        // setQestionDetails(5, generateRandomSign(), 3, 4, 1, 3);
-        createDivisionQs();
-      }
+      setQestionDetails(5, generateRandomSign(), 3, 4, 1, 3);
     }
     // lvl 2 question (5 < score > 10, sign 'random')
     else if (_gameModel.level == 2) {
@@ -228,7 +224,7 @@ class SolveProvider extends ChangeNotifier {
     }
     // lvl 5 question (20 < score > 25, sign 'random')
     else if (_gameModel.level == 5) {
-      setQestionDetails(5, generateRandomSign(), 9, 4, 3, 4);
+      setQestionDetails(5, generateRandomSign(), 9, 4, 2, 4);
     }
     // lvl 6 question (25 < score > 30, sign 'random')
     else if (_gameModel.level == 6) {
@@ -239,14 +235,26 @@ class SolveProvider extends ChangeNotifier {
   // method gets details of the question and set the values in their functions
   void setQestionDetails(int remSeconds, String sign, int firstNumMin,
       int firstNumMax, int secondNumMin, secondNumMax) {
+    if (_gameMode == 2) {
+      setRemainingSeconds(remSeconds);
+      setSign(sign);
+      if (sign == '/') {
+        createDivisionQs(firstNumMin, firstNumMax, secondNumMin, secondNumMax);
+      } else {
+        checkRepetationAndSubmit(
+            firstNumMin, firstNumMax, secondNumMin, secondNumMax);
+      }
+    }
     // For another modes
-    if (_gameMode == 5) {
-      // setRemainingSeconds(remSeconds);
-      // setSign(generateRandomSign());
-      // checkRepetationAndSubmit(4, 9, 1, 4);
+    else if (_gameMode == 3) {
+      setRemainingSeconds(remSeconds);
+      setSign('X');
+      checkRepetationAndSubmit(
+          firstNumMin, firstNumMax, secondNumMin, secondNumMax);
+      setTrueAnswer();
     } else {
       // For 'Solve' mode
-      if (_gameMode == 0 || _gameMode == 2) {
+      if (_gameMode == 0) {
         setRemainingSeconds(remSeconds);
         // For 'TimeIsEverything' mode
       } else if (_gameMode == 1) {
@@ -268,7 +276,7 @@ class SolveProvider extends ChangeNotifier {
   // method to generate random sign
   String generateRandomSign() {
     List<String> signs = ['+', '-', 'X', '/'];
-    return signs[generateRandomNum(0, 3)];
+    return signs[generateRandomNum(0, 4)];
   }
 
   // method to check repetation and submit the question
@@ -302,18 +310,46 @@ class SolveProvider extends ChangeNotifier {
     setSecondNum(generateRandomNum(secondNumMin, secondNumMax));
   }
 
-  void createDivisionQs() {
-    int firstNum = generateRandomNum(1, 5);
-    int factorNum = generateRandomNum(2, 5);
+  void createDivisionQs(
+      int firstNumMin, int firstNumMax, int factorNumMin, int factorNumMax) {
+    int firstNum = generateRandomNum(firstNumMin, firstNumMax);
+    int factorNum = generateRandomNum(factorNumMin, factorNumMax);
     int secondNum = firstNum * factorNum;
-    setRemainingSeconds(5);
+    // setRemainingSeconds(5);
     setFirstNum(secondNum);
     setSecondNum(firstNum);
-    setSign('/');
+    // setSign('/');
     setTrueAnswer();
     log.log('first num = $firstNum');
     log.log('factor num = $factorNum');
     log.log('second num = $secondNum');
+    notifyListeners();
+  }
+
+  setDoubleValueQuestion() {
+    if (_gameModel.level == 1) {
+      setQestionDetails(5, 'X', 1, 9, 2, 1);
+    }
+    // lvl 2 question (5 < score > 10, sign 'X')
+    else if (_gameModel.level == 2) {
+      setQestionDetails(5, 'X', 5, 15, 2, 1);
+    }
+    // lvl 3 question (10 < score > 15, sign 'X')
+    else if (_gameModel.level == 3) {
+      setQestionDetails(5, 'X', 10, 10, 2, 1);
+    }
+    // lvl 4 question (15 < score > 20, sign 'X')
+    else if (_gameModel.level == 4) {
+      setQestionDetails(5, 'X', 10, 30, 2, 1);
+    }
+    // lvl 5 question (20 < score > 25, sign 'X')
+    else if (_gameModel.level == 5) {
+      setQestionDetails(5, 'X', 20, 20, 2, 1);
+    }
+    // lvl 6 question (25 < score > 30, sign 'X')
+    else if (_gameModel.level == 6) {
+      setQestionDetails(5, 'X', 30, 30, 2, 1);
+    }
     notifyListeners();
   }
 

@@ -14,20 +14,20 @@ class SettingsProvider extends ChangeNotifier {
 
   final Map<int, List<Color>> _themes = {
     0: [
-      const Color(0xFFFFDE03),
-      Colors.black,
-      const Color(0xFF0336FF),
-      Colors.pink
-    ],
-    1: [
       Colors.cyan.shade700,
       const Color.fromARGB(255, 3, 23, 61),
       const Color(0xFFECEFF1),
       const Color(0xFFFFDE03)
     ],
+    1: [
+      const Color(0xFFFFDE03),
+      Colors.black,
+      const Color(0xFF0336FF),
+      Colors.pink
+    ],
     2: [
       const Color(0xFF01579B),
-      Colors.white,
+      Colors.white70,
       Colors.pink,
       const Color(0xFFFFDE03)
     ],

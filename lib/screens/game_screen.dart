@@ -16,29 +16,16 @@ final answerStateProvider = StateProvider<String>((ref) => '');
 final widthStateProvider = StateProvider<double>((ref) => 10.0);
 
 class GameScreen extends ConsumerWidget {
-  // bool hasFinished = false;
-
   const GameScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, watch) {
     final _size = MediaQuery.of(context).size;
     final _solveProvider = watch(solveChangeNotifierProvider);
     final _answerProvider = watch(answerStateProvider);
-    // final inGameProvider = watch(inGameStateProvider);
     final widthProvider = watch(widthStateProvider);
     final _stageProvider = watch(stageStateProvider);
     final _timerProvider = watch(timerProvider);
     final _settingsProvider = watch(settingsChangeNotifierProvider);
-    // WidgetsBinding.instance!.addPostFrameCallback(
-    //   (duration) async {
-    //     // if (!hasFinished) {
-    //     //   // await stageTimer(watch, context);
-    //     //   // inGameProvider.state = true;
-    //     //   // hasFinished = true;
-    //     //   // questionTimer();
-    //     // }
-    //   },
-    // );
     return WillPopScope(
       onWillPop: () async {
         return false;
@@ -67,7 +54,7 @@ class GameScreen extends ConsumerWidget {
             ? Center(
                 child: Text(
                   '${_timerProvider.state}',
-                  style: const TextStyle(fontSize: 48),
+                  style: const TextStyle(fontSize: 60),
                 ),
               )
             : SingleChildScrollView(
