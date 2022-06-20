@@ -14,6 +14,8 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 final settingsChangeNotifierProvider =
     ChangeNotifierProvider<SettingsProvider>((ref) => SettingsProvider());
 
+final modeStateProvider = StateProvider<int>((ref) => 0);
+
 void main() async {
   runApp(const ProviderScope(child: MyApp()));
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky,
@@ -73,7 +75,7 @@ class MyApp extends ConsumerWidget {
         '/': (ctx) => WelcomeScreen(),
         '/profile_screen': (ctx) => ProfileScreen(),
         '/start_screen': (ctx) => StartScreen(),
-        '/solve_screen': (ctx) => const GameScreen(),
+        '/game_screen': (ctx) => const GameScreen(),
         '/result_screen': (ctx) => const ResultScreen(),
         '/settings_screen': (ctx) => const SettingsScreen(),
       },

@@ -76,11 +76,11 @@ class KeyboardContainer extends ConsumerWidget {
                   // sounds is here
                   // playInGameClickSound();
                   log('this is what u clicked ${gridButtons[index]}');
-                  if (providerMode.getGame().trueAnswer < 10) {
+                  if (providerMode.gameModel.trueAnswer < 10) {
                     _answerProvider.state = gridButtons[index];
                     checkAnswer();
-                  } else if (providerMode.getGame().trueAnswer > 9 &&
-                      providerMode.getGame().trueAnswer < 100) {
+                  } else if (providerMode.gameModel.trueAnswer > 9 &&
+                      providerMode.gameModel.trueAnswer < 100) {
                     if (_answerProvider.state.isEmpty) {
                       _answerProvider.state = gridButtons[index];
                       log(_answerProvider.state);
@@ -89,8 +89,8 @@ class KeyboardContainer extends ConsumerWidget {
                       log(_answerProvider.state);
                       checkAnswer();
                     }
-                  } else if (providerMode.getGame().trueAnswer > 99 &&
-                      providerMode.getGame().trueAnswer < 1000) {
+                  } else if (providerMode.gameModel.trueAnswer > 99 &&
+                      providerMode.gameModel.trueAnswer < 1000) {
                     if (_answerProvider.state.isEmpty) {
                       _answerProvider.state = gridButtons[index];
                       log(_answerProvider.state);
@@ -101,8 +101,8 @@ class KeyboardContainer extends ConsumerWidget {
                       log(_answerProvider.state);
                       checkAnswer();
                     }
-                  } else if (providerMode.getGame().trueAnswer > 999 &&
-                      providerMode.getGame().trueAnswer < 10000) {
+                  } else if (providerMode.gameModel.trueAnswer > 999 &&
+                      providerMode.gameModel.trueAnswer < 10000) {
                     if (_answerProvider.state.isEmpty) {
                       _answerProvider.state = gridButtons[index];
                       log(_answerProvider.state);

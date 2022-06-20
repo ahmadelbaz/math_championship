@@ -2,7 +2,12 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:math_championship/functions/end_this.dart';
-import 'package:math_championship/providers/game_provider.dart';
+import 'package:math_championship/functions/select_current_provider.dart';
+import 'package:math_championship/providers/double_value_provider.dart';
+import 'package:math_championship/providers/random_sign_provider.dart';
+import 'package:math_championship/providers/solve_provider.dart';
+import 'package:math_championship/providers/square_root_provider.dart';
+import 'package:math_championship/providers/time_iseverything_provider.dart';
 import 'package:math_championship/screens/start_screen.dart';
 import 'package:math_championship/widgets/keyboard.dart';
 import '../functions/play_sounds.dart';
@@ -10,6 +15,15 @@ import '../main.dart';
 
 final solveChangeNotifierProvider =
     ChangeNotifierProvider<SolveProvider>((ref) => SolveProvider());
+final timeIsEveryThingChangeNotifierProvider =
+    ChangeNotifierProvider<TimeIsEverythingProvider>(
+        (ref) => TimeIsEverythingProvider());
+final randomSignChangeNotifierProvider =
+    ChangeNotifierProvider<RandomSignProvider>((ref) => RandomSignProvider());
+final doubleValueChangeNotifierProvider =
+    ChangeNotifierProvider<DoubleValueProvider>((ref) => DoubleValueProvider());
+final squareRootChangeNotifierProvider =
+    ChangeNotifierProvider<SquareRootProvider>((ref) => SquareRootProvider());
 
 final answerStateProvider = StateProvider<String>((ref) => '');
 
@@ -20,7 +34,9 @@ class GameScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, watch) {
     final _size = MediaQuery.of(context).size;
-    final _solveProvider = watch(solveChangeNotifierProvider);
+    final _modeProvider = watch(modeStateProvider);
+    log('Mode is : ${_modeProvider.state}');
+    final _gameProvider = selectCurrentProvider(watch);
     final _answerProvider = watch(answerStateProvider);
     final widthProvider = watch(widthStateProvider);
     final _stageProvider = watch(stageStateProvider);
@@ -36,11 +52,11 @@ class GameScreen extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Text(
-                'Level  ${_solveProvider.getGame().level}',
+                'Level  ${_gameProvider.gameModel.level}',
                 style: Theme.of(context).textTheme.headline5,
               ),
               Text(
-                'Score  ${_solveProvider.getGame().score}',
+                'Score  ${_gameProvider.gameModel.score}',
                 style: TextStyle(color: Theme.of(context).primaryColor),
               ),
             ],
@@ -75,7 +91,7 @@ class GameScreen extends ConsumerWidget {
                           width: 5,
                         ),
                         Text(
-                          '   ${_solveProvider.getGame().remainSeconds}',
+                          '   ${_gameProvider.gameModel.remainSeconds}',
                           style: Theme.of(context).textTheme.subtitle2,
                         ),
                       ],
@@ -98,19 +114,19 @@ class GameScreen extends ConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            '${_solveProvider.getGame().firstNum}',
+                            '${_gameProvider.gameModel.firstNum}',
                             style: Theme.of(context).textTheme.headline4,
                           ),
                           Padding(
                             padding: EdgeInsets.symmetric(
                                 horizontal: _size.width * 0.1),
                             child: Text(
-                              _solveProvider.getGame().sign,
+                              _gameProvider.gameModel.sign,
                               style: Theme.of(context).textTheme.headline4,
                             ),
                           ),
                           Text(
-                            '${_solveProvider.getGame().secondNum}',
+                            '${_gameProvider.gameModel.secondNum}',
                             style: Theme.of(context).textTheme.headline4,
                           ),
                         ],
@@ -130,7 +146,7 @@ class GameScreen extends ConsumerWidget {
                     }, () {
                       log('we want to check answer');
                       checkAnswer(watch);
-                    }, watch(solveChangeNotifierProvider)),
+                    }, _gameProvider),
                   ],
                 ),
               ),
@@ -140,11 +156,12 @@ class GameScreen extends ConsumerWidget {
 
   // method to check user's answer
   void checkAnswer(T Function<T>(ProviderBase<Object?, T>) watch) {
-    final _gameProvider = watch(solveChangeNotifierProvider);
+    final _gameProvider = selectCurrentProvider(watch);
+    _gameProvider.printName();
     final _answerProvider = watch(answerStateProvider);
     final _settingsProvider = watch(settingsChangeNotifierProvider);
     if (int.parse(_answerProvider.state) ==
-        _gameProvider.getGame().trueAnswer) {
+        _gameProvider.gameModel.trueAnswer) {
       playCorrectAnswerSound(_settingsProvider.sounds[4]);
       _answerProvider.state = '';
       _gameProvider.updateScore();
@@ -158,7 +175,7 @@ class GameScreen extends ConsumerWidget {
       _answerProvider.state = '';
       endThis('Wrong Answer, try again!');
     }
-    if (_gameProvider.getGame().score == 70) {
+    if (_gameProvider.gameModel.score == 70) {
       endThis('WOWWWWW, Congratulations');
     }
   }
