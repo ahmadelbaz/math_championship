@@ -61,6 +61,15 @@ class StartScreen extends ConsumerWidget {
         actions: [
           IconButton(
             onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: Icon(
+              Icons.home,
+              color: Theme.of(context).primaryColor,
+            ),
+          ),
+          IconButton(
+            onPressed: () {
               playGeneralSound(_settingsProvider.sounds[1]);
               Navigator.of(context).pushNamed('/settings_screen');
             },

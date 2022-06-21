@@ -18,8 +18,8 @@ final modeStateProvider = StateProvider<int>((ref) => 0);
 
 void main() async {
   runApp(const ProviderScope(child: MyApp()));
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky,
-      overlays: []);
+
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   // SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
   //   statusBarColor: Colors.pink, // status bar color
   // ));
@@ -32,6 +32,9 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, watch) {
     // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     final _settingsProvider = watch(settingsChangeNotifierProvider);
+    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    //   statusBarColor: _settingsProvider.currentTheme[0], // status bar color
+    // ));
     return MaterialApp(
       // onGenerateRoute: generateRoute,
       navigatorKey: navigatorKey,

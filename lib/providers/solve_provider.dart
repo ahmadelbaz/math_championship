@@ -5,11 +5,11 @@ class SolveProvider extends GameProvider {
   void setQuestion() {
     // lvl 1 question (score > 5, sign '+')
     if (gameModel.level == 1) {
-      setQestionDetails(5, '+', 1, 4, 1, 4);
+      setQestionDetails(5000, '+', 1, 4, 1, 4);
     }
     // lvl 2 question (5 < score > 10, sign '+')
     else if (gameModel.level == 2) {
-      setQestionDetails(5, '+', 5, 4, 1, 4);
+      setQestionDetails(5000, '+', 5, 4, 1, 4);
     }
     // lvl 3 question (10 < score > 15, sign 'X')
     else if (gameModel.level == 3) {

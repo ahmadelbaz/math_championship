@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:math_championship/main.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+
+final colorPickerStateProvider = StateProvider<List<Color>>((ref) => []);
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -9,225 +12,319 @@ class SettingsScreen extends ConsumerWidget {
   Widget build(BuildContext context, watch) {
     final _size = MediaQuery.of(context).size;
     final _settingsProvider = watch(settingsChangeNotifierProvider);
+    final colorProvider = watch(colorPickerStateProvider);
+    colorProvider.state
+        .addAll([Colors.white, Colors.white, Colors.white, Colors.white]);
     return Scaffold(
       backgroundColor: _settingsProvider.currentTheme[0],
-      body: ListView(
-        children: [
-          SizedBox(
-            height: _size.height * 0.02,
-          ),
-          Row(
-            children: [
-              Text(
-                'Sound effects',
+      appBar: AppBar(
+        leading: BackButton(color: Theme.of(context).primaryColor),
+        title: Text(
+          'Settings',
+          style: TextStyle(color: Theme.of(context).primaryColor),
+        ),
+        centerTitle: true,
+        backgroundColor: _settingsProvider.currentTheme[0],
+        elevation: 0,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListView(
+          children: [
+            SizedBox(
+              height: _size.height * 0.02,
+            ),
+            Row(
+              children: [
+                Text(
+                  'Sound effects',
+                  style: TextStyle(color: Theme.of(context).primaryColor),
+                ),
+                // there is more to add here
+              ],
+            ),
+            SizedBox(
+              height: _size.height * 0.02,
+            ),
+            ListTile(
+              title: Text(
+                'Enable Sounds',
                 style: TextStyle(color: Theme.of(context).primaryColor),
               ),
-              // there is more to add here
-            ],
-          ),
-          SizedBox(
-            height: _size.height * 0.02,
-          ),
-          ListTile(
-            title: Text(
-              'Enable Sounds',
-              style: TextStyle(color: Theme.of(context).primaryColor),
-            ),
-            trailing: Switch(
-              value: _settingsProvider.sounds[0],
-              onChanged: (value) {
-                _settingsProvider.switchSounds(value);
-              },
-              activeColor: _settingsProvider.currentTheme[3],
-            ),
-          ),
-          ListTile(
-            title: Text(
-              'Enable General sound',
-              style: TextStyle(color: Theme.of(context).primaryColor),
-            ),
-            trailing: Switch(
-              value: _settingsProvider.sounds[0]
-                  ? _settingsProvider.sounds[1]
-                  : false,
-              onChanged: (value) {
-                _settingsProvider.switchGeneralSound(value);
-              },
-              activeColor: _settingsProvider.currentTheme[3],
-            ),
-          ),
-          ListTile(
-            title: Text(
-              'Enable Start game sound',
-              style: TextStyle(color: Theme.of(context).primaryColor),
-            ),
-            trailing: Switch(
-              value: _settingsProvider.sounds[0]
-                  ? _settingsProvider.sounds[2]
-                  : false,
-              onChanged: (value) {
-                _settingsProvider.switchStartGameSound(value);
-              },
-              activeColor: _settingsProvider.currentTheme[3],
-            ),
-          ),
-          ListTile(
-            title: Text(
-              'Enable Score board sound',
-              style: TextStyle(color: Theme.of(context).primaryColor),
-            ),
-            trailing: Switch(
-              value: _settingsProvider.sounds[0]
-                  ? _settingsProvider.sounds[3]
-                  : false,
-              onChanged: (value) {
-                _settingsProvider.switchScoreBoardSound(value);
-              },
-              activeColor: _settingsProvider.currentTheme[3],
-            ),
-          ),
-          ListTile(
-            title: Text(
-              'Enable Correct Answer sound',
-              style: TextStyle(color: Theme.of(context).primaryColor),
-            ),
-            trailing: Switch(
-              value: _settingsProvider.sounds[0]
-                  ? _settingsProvider.sounds[4]
-                  : false,
-              onChanged: (value) {
-                _settingsProvider.switchCorrectAnswerSound(value);
-              },
-              activeColor: _settingsProvider.currentTheme[3],
-            ),
-          ),
-          ListTile(
-            title: Text(
-              'Enable Wrong Answer sound',
-              style: TextStyle(color: Theme.of(context).primaryColor),
-            ),
-            trailing: Switch(
-              value: _settingsProvider.sounds[0]
-                  ? _settingsProvider.sounds[5]
-                  : false,
-              onChanged: (value) {
-                _settingsProvider.switchWrongAnswerSound(value);
-              },
-              activeColor: _settingsProvider.currentTheme[3],
-            ),
-          ),
-          ListTile(
-            title: Text(
-              'Enable InGame Clear sound',
-              style: TextStyle(color: Theme.of(context).primaryColor),
-            ),
-            trailing: Switch(
-              value: _settingsProvider.sounds[0]
-                  ? _settingsProvider.sounds[6]
-                  : false,
-              onChanged: (value) {
-                _settingsProvider.switchInGameClearSound(value);
-              },
-              activeColor: _settingsProvider.currentTheme[3],
-              // inactiveThumbColor: Colors.yellow,
-              // inactiveTrackColor: ,
-            ),
-          ),
-          SizedBox(
-            height: _size.height * 0.03,
-          ),
-          Text(
-            'Theme',
-            style: TextStyle(color: Theme.of(context).primaryColor),
-          ),
-          SizedBox(
-            height: _size.height * 0.02,
-          ),
-          SizedBox(
-            width: 70,
-            height: 70,
-            child: Center(
-              child: ListView.builder(
-                physics: const ClampingScrollPhysics(),
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                itemCount: _settingsProvider.themes.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          _settingsProvider.changeCurrentTheme(index);
-                        },
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: _settingsProvider.themes[index]![0],
-                                    width: 20),
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(20),
-                                ),
-                              ),
-                              width: 60,
-                              height: 60,
-                              // color: _settingsProvider.themes[index]![0],
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: _settingsProvider.themes[index]![1],
-                                    width: 20),
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(10),
-                                ),
-                              ),
-                              width: 30,
-                              height: 30,
-                              // color: _settingsProvider.themes[index]![1],
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: _settingsProvider.themes[index]![2],
-                                    width: 10),
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(5),
-                                ),
-                              ),
-                              width: 15,
-                              height: 15,
-                              // color: _settingsProvider.themes[index]![2],
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: _settingsProvider.themes[index]![3],
-                                    width: 4),
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(5),
-                                ),
-                              ),
-                              width: 7.5,
-                              height: 7.5,
-                              // color: _settingsProvider.themes[index]![3],
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                    ],
-                  );
+              trailing: Switch(
+                value: _settingsProvider.sounds[0],
+                onChanged: (value) {
+                  _settingsProvider.switchSounds(value);
                 },
+                activeColor: _settingsProvider.currentTheme[3],
               ),
             ),
-          ),
-        ],
+            ListTile(
+              title: Text(
+                'Enable General sound',
+                style: TextStyle(color: Theme.of(context).primaryColor),
+              ),
+              trailing: Switch(
+                value: _settingsProvider.sounds[0]
+                    ? _settingsProvider.sounds[1]
+                    : false,
+                onChanged: (value) {
+                  _settingsProvider.switchGeneralSound(value);
+                },
+                activeColor: _settingsProvider.currentTheme[3],
+              ),
+            ),
+            ListTile(
+              title: Text(
+                'Enable Start game sound',
+                style: TextStyle(color: Theme.of(context).primaryColor),
+              ),
+              trailing: Switch(
+                value: _settingsProvider.sounds[0]
+                    ? _settingsProvider.sounds[2]
+                    : false,
+                onChanged: (value) {
+                  _settingsProvider.switchStartGameSound(value);
+                },
+                activeColor: _settingsProvider.currentTheme[3],
+              ),
+            ),
+            ListTile(
+              title: Text(
+                'Enable Score board sound',
+                style: TextStyle(color: Theme.of(context).primaryColor),
+              ),
+              trailing: Switch(
+                value: _settingsProvider.sounds[0]
+                    ? _settingsProvider.sounds[3]
+                    : false,
+                onChanged: (value) {
+                  _settingsProvider.switchScoreBoardSound(value);
+                },
+                activeColor: _settingsProvider.currentTheme[3],
+              ),
+            ),
+            ListTile(
+              title: Text(
+                'Enable Correct Answer sound',
+                style: TextStyle(color: Theme.of(context).primaryColor),
+              ),
+              trailing: Switch(
+                value: _settingsProvider.sounds[0]
+                    ? _settingsProvider.sounds[4]
+                    : false,
+                onChanged: (value) {
+                  _settingsProvider.switchCorrectAnswerSound(value);
+                },
+                activeColor: _settingsProvider.currentTheme[3],
+              ),
+            ),
+            ListTile(
+              title: Text(
+                'Enable Wrong Answer sound',
+                style: TextStyle(color: Theme.of(context).primaryColor),
+              ),
+              trailing: Switch(
+                value: _settingsProvider.sounds[0]
+                    ? _settingsProvider.sounds[5]
+                    : false,
+                onChanged: (value) {
+                  _settingsProvider.switchWrongAnswerSound(value);
+                },
+                activeColor: _settingsProvider.currentTheme[3],
+              ),
+            ),
+            ListTile(
+              title: Text(
+                'Enable InGame Clear sound',
+                style: TextStyle(color: Theme.of(context).primaryColor),
+              ),
+              trailing: Switch(
+                value: _settingsProvider.sounds[0]
+                    ? _settingsProvider.sounds[6]
+                    : false,
+                onChanged: (value) {
+                  _settingsProvider.switchInGameClearSound(value);
+                },
+                activeColor: _settingsProvider.currentTheme[3],
+                // inactiveThumbColor: Colors.yellow,
+                // inactiveTrackColor: ,
+              ),
+            ),
+            SizedBox(
+              height: _size.height * 0.03,
+            ),
+            Text(
+              'Theme',
+              style: TextStyle(color: Theme.of(context).primaryColor),
+            ),
+            SizedBox(
+              height: _size.height * 0.02,
+            ),
+            SizedBox(
+              width: 70,
+              height: 70,
+              child: Center(
+                child: ListView.builder(
+                  physics: const ClampingScrollPhysics(),
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: _settingsProvider.themes.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            _settingsProvider.changeCurrentTheme(index);
+                          },
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color:
+                                          _settingsProvider.themes[index]![0],
+                                      width: 20),
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(20),
+                                  ),
+                                ),
+                                width: 60,
+                                height: 60,
+                                // color: _settingsProvider.themes[index]![0],
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color:
+                                          _settingsProvider.themes[index]![1],
+                                      width: 20),
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(10),
+                                  ),
+                                ),
+                                width: 30,
+                                height: 30,
+                                // color: _settingsProvider.themes[index]![1],
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color:
+                                          _settingsProvider.themes[index]![2],
+                                      width: 10),
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(5),
+                                  ),
+                                ),
+                                width: 15,
+                                height: 15,
+                                // color: _settingsProvider.themes[index]![2],
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color:
+                                          _settingsProvider.themes[index]![3],
+                                      width: 4),
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(5),
+                                  ),
+                                ),
+                                width: 7.5,
+                                height: 7.5,
+                                // color: _settingsProvider.themes[index]![3],
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            ),
+            SizedBox(
+              height: _size.height * 0.02,
+            ),
+            Center(
+              child: TextButton(
+                onPressed: () async {
+                  _settingsProvider.addNewTheme([
+                    await showColorPicker(context, watch, 3),
+                    await showColorPicker(context, watch, 2),
+                    await showColorPicker(context, watch, 1),
+                    await showColorPicker(context, watch, 0),
+                  ]);
+                },
+                child: const Text('Add custom theme'),
+              ),
+            )
+          ],
+        ),
       ),
     );
+  }
+
+  Future<Color> showColorPicker(BuildContext context,
+      T Function<T>(ProviderBase<Object?, T>) watch, int index) async {
+    final colorProvider = watch(colorPickerStateProvider);
+    // colorProvider.state
+    //     .addAll([Colors.white, Colors.white, Colors.white, Colors.white]);
+    Color fc = Colors.white;
+    Color changeColor = Colors.white;
+    await showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) => AlertDialog(
+              title: const Text('Pick a color!'),
+              content: SingleChildScrollView(
+                child: ColorPicker(
+                  pickerColor: fc,
+                  onColorChanged: (color) {
+                    colorProvider.state[index] = color;
+                    fc = color;
+                  },
+                ),
+                // Use Material color picker:
+                //
+                // child: MaterialPicker(
+                //   pickerColor: fc,
+                //   onColorChanged: (color) {
+                //     colorProvider.state[index] = color;
+                //     fc = color;
+                //   },
+                // showLabel: true, // only on portrait mode
+                // ),
+                //
+                // Use Block color picker:
+                //
+                // child: BlockPicker(
+                //   pickerColor: currentColor,
+                //   onColorChanged: changeColor,
+                // ),
+                //
+                // child: MultipleChoiceBlockPicker(
+                //   pickerColors: currentColors,
+                //   onColorsChanged: changeColors,
+                // ),
+              ),
+              actions: [
+                ElevatedButton(
+                  child: const Text('Got it'),
+                  onPressed: () {
+                    colorProvider.state[index] = fc;
+                    print(colorProvider.state[index]);
+                    Navigator.of(context).pop();
+                    // return colorProvider.state[index];
+                  },
+                ),
+              ],
+            ));
+    return colorProvider.state[index];
   }
 }

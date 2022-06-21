@@ -26,10 +26,10 @@ class SettingsProvider extends ChangeNotifier {
       Colors.pink
     ],
     2: [
-      const Color(0xFF01579B),
-      Colors.white70,
+      Colors.black,
+      Colors.cyan,
       Colors.pink,
-      const Color(0xFFFFDE03)
+      Colors.yellow,
     ],
   };
 
@@ -136,6 +136,12 @@ class SettingsProvider extends ChangeNotifier {
     }
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setStringList(cashedSoundData, _storedBools);
+    notifyListeners();
+  }
+
+  addNewTheme(List<Color> colors) {
+    // print(colors[0].toString());
+    _themes[3] = colors;
     notifyListeners();
   }
 }
