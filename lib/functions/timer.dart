@@ -11,7 +11,6 @@ void questionTimer() {
   // we get context ftom globalKey to use it here
   BuildContext? context = navigatorKey.currentContext;
   final _gameProvider = selectCurrentProvider(context!.read);
-  // context!.read(solveChangeNotifierProvider);
   Timer.periodic(
     const Duration(seconds: 1),
     (timer) {

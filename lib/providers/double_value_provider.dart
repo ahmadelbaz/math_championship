@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'game_provider.dart';
 
 class DoubleValueProvider extends GameProvider {
@@ -38,11 +36,5 @@ class DoubleValueProvider extends GameProvider {
     else if (gameModel.level == 6) {
       setQestionDetails(5, 'X', 30, 30, 2, 1);
     }
-    notifyListeners();
-  }
-
-  @override
-  printName() {
-    log('Double Value Mode');
   }
 }

@@ -141,7 +141,7 @@ class ResultScreen extends StatelessWidget {
                   ),
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),

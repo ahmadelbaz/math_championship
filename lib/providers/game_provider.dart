@@ -1,7 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
+import '../functions/randoms.dart';
 import '../models/game_model.dart';
 // TODO :
 // Methods that dont use any data here and can be separated in external fiel
@@ -9,27 +8,11 @@ import '../models/game_model.dart';
 
 // we think that maybe this can be an extract class
 abstract class GameProvider extends ChangeNotifier {
-  printName();
   GameModel _gameModel = GameModel(0, 0, 0, 0, 'sign', 1, 0);
   GameModel get gameModel => _gameModel;
   int? _lastFirst, _lastSecond;
   int? get lastFirst => _lastFirst;
   int? get lastSecond => _lastSecond;
-  // variable to know which game mode are we in now
-  // int gameMode = 0;
-
-  // setGameMode(int mode) {
-  //   gameMode = mode;
-  // }
-
-  // int getGameMode() {
-  //   return gameMode;
-  // }
-  // GameModel
-
-  // GameModel getGame() {
-  //   return gameModel;
-  // }
 
   resetGame() {
     _gameModel = GameModel(0, 0, 0, 0, 'sign', 1, 0);
@@ -97,17 +80,6 @@ abstract class GameProvider extends ChangeNotifier {
 
   setQestionDetails(int remSeconds, String sign, int firstNumMin,
       int firstNumMax, int secondNumMin, secondNumMax);
-
-  int generateRandomNum(int min, int max) {
-    Random r = Random();
-    return min + r.nextInt(max);
-  }
-
-  // method to generate random sign
-  String generateRandomSign() {
-    List<String> signs = ['+', '-', 'X', '/'];
-    return signs[generateRandomNum(0, 4)];
-  }
 
   // method to check repetation and submit the question
   void checkRepetationAndSubmit(

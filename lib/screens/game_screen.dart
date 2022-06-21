@@ -34,8 +34,6 @@ class GameScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, watch) {
     final _size = MediaQuery.of(context).size;
-    final _modeProvider = watch(modeStateProvider);
-    log('Mode is : ${_modeProvider.state}');
     final _gameProvider = selectCurrentProvider(watch);
     final _answerProvider = watch(answerStateProvider);
     final widthProvider = watch(widthStateProvider);
@@ -157,7 +155,6 @@ class GameScreen extends ConsumerWidget {
   // method to check user's answer
   void checkAnswer(T Function<T>(ProviderBase<Object?, T>) watch) {
     final _gameProvider = selectCurrentProvider(watch);
-    _gameProvider.printName();
     final _answerProvider = watch(answerStateProvider);
     final _settingsProvider = watch(settingsChangeNotifierProvider);
     if (int.parse(_answerProvider.state) ==

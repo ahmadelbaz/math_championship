@@ -75,9 +75,4 @@ class TimeIsEverythingProvider extends GameProvider {
       setQestionDetails(5, '-', 500, 899, 100, 399);
     }
   }
-
-  @override
-  printName() {
-    log('Time is Everthing Mode');
-  }
 }

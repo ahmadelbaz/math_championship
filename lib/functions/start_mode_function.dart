@@ -8,9 +8,7 @@ import '../screens/start_screen.dart';
 
 void startMode(T Function<T>(ProviderBase<Object?, T>) watch,
     BuildContext context, int index) async {
-  print('THIS IS INDEX $index');
   watch(modeStateProvider).state = index;
-  // selectCurrentProvider(watch).setGameMode(index);
   selectCurrentProvider(watch).setQuestion();
   watch(stageStateProvider).state = true;
   watch(inGameStateProvider).state = true;

@@ -1,6 +1,6 @@
-import 'dart:developer';
-
 import 'package:math_championship/providers/game_provider.dart';
+
+import '../functions/randoms.dart';
 
 class RandomSignProvider extends GameProvider {
   @override
@@ -41,6 +41,7 @@ class RandomSignProvider extends GameProvider {
       checkRepetationAndSubmit(
           firstNumMin, firstNumMax, secondNumMin, secondNumMax);
     }
+    notifyListeners();
   }
 
   void createDivisionQs(
@@ -51,16 +52,5 @@ class RandomSignProvider extends GameProvider {
     setFirstNum(secondNum);
     setSecondNum(firstNum);
     setTrueAnswer();
-    notifyListeners();
   }
-
-  @override
-  printName() {
-    log('Random Sign Mode');
-  }
-
-  // void setRandomSignQuestion() {
-
-  // }
-
 }
