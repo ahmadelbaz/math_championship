@@ -16,7 +16,7 @@ final settingsChangeNotifierProvider =
 
 final modeStateProvider = StateProvider<int>((ref) => 0);
 
-void main() async {
+void main() {
   runApp(const ProviderScope(child: MyApp()));
 
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);

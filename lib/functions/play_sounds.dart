@@ -4,7 +4,8 @@ AudioCache audioCache = AudioCache();
 
 playGeneralSound(bool isWorking) async {
   if (isWorking) {
-    audioCache.play('sounds/generalButtonsClick.mp3',
+    // audioCache.play('sounds/generalButtonsClick.mp3',
+    audioCache.play('sounds/generalButtonsClick.wav',
         mode: PlayerMode.LOW_LATENCY);
   }
 }

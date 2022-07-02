@@ -22,5 +22,6 @@ const timeIsUpAnimation = 'assets/animations/time.json';
 
 const wrongAnswerAnimation = 'assets/animations/sadrobot.json';
 
-const cashedThemeData = 'cashed_theme_data';
+const cashedCurrentThemeData = 'cashed_current_theme_data';
+const cashedUserThemeData = 'cashed_User_theme_data';
 const cashedSoundData = 'cashed_sound_data';

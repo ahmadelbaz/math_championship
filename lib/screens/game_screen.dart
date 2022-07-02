@@ -68,7 +68,8 @@ class GameScreen extends ConsumerWidget {
             ? Center(
                 child: Text(
                   '${_timerProvider.state}',
-                  style: const TextStyle(fontSize: 60),
+                  style: TextStyle(
+                      fontSize: 60, color: Theme.of(context).primaryColor),
                 ),
               )
             : SingleChildScrollView(

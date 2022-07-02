@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:math_championship/functions/play_sounds.dart';
 import 'package:math_championship/main.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
@@ -175,7 +176,12 @@ class SettingsScreen extends ConsumerWidget {
                       children: [
                         GestureDetector(
                           onTap: () {
+                            playScoreBoardSound(_settingsProvider.sounds[3]);
                             _settingsProvider.changeCurrentTheme(index);
+                          },
+                          onLongPress: () {
+                            // TODO: add alert dialog to ask user if he wanna delete the theme
+                            _settingsProvider.deleteTheme(index);
                           },
                           child: Stack(
                             alignment: Alignment.center,
@@ -183,8 +189,7 @@ class SettingsScreen extends ConsumerWidget {
                               Container(
                                 decoration: BoxDecoration(
                                   border: Border.all(
-                                      color:
-                                          _settingsProvider.themes[index]![0],
+                                      color: _settingsProvider.themes[index][0],
                                       width: 20),
                                   borderRadius: const BorderRadius.all(
                                     Radius.circular(20),
@@ -197,8 +202,7 @@ class SettingsScreen extends ConsumerWidget {
                               Container(
                                 decoration: BoxDecoration(
                                   border: Border.all(
-                                      color:
-                                          _settingsProvider.themes[index]![1],
+                                      color: _settingsProvider.themes[index][1],
                                       width: 20),
                                   borderRadius: const BorderRadius.all(
                                     Radius.circular(10),
@@ -211,8 +215,7 @@ class SettingsScreen extends ConsumerWidget {
                               Container(
                                 decoration: BoxDecoration(
                                   border: Border.all(
-                                      color:
-                                          _settingsProvider.themes[index]![2],
+                                      color: _settingsProvider.themes[index][2],
                                       width: 10),
                                   borderRadius: const BorderRadius.all(
                                     Radius.circular(5),
@@ -225,8 +228,7 @@ class SettingsScreen extends ConsumerWidget {
                               Container(
                                 decoration: BoxDecoration(
                                   border: Border.all(
-                                      color:
-                                          _settingsProvider.themes[index]![3],
+                                      color: _settingsProvider.themes[index][3],
                                       width: 4),
                                   borderRadius: const BorderRadius.all(
                                     Radius.circular(5),
@@ -261,7 +263,10 @@ class SettingsScreen extends ConsumerWidget {
                     await showColorPicker(context, watch, 0),
                   ]);
                 },
-                child: const Text('Add custom theme'),
+                child: Text(
+                  'Add custom theme',
+                  style: TextStyle(color: Theme.of(context).primaryColor),
+                ),
               ),
             )
           ],

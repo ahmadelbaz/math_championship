@@ -12,18 +12,16 @@ void questionTimer() {
   BuildContext? context = navigatorKey.currentContext;
   final _gameProvider = selectCurrentProvider(context!.read);
   Timer.periodic(
-    const Duration(milliseconds: 1000),
+    const Duration(milliseconds: 1),
     (timer) {
       if (!context.read(inGameStateProvider).state) {
         timer.cancel();
-      } else if (_gameProvider.gameModel.remainSeconds == 1000) {
+      } else if (_gameProvider.gameModel.remainSeconds == 1) {
         timer.cancel();
         endThis('Time\'s Up, try again!');
-      } else if (_gameProvider.gameModel.remainSeconds == 5000) {
-        _gameProvider.setRemainingSeconds(4999);
       } else {
         _gameProvider
-            .setRemainingSeconds(_gameProvider.gameModel.remainSeconds - 1000);
+            .setRemainingSeconds(_gameProvider.gameModel.remainSeconds - 1);
       }
     },
   );
