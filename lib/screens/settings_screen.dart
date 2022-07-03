@@ -4,6 +4,8 @@ import 'package:math_championship/functions/play_sounds.dart';
 import 'package:math_championship/main.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
+import '../widgets/custom_radio_list_tile.dart';
+
 final colorPickerStateProvider = StateProvider<List<Color>>((ref) => []);
 
 class SettingsScreen extends ConsumerWidget {
@@ -47,116 +49,74 @@ class SettingsScreen extends ConsumerWidget {
             SizedBox(
               height: _size.height * 0.02,
             ),
-            ListTile(
-              title: Text(
-                'Enable Sounds',
-                style: TextStyle(color: Theme.of(context).primaryColor),
-              ),
-              trailing: Switch(
-                value: _settingsProvider.sounds[0],
-                onChanged: (value) {
-                  _settingsProvider.switchSounds(value);
-                },
-                activeColor: _settingsProvider.currentTheme[3],
-              ),
+            customRadioListTile(
+              context,
+              _settingsProvider,
+              'Enable Sounds',
+              _settingsProvider.sounds[0],
+              (value) {
+                _settingsProvider.switchSounds(value);
+              },
             ),
-            ListTile(
-              title: Text(
-                'Enable General sound',
-                style: TextStyle(color: Theme.of(context).primaryColor),
-              ),
-              trailing: Switch(
-                value: _settingsProvider.sounds[0]
-                    ? _settingsProvider.sounds[1]
-                    : false,
-                onChanged: (value) {
-                  _settingsProvider.switchGeneralSound(value);
-                },
-                activeColor: _settingsProvider.currentTheme[3],
-              ),
+            customRadioListTile(
+              context,
+              _settingsProvider,
+              'Enable General sound',
+              _settingsProvider.sounds[0] ? _settingsProvider.sounds[1] : false,
+              (value) {
+                _settingsProvider.switchGeneralSound(value);
+              },
             ),
-            ListTile(
-              title: Text(
-                'Enable Start game sound',
-                style: TextStyle(color: Theme.of(context).primaryColor),
-              ),
-              trailing: Switch(
-                value: _settingsProvider.sounds[0]
-                    ? _settingsProvider.sounds[2]
-                    : false,
-                onChanged: (value) {
-                  _settingsProvider.switchStartGameSound(value);
-                },
-                activeColor: _settingsProvider.currentTheme[3],
-              ),
+            customRadioListTile(
+              context,
+              _settingsProvider,
+              'Enable Start game sound',
+              _settingsProvider.sounds[0] ? _settingsProvider.sounds[2] : false,
+              (value) {
+                _settingsProvider.switchStartGameSound(value);
+              },
             ),
-            ListTile(
-              title: Text(
-                'Enable Score board sound',
-                style: TextStyle(color: Theme.of(context).primaryColor),
-              ),
-              trailing: Switch(
-                value: _settingsProvider.sounds[0]
-                    ? _settingsProvider.sounds[3]
-                    : false,
-                onChanged: (value) {
-                  _settingsProvider.switchScoreBoardSound(value);
-                },
-                activeColor: _settingsProvider.currentTheme[3],
-              ),
+            customRadioListTile(
+              context,
+              _settingsProvider,
+              'Enable Score board sound',
+              _settingsProvider.sounds[0] ? _settingsProvider.sounds[3] : false,
+              (value) {
+                _settingsProvider.switchScoreBoardSound(value);
+              },
             ),
-            ListTile(
-              title: Text(
-                'Enable Correct Answer sound',
-                style: TextStyle(color: Theme.of(context).primaryColor),
-              ),
-              trailing: Switch(
-                value: _settingsProvider.sounds[0]
-                    ? _settingsProvider.sounds[4]
-                    : false,
-                onChanged: (value) {
-                  _settingsProvider.switchCorrectAnswerSound(value);
-                },
-                activeColor: _settingsProvider.currentTheme[3],
-              ),
+            customRadioListTile(
+              context,
+              _settingsProvider,
+              'Enable Correct Answer sound',
+              _settingsProvider.sounds[0] ? _settingsProvider.sounds[4] : false,
+              (value) {
+                _settingsProvider.switchCorrectAnswerSound(value);
+              },
             ),
-            ListTile(
-              title: Text(
-                'Enable Wrong Answer sound',
-                style: TextStyle(color: Theme.of(context).primaryColor),
-              ),
-              trailing: Switch(
-                value: _settingsProvider.sounds[0]
-                    ? _settingsProvider.sounds[5]
-                    : false,
-                onChanged: (value) {
-                  _settingsProvider.switchWrongAnswerSound(value);
-                },
-                activeColor: _settingsProvider.currentTheme[3],
-              ),
+            customRadioListTile(
+              context,
+              _settingsProvider,
+              'Enable Wrong Answer sound',
+              _settingsProvider.sounds[0] ? _settingsProvider.sounds[5] : false,
+              (value) {
+                _settingsProvider.switchWrongAnswerSound(value);
+              },
             ),
-            ListTile(
-              title: Text(
-                'Enable InGame Clear sound',
-                style: TextStyle(color: Theme.of(context).primaryColor),
-              ),
-              trailing: Switch(
-                value: _settingsProvider.sounds[0]
-                    ? _settingsProvider.sounds[6]
-                    : false,
-                onChanged: (value) {
-                  _settingsProvider.switchInGameClearSound(value);
-                },
-                activeColor: _settingsProvider.currentTheme[3],
-                // inactiveThumbColor: Colors.yellow,
-                // inactiveTrackColor: ,
-              ),
+            customRadioListTile(
+              context,
+              _settingsProvider,
+              'Enable InGame Clear sound',
+              _settingsProvider.sounds[0] ? _settingsProvider.sounds[6] : false,
+              (value) {
+                _settingsProvider.switchInGameClearSound(value);
+              },
             ),
             SizedBox(
               height: _size.height * 0.03,
             ),
             Text(
-              'Theme',
+              'Themes',
               style: TextStyle(color: Theme.of(context).primaryColor),
             ),
             SizedBox(

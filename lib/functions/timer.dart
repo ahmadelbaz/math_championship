@@ -12,7 +12,7 @@ void questionTimer() {
   BuildContext? context = navigatorKey.currentContext;
   final _gameProvider = selectCurrentProvider(context!.read);
   Timer.periodic(
-    const Duration(milliseconds: 1),
+    const Duration(seconds: 1),
     (timer) {
       if (!context.read(inGameStateProvider).state) {
         timer.cancel();

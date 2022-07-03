@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:math_championship/constants.dart';
 import 'package:math_championship/functions/play_sounds.dart';
+import 'package:math_championship/widgets/custom_snack_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsProvider extends ChangeNotifier {
@@ -205,7 +206,10 @@ class SettingsProvider extends ChangeNotifier {
       _themes.removeAt(index);
       _userThemes.removeAt(index - 3);
       _storeUserThemes();
+      customSnackBar('Theme deleted!');
       notifyListeners();
+    } else {
+      customSnackBar('Original theme cannot be deleted!');
     }
   }
 }

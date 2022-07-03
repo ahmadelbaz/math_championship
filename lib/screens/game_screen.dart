@@ -89,9 +89,30 @@ class GameScreen extends ConsumerWidget {
                         const SizedBox(
                           width: 5,
                         ),
-                        Text(
-                          '   ${_gameProvider.gameModel.remainSeconds}',
-                          style: Theme.of(context).textTheme.subtitle2,
+                        SizedBox(
+                          width: 100,
+                          height: 100,
+                          child: Stack(
+                            fit: StackFit.expand,
+                            children: [
+                              CircularProgressIndicator(
+                                value: watch(modeStateProvider).state == 1
+                                    ? _gameProvider.gameModel.remainSeconds / 30
+                                    : _gameProvider.gameModel.remainSeconds / 5,
+                                strokeWidth: 12,
+                                valueColor: AlwaysStoppedAnimation(
+                                    _settingsProvider.currentTheme[3]),
+                                backgroundColor:
+                                    _settingsProvider.currentTheme[1],
+                              ),
+                              Center(
+                                child: Text(
+                                  '${_gameProvider.gameModel.remainSeconds}',
+                                  style: Theme.of(context).textTheme.subtitle2,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
