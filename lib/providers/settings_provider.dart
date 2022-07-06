@@ -6,6 +6,9 @@ import 'package:math_championship/functions/play_sounds.dart';
 import 'package:math_championship/widgets/custom_snack_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../widgets/custom_alert_dialog.dart';
+import '../widgets/custom_color_stack.dart';
+
 class SettingsProvider extends ChangeNotifier {
   SettingsProvider() {
     _getCurrentTheme();
@@ -106,7 +109,7 @@ class SettingsProvider extends ChangeNotifier {
 
   _getAllThemes() async {
     await _getUserThemes();
-
+    _themes.clear();
     _themes.addAll(_defaultThemes);
     _themes.addAll(_userThemes);
     notifyListeners();
@@ -200,14 +203,33 @@ class SettingsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  deleteTheme(int index) {
-    if (index > 2) {
-      playInGameClearSound(_sounds[6]);
-      _themes.removeAt(index);
-      _userThemes.removeAt(index - 3);
-      _storeUserThemes();
-      customSnackBar('Theme deleted!');
-      notifyListeners();
+  deleteTheme(BuildContext context, int index) {
+    if (index > defaultThemes.length - 1) {
+      customAlertDialog(
+          CustomColorStack(_themes[index]),
+          Text(
+              'This theme will be deletd even if it is a purchased theme or created theme.\nAre you sure you want to delete it ?',
+              style: TextStyle(color: _currentTheme[0])),
+          [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel', style: TextStyle(color: _currentTheme[0])),
+            ),
+            TextButton(
+              onPressed: () async {
+                Navigator.of(context).pop();
+                playInGameClearSound(_sounds[6]);
+                _themes.removeAt(index);
+                _userThemes.removeAt(index - 3);
+                _storeUserThemes();
+                customSnackBar('Theme deleted!');
+                notifyListeners();
+              },
+              child: Text('Delete', style: TextStyle(color: _currentTheme[0])),
+            ),
+          ]);
     } else {
       customSnackBar('Original theme cannot be deleted!');
     }

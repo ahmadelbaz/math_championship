@@ -21,7 +21,7 @@ class ResultScreen extends StatelessWidget {
     final _settingsProvider = context.read(settingsChangeNotifierProvider);
     _pointsProvider.updatePoints(int.parse(_args[2]));
     // close inGame provider
-    WidgetsBinding.instance!.addPostFrameCallback((duration) {
+    WidgetsBinding.instance.addPostFrameCallback((duration) {
       context.read(inGameStateProvider).state = false;
     });
     return Scaffold(
@@ -77,7 +77,7 @@ class ResultScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                pointIcon(_settingsProvider.currentTheme[1]),
+                pointIcon(),
                 Text(' +${_args[2]}',
                     style: Theme.of(context).textTheme.headline5),
               ],

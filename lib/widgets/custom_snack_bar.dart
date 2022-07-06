@@ -14,7 +14,9 @@ void customSnackBar(String content) {
   final snackBar = SnackBar(
     content: Text(
       content,
-      style: TextStyle(color: _settingsProvider.currentTheme[0]),
+      style: TextStyle(
+          fontFamily: 'wheaton-capitals',
+          color: _settingsProvider.currentTheme[0]),
     ),
     behavior: SnackBarBehavior.floating,
     backgroundColor: Theme.of(context).primaryColor,

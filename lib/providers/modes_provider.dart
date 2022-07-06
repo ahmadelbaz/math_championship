@@ -1,9 +1,15 @@
 import 'dart:collection';
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:math_championship/database/database.dart';
+import 'package:math_championship/main.dart';
 import 'package:math_championship/models/mode_model.dart';
 import 'package:math_championship/providers/points_provider.dart';
+
+import '../functions/start_mode_function.dart';
+import '../screens/start_screen.dart';
+import '../widgets/custom_alert_dialog.dart';
 
 class ModesProvider extends ChangeNotifier {
   List<Mode> _modes = [];
@@ -20,6 +26,64 @@ class ModesProvider extends ChangeNotifier {
     await myDatabase.mathDatabase();
     await myDatabase.update(_modes[index]);
     notifyListeners();
+  }
+
+  // method called when we click on any mode on 'start screen'
+  void onClickMode(BuildContext context, int index) async {
+    final _pointsProvider = context.read(pointsChangeNotifierProvider);
+    final _settingsProvider = context.read(settingsChangeNotifierProvider);
+    if (_modes[index].locked == 1) {
+      if (checkPrice(_modes[index].id, _pointsProvider.getPoints().mathCoins)) {
+        customAlertDialog(
+          const Text('Unlock Mode'),
+          Text(
+              'Do you want to unlock \'${_modes[index].name.toString()}\' mode ?',
+              style: TextStyle(color: _settingsProvider.currentTheme[0])),
+          [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel',
+                  style: TextStyle(color: _settingsProvider.currentTheme[0])),
+            ),
+            TextButton(
+              onPressed: () async {
+                Navigator.of(context).pop();
+                unlockMode(_modes[index].id,
+                    _pointsProvider.getPoints().mathCoins, _pointsProvider);
+              },
+              child: Text('Unlock',
+                  style: TextStyle(color: _settingsProvider.currentTheme[0])),
+            ),
+          ],
+        );
+      } else {
+        customAlertDialog(
+            const Text('Not enough money!'),
+            Text(
+                'You don\'t have enough coins, keep going and try again later.',
+                style: TextStyle(color: _settingsProvider.currentTheme[0])),
+            [
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Sure',
+                      style:
+                          TextStyle(color: _settingsProvider.currentTheme[0])))
+            ]);
+      }
+    } else {
+      startMode(context.read, context, index);
+    }
+
+    // _modesProvider.modes[index].locked == 1
+    //     ? _modesProvider.checkPrice(
+    //         _modesProvider.modes[index].id,
+    //         _pointsProvider.getPoints().mathCoins) ? _modesProvider.unlockMode(_modesProvider.modes[index].id,
+    //         _pointsProvider.getPoints().mathCoins, _pointsProvider)
+    //     : startMode(watch, context, index);
   }
 
   bool checkPrice(String id, int currentCoins) {

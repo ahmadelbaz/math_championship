@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:math_championship/providers/settings_provider.dart';
+import 'package:math_championship/providers/store_provider.dart';
 import 'package:math_championship/screens/game_screen.dart';
 import 'package:math_championship/screens/profile_screen.dart';
 import 'package:math_championship/screens/settings_screen.dart';
+import 'package:math_championship/screens/store_screen.dart';
 import 'package:math_championship/screens/welcome_screen.dart';
 import 'package:math_championship/screens/result_screen.dart';
 import 'package:math_championship/screens/start_screen.dart';
@@ -13,6 +15,9 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 final settingsChangeNotifierProvider =
     ChangeNotifierProvider<SettingsProvider>((ref) => SettingsProvider());
+
+final storeChangeNotifierProvider =
+    ChangeNotifierProvider<StoreProvider>((ref) => StoreProvider());
 
 final modeStateProvider = StateProvider<int>((ref) => 0);
 
@@ -81,6 +86,7 @@ class MyApp extends ConsumerWidget {
         '/game_screen': (ctx) => const GameScreen(),
         '/result_screen': (ctx) => const ResultScreen(),
         '/settings_screen': (ctx) => const SettingsScreen(),
+        '/store_screen': (ctx) => const StoreScreen(),
       },
     );
   }

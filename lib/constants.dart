@@ -25,3 +25,4 @@ const wrongAnswerAnimation = 'assets/animations/sadrobot.json';
 const cashedCurrentThemeData = 'cashed_current_theme_data';
 const cashedUserThemeData = 'cashed_User_theme_data';
 const cashedSoundData = 'cashed_sound_data';
+const themePrice = 10;

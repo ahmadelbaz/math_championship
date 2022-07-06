@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:math_championship/functions/play_sounds.dart';
 import 'package:math_championship/main.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:math_championship/widgets/custom_color_stack.dart';
 
 import '../widgets/custom_radio_list_tile.dart';
 
@@ -56,6 +57,7 @@ class SettingsScreen extends ConsumerWidget {
               _settingsProvider.sounds[0],
               (value) {
                 _settingsProvider.switchSounds(value);
+                return null;
               },
             ),
             customRadioListTile(
@@ -65,6 +67,7 @@ class SettingsScreen extends ConsumerWidget {
               _settingsProvider.sounds[0] ? _settingsProvider.sounds[1] : false,
               (value) {
                 _settingsProvider.switchGeneralSound(value);
+                return null;
               },
             ),
             customRadioListTile(
@@ -74,6 +77,7 @@ class SettingsScreen extends ConsumerWidget {
               _settingsProvider.sounds[0] ? _settingsProvider.sounds[2] : false,
               (value) {
                 _settingsProvider.switchStartGameSound(value);
+                return null;
               },
             ),
             customRadioListTile(
@@ -83,6 +87,7 @@ class SettingsScreen extends ConsumerWidget {
               _settingsProvider.sounds[0] ? _settingsProvider.sounds[3] : false,
               (value) {
                 _settingsProvider.switchScoreBoardSound(value);
+                return null;
               },
             ),
             customRadioListTile(
@@ -92,6 +97,7 @@ class SettingsScreen extends ConsumerWidget {
               _settingsProvider.sounds[0] ? _settingsProvider.sounds[4] : false,
               (value) {
                 _settingsProvider.switchCorrectAnswerSound(value);
+                return null;
               },
             ),
             customRadioListTile(
@@ -101,6 +107,7 @@ class SettingsScreen extends ConsumerWidget {
               _settingsProvider.sounds[0] ? _settingsProvider.sounds[5] : false,
               (value) {
                 _settingsProvider.switchWrongAnswerSound(value);
+                return null;
               },
             ),
             customRadioListTile(
@@ -110,6 +117,7 @@ class SettingsScreen extends ConsumerWidget {
               _settingsProvider.sounds[0] ? _settingsProvider.sounds[6] : false,
               (value) {
                 _settingsProvider.switchInGameClearSound(value);
+                return null;
               },
             ),
             SizedBox(
@@ -140,66 +148,10 @@ class SettingsScreen extends ConsumerWidget {
                             _settingsProvider.changeCurrentTheme(index);
                           },
                           onLongPress: () {
-                            // TODO: add alert dialog to ask user if he wanna delete the theme
-                            _settingsProvider.deleteTheme(index);
+                            _settingsProvider.deleteTheme(context, index);
                           },
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: _settingsProvider.themes[index][0],
-                                      width: 20),
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(20),
-                                  ),
-                                ),
-                                width: 60,
-                                height: 60,
-                                // color: _settingsProvider.themes[index]![0],
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: _settingsProvider.themes[index][1],
-                                      width: 20),
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(10),
-                                  ),
-                                ),
-                                width: 30,
-                                height: 30,
-                                // color: _settingsProvider.themes[index]![1],
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: _settingsProvider.themes[index][2],
-                                      width: 10),
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(5),
-                                  ),
-                                ),
-                                width: 15,
-                                height: 15,
-                                // color: _settingsProvider.themes[index]![2],
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: _settingsProvider.themes[index][3],
-                                      width: 4),
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(5),
-                                  ),
-                                ),
-                                width: 7.5,
-                                height: 7.5,
-                                // color: _settingsProvider.themes[index]![3],
-                              ),
-                            ],
-                          ),
+                          child:
+                              CustomColorStack(_settingsProvider.themes[index]),
                         ),
                         const SizedBox(
                           width: 20,

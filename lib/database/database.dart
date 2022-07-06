@@ -23,19 +23,19 @@ class MyDatabase extends ChangeNotifier {
       locked: 0,
       highScoreDateTime: DateTime.now(),
     );
-    // second mode 'Time is everything'
-    DatabaseModel timeIsEveyThing = Mode(
+    // second mode 'Random Sign'
+    DatabaseModel randomSign = Mode(
       id: '101',
-      name: 'Time is eveything',
+      name: 'Random Sign',
       highScore: 0,
       price: 20,
       locked: 1,
       highScoreDateTime: DateTime.now(),
     );
-    // third mode 'Random Sign'
-    DatabaseModel randomSign = Mode(
+    // third mode 'Time is everything'
+    DatabaseModel timeIsEveyThing = Mode(
       id: '102',
-      name: 'Random Sign',
+      name: 'Time is eveything',
       highScore: 0,
       price: 50,
       locked: 1,
@@ -61,7 +61,7 @@ class MyDatabase extends ChangeNotifier {
     );
     // add initial values for mathPoints and mathCoins
     DatabaseModel pointsAndCoins =
-        Point(id: '321', mathPoints: 0, mathCoins: 1000);
+        Point(id: '321', mathPoints: 0, mathCoins: 40);
     // add initial values for User data
     DatabaseModel userData =
         User(id: '1000', name: 'guest', mathPoints: 0, mathCoins: 0);
@@ -85,9 +85,9 @@ class MyDatabase extends ChangeNotifier {
 )''');
       batch.insert('modes', solveMode.toMap()!,
           conflictAlgorithm: ConflictAlgorithm.replace);
-      batch.insert('modes', timeIsEveyThing.toMap()!,
-          conflictAlgorithm: ConflictAlgorithm.replace);
       batch.insert('modes', randomSign.toMap()!,
+          conflictAlgorithm: ConflictAlgorithm.replace);
+      batch.insert('modes', timeIsEveyThing.toMap()!,
           conflictAlgorithm: ConflictAlgorithm.replace);
       batch.insert('modes', doubleValue.toMap()!,
           conflictAlgorithm: ConflictAlgorithm.replace);

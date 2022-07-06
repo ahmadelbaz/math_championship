@@ -50,7 +50,10 @@ class ModeWidget extends ConsumerWidget {
                 height: _size.height * 0.03,
               ),
               _modesProvider.modes[index].locked == 1
-                  ? const Icon(Icons.lock)
+                  ? Icon(
+                      Icons.lock,
+                      color: _settingsProvider.currentTheme[0],
+                    )
                   : Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [

@@ -166,6 +166,31 @@ class WelcomeScreen extends ConsumerWidget {
                       height: _size.height * 0.04,
                     ),
                     Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: _size.width * 0.2),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: Size.fromHeight(_size.height * 0.07),
+                          primary: Theme.of(context).primaryColor,
+                          onPrimary: _settingsProvider.currentTheme[0],
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                          ),
+                        ),
+                        onPressed: () {
+                          playGeneralSound(_settingsProvider.sounds[1]);
+                          Navigator.of(context).pushNamed('/profile_screen');
+                        },
+                        child: const Text(
+                          'Profile',
+                          style: TextStyle(fontSize: 28),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: _size.height * 0.04,
+                    ),
+                    Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -173,7 +198,7 @@ class WelcomeScreen extends ConsumerWidget {
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               minimumSize:
-                                  Size(_size.width * 0.5, _size.height * 0.07),
+                                  Size(_size.width * 0.2, _size.height * 0.07),
                               primary: Theme.of(context).primaryColor,
                               onPrimary: _settingsProvider.currentTheme[0],
                               shape: const RoundedRectangleBorder(
@@ -183,13 +208,10 @@ class WelcomeScreen extends ConsumerWidget {
                             ),
                             onPressed: () {
                               playGeneralSound(_settingsProvider.sounds[1]);
-                              Navigator.of(context)
-                                  .pushNamed('/profile_screen');
+                              Navigator.of(context).pushNamed('/store_screen');
                             },
-                            child: const Text(
-                              'Profile',
-                              style: TextStyle(fontSize: 28),
-                            ),
+                            child:
+                                const Icon(Icons.local_grocery_store_rounded),
                           ),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(

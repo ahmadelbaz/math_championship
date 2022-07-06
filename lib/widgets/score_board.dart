@@ -28,7 +28,7 @@ class ScoreBoard extends StatelessWidget {
             },
             child: Row(
               children: [
-                pointIcon(_settingsProvider.currentTheme[1]),
+                pointIcon(),
                 Text(' $mathPoints',
                     style: Theme.of(context).textTheme.headline5),
               ],

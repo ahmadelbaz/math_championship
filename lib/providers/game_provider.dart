@@ -86,11 +86,17 @@ abstract class GameProvider extends ChangeNotifier {
       int firstNumMin, int firstNumMax, int secondNumMin, int secondNumMax) {
     // set first and second nums
     setFirstAndSecondNums(firstNumMin, firstNumMax, secondNumMin, secondNumMax);
+    if (_gameModel.sign == '-') {
+      if (_gameModel.firstNum < _gameModel.secondNum) {
+        int temp = _gameModel.firstNum;
+        _gameModel.firstNum = _gameModel.secondNum;
+        _gameModel.secondNum = temp;
+      }
+    }
     if (_gameModel.firstNum == lastFirst ||
         _gameModel.firstNum == lastSecond &&
             _gameModel.secondNum == lastFirst ||
         _gameModel.secondNum == lastSecond) {
-      print('REPETATION!');
       // there is a repetation so set new numbers
       setFirstAndSecondNums(
           firstNumMin, firstNumMax, secondNumMin, secondNumMax);
