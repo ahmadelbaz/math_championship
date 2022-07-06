@@ -37,8 +37,8 @@ class ModesProvider extends ChangeNotifier {
         customAlertDialog(
           const Text('Unlock Mode'),
           Text(
-              'Do you want to unlock \'${_modes[index].name.toString()}\' mode ?',
-              style: TextStyle(color: _settingsProvider.currentTheme[0])),
+              'Do you want to unlock \'${_modes[index].name}\' mode for \'${_modes[index].price} Math Coins\' ?',
+              style: Theme.of(context).textTheme.headline3),
           [
             TextButton(
               onPressed: () {
@@ -63,7 +63,7 @@ class ModesProvider extends ChangeNotifier {
             const Text('Not enough money!'),
             Text(
                 'You don\'t have enough coins, keep going and try again later.',
-                style: TextStyle(color: _settingsProvider.currentTheme[0])),
+                style: Theme.of(context).textTheme.headline3),
             [
               TextButton(
                   onPressed: () {

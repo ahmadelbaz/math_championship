@@ -29,8 +29,8 @@ class StoreProvider extends ChangeNotifier {
     customAlertDialog(
         CustomColorStack(_themesForSale[index]),
         Text(
-          'Do you want to unlock this theme ?\nIt will cost you $themePrice math coins',
-          style: TextStyle(color: _settingsProvider.currentTheme[0]),
+          'Do you want to unlock this theme ?\nIt will cost you \'$themePrice Math Coins\'',
+          style: Theme.of(context).textTheme.headline3,
         ),
         [
           TextButton(

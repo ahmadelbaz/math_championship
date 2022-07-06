@@ -62,9 +62,10 @@ class ModeWidget extends ConsumerWidget {
                             SizedBox(
                               width: _size.width * 0.03,
                             ),
-                            Icon(
-                              Icons.star,
-                              color: _settingsProvider.currentTheme[3],
+                            const Image(
+                              image: AssetImage('assets/images/score.png'),
+                              width: 35,
+                              height: 35,
                             ),
                             SizedBox(
                               width: _size.width * 0.03,

@@ -54,8 +54,6 @@ class MyApp extends ConsumerWidget {
           headline1: const TextStyle(
             fontSize: 72.0,
           ),
-          headline6: TextStyle(
-              fontSize: 36.0, color: _settingsProvider.currentTheme[0]),
           bodyText1: TextStyle(
             fontSize: 30.0,
             color: _settingsProvider.currentTheme[3],
@@ -68,7 +66,9 @@ class MyApp extends ConsumerWidget {
           headline2: TextStyle(
               fontSize: 18.0, color: _settingsProvider.currentTheme[1]),
           headline3: TextStyle(
-              fontSize: 14.0, color: _settingsProvider.currentTheme[0]),
+              fontSize: 18.0,
+              color: _settingsProvider.currentTheme[0],
+              fontFamily: 'rimouski'),
           headline4: TextStyle(
               fontSize: 32.0,
               color: _settingsProvider.currentTheme[1],
@@ -76,6 +76,8 @@ class MyApp extends ConsumerWidget {
           // this is for appBar
           headline5: TextStyle(
               fontSize: 21.0, color: _settingsProvider.currentTheme[1]),
+          headline6: TextStyle(
+              fontSize: 36.0, color: _settingsProvider.currentTheme[0]),
         ),
       ),
       routes: {

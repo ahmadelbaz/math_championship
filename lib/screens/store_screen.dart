@@ -58,7 +58,7 @@ class StoreScreen extends ConsumerWidget {
                             _storeProvider.onThemeClick(context, index);
                           },
                           onLongPress: () {
-                            customSnackBar('$themePrice math coins');
+                            customSnackBar('$themePrice Math Coins');
                           },
                           child: CustomColorStack(
                               _storeProvider.themesForSale[index]),

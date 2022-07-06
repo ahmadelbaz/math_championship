@@ -209,7 +209,7 @@ class SettingsProvider extends ChangeNotifier {
           CustomColorStack(_themes[index]),
           Text(
               'This theme will be deletd even if it is a purchased theme or created theme.\nAre you sure you want to delete it ?',
-              style: TextStyle(color: _currentTheme[0])),
+              style: Theme.of(context).textTheme.headline3),
           [
             TextButton(
               onPressed: () {

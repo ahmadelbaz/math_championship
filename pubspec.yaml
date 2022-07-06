@@ -80,6 +80,7 @@ flutter:
     - assets/animations/uendedthis.json
     - assets/animations/time.json
     - assets/animations/congrats.json
+    - assets/images/score.png
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
