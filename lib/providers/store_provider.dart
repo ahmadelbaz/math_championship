@@ -7,16 +7,17 @@ import 'package:math_championship/providers/points_provider.dart';
 import 'package:math_championship/providers/settings_provider.dart';
 import 'package:math_championship/widgets/custom_alert_dialog.dart';
 import 'package:math_championship/widgets/custom_color_stack.dart';
+import 'package:math_championship/widgets/custom_snack_bar.dart';
 
 import '../constants.dart';
 import '../database/database.dart';
-import '../screens/start_screen.dart';
 
 class StoreProvider extends ChangeNotifier {
   final List<List<Color>> _themesForSale = [
     [const Color(0xffB10000), Colors.white, Colors.yellow, Colors.black],
     [const Color(0xff8200B6), Colors.white, Colors.yellow, Colors.black],
     [const Color(0xff13AF00), Colors.white, Colors.cyan, Colors.black],
+    [const Color(0xffC90078), Colors.white, Colors.cyan, Colors.black],
   ];
   UnmodifiableListView get themesForSale =>
       UnmodifiableListView(_themesForSale);
@@ -57,11 +58,15 @@ class StoreProvider extends ChangeNotifier {
 
   unlockTheme(List<Color> colors, int currentCoins,
       PointsProvider pointsProvider, SettingsProvider settingsProvider) async {
-    settingsProvider.addNewTheme(colors);
-
-    int newCoins = currentCoins - themePrice;
-    pointsProvider.updateCoins(newCoins);
-    await myDatabase.mathDatabase();
+    if (currentCoins < themePrice) {
+      customSnackBar(
+          'You don\'t have enough Math Coins to unlock this theme, collect some Math Coins and try again!');
+    } else {
+      settingsProvider.addNewTheme(colors);
+      int newCoins = currentCoins - themePrice;
+      pointsProvider.updateCoins(newCoins);
+      await myDatabase.mathDatabase();
+    }
     notifyListeners();
   }
 }

@@ -11,6 +11,9 @@ import 'package:math_championship/screens/welcome_screen.dart';
 import 'package:math_championship/screens/result_screen.dart';
 import 'package:math_championship/screens/start_screen.dart';
 
+import 'providers/modes_provider.dart';
+import 'providers/points_provider.dart';
+
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 final settingsChangeNotifierProvider =
@@ -19,7 +22,22 @@ final settingsChangeNotifierProvider =
 final storeChangeNotifierProvider =
     ChangeNotifierProvider<StoreProvider>((ref) => StoreProvider());
 
+final modesChangeNotifierProvider =
+    ChangeNotifierProvider<ModesProvider>((ref) => ModesProvider());
+
+final pointsChangeNotifierProvider =
+    ChangeNotifierProvider<PointsProvider>((ref) => PointsProvider());
+
 final modeStateProvider = StateProvider<int>((ref) => 0);
+
+// futureProvider to get modes from database
+// final modesFutureProvider = FutureProvider(
+//   (ref) async {
+//     final selected = ref.read(modesChangeNotifierProvider).getAllModes();
+//     final selected2 = ref.read(pointsChangeNotifierProvider).getAllPoints();
+//     return selected;
+//   },
+// );
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));

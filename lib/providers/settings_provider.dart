@@ -3,9 +3,11 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:math_championship/constants.dart';
 import 'package:math_championship/functions/play_sounds.dart';
+import 'package:math_championship/providers/points_provider.dart';
 import 'package:math_championship/widgets/custom_snack_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../database/database.dart';
 import '../widgets/custom_alert_dialog.dart';
 import '../widgets/custom_color_stack.dart';
 
@@ -14,7 +16,10 @@ class SettingsProvider extends ChangeNotifier {
     _getCurrentTheme();
     _getAllThemes();
     _getSoundSettings();
+    getAddingThemeValue();
   }
+
+  MyDatabase myDatabase = MyDatabase();
 
   final List<bool> _sounds = [true, true, true, true, true, true, true];
   List<bool> get sounds => _sounds;
@@ -54,6 +59,9 @@ class SettingsProvider extends ChangeNotifier {
     Colors.pink
   ];
   List<Color> get currentTheme => _currentTheme;
+
+  bool _canAddThemes = false;
+  bool get canAddThemes => _canAddThemes;
 
   switchSounds(bool value) {
     for (int n = 0; n < _sounds.length; n++) {
@@ -233,5 +241,54 @@ class SettingsProvider extends ChangeNotifier {
     } else {
       customSnackBar('Original theme cannot be deleted!');
     }
+  }
+
+  unlockAddingTheme(BuildContext context, int currentCoins,
+      PointsProvider pointsProvider, SettingsProvider settingsProvider) async {
+    log('current coins $currentCoins');
+    log('price $canAddThemePrice');
+    if (currentCoins < canAddThemePrice) {
+      customSnackBar(
+          'You don\'t have enough Math Coins to unlock this, try to collect enough Math Coins and try again!');
+    } else {
+      customAlertDialog(
+        const Text('Are you sure ?'),
+        Text(
+            'Do you want to unlock ability to add custom themes for $canAddThemePrice Math Coins\' ?',
+            style: Theme.of(context).textTheme.headline3),
+        [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('Cancel',
+                style: TextStyle(color: settingsProvider.currentTheme[0])),
+          ),
+          TextButton(
+            onPressed: () async {
+              Navigator.of(context).pop();
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              await prefs.setBool(canAddThemeKey, true);
+              _canAddThemes = true;
+              int newCoins = currentCoins - themePrice;
+              pointsProvider.updateCoins(newCoins);
+              await myDatabase.mathDatabase();
+            },
+            child: Text('Unlock',
+                style: TextStyle(color: settingsProvider.currentTheme[0])),
+          ),
+        ],
+      );
+    }
+    notifyListeners();
+  }
+
+  getAddingThemeValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (!prefs.containsKey(canAddThemeKey)) {
+      await prefs.setBool(canAddThemeKey, false);
+    }
+    _canAddThemes = prefs.getBool(canAddThemeKey)!;
+    notifyListeners();
   }
 }

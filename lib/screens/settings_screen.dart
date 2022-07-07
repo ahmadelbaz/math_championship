@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:math_championship/functions/play_sounds.dart';
 import 'package:math_championship/main.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:math_championship/screens/start_screen.dart';
 import 'package:math_championship/widgets/custom_color_stack.dart';
 
 import '../widgets/custom_radio_list_tile.dart';
@@ -168,12 +169,22 @@ class SettingsScreen extends ConsumerWidget {
             Center(
               child: TextButton(
                 onPressed: () async {
-                  _settingsProvider.addNewTheme([
-                    await showColorPicker(context, watch, 3),
-                    await showColorPicker(context, watch, 2),
-                    await showColorPicker(context, watch, 1),
-                    await showColorPicker(context, watch, 0),
-                  ]);
+                  if (_settingsProvider.canAddThemes) {
+                    _settingsProvider.addNewTheme([
+                      await showColorPicker(context, watch, 3),
+                      await showColorPicker(context, watch, 2),
+                      await showColorPicker(context, watch, 1),
+                      await showColorPicker(context, watch, 0),
+                    ]);
+                  } else {
+                    _settingsProvider.unlockAddingTheme(
+                        context,
+                        watch(pointsChangeNotifierProvider)
+                            .getPoints()
+                            .mathCoins,
+                        watch(pointsChangeNotifierProvider),
+                        _settingsProvider);
+                  }
                 },
                 child: Text(
                   'Add custom theme',

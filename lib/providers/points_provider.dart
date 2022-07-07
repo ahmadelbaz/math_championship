@@ -3,6 +3,18 @@ import 'package:math_championship/database/database.dart';
 import 'package:math_championship/models/point_model.dart';
 
 class PointsProvider extends ChangeNotifier {
+  Future<void> fetch() async {
+    // method
+    await getAllPoints();
+  }
+
+  // PointsProvider.named() {
+  //   future().then((_) {
+  //     // future is completed do whatever you need
+  //     getAllPoints();
+  //   });
+  // }
+
   Point _points = Point(id: '', mathPoints: 0, mathCoins: 0);
 
   MyDatabase myDatabase = MyDatabase();

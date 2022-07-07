@@ -61,7 +61,7 @@ class MyDatabase extends ChangeNotifier {
     );
     // add initial values for mathPoints and mathCoins
     DatabaseModel pointsAndCoins =
-        Point(id: '321', mathPoints: 0, mathCoins: 400);
+        Point(id: '321', mathPoints: 0, mathCoins: 0);
     // add initial values for User data
     DatabaseModel userData =
         User(id: '1000', name: 'guest', mathPoints: 0, mathCoins: 0);

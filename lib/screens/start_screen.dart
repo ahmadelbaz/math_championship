@@ -1,19 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:math_championship/providers/modes_provider.dart';
-import 'package:math_championship/providers/points_provider.dart';
 import 'package:math_championship/widgets/mode_widget.dart';
 import 'package:math_championship/widgets/score_board.dart';
 import 'package:flutter/services.dart';
 
 import '../functions/play_sounds.dart';
 import '../main.dart';
-
-final modesChangeNotifierProvider =
-    ChangeNotifierProvider<ModesProvider>((ref) => ModesProvider());
-
-final pointsChangeNotifierProvider =
-    ChangeNotifierProvider<PointsProvider>((ref) => PointsProvider());
 
 // state provider to check if we are in game or not
 final inGameStateProvider = StateProvider<bool>((ref) => false);
@@ -22,14 +14,14 @@ final inGameStateProvider = StateProvider<bool>((ref) => false);
 final stageStateProvider = StateProvider<bool>((ref) => false);
 final timerProvider = StateProvider<int>((ref) => 3);
 
-// futureProvider to get modes from database
-final modesFutureProvider = FutureProvider(
-  (ref) async {
-    final selected = ref.read(modesChangeNotifierProvider).getAllModes();
-    final selected2 = ref.read(pointsChangeNotifierProvider).getAllPoints();
-    return selected;
-  },
-);
+// // futureProvider to get modes from database
+// final modesFutureProvider = FutureProvider(
+//   (ref) async {
+//     final selected = ref.read(modesChangeNotifierProvider).getAllModes();
+//     final selected2 = ref.read(pointsChangeNotifierProvider).getAllPoints();
+//     return selected;
+//   },
+// );
 
 class StartScreen extends ConsumerWidget {
   bool isFirst = false;
@@ -47,7 +39,7 @@ class StartScreen extends ConsumerWidget {
     final _pointsProvider = watch(pointsChangeNotifierProvider);
     final _timerProvider = watch(timerProvider);
     final _stageProvider = watch(stageStateProvider);
-    final _futureProvider = watch(modesFutureProvider);
+    // final _futureProvider = watch(userFutureProvider);
     final _settingsProvider = watch(settingsChangeNotifierProvider);
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -81,28 +73,22 @@ class StartScreen extends ConsumerWidget {
         ],
       ),
       backgroundColor: _settingsProvider.currentTheme[0],
-      body: _futureProvider.when(
-        data: (data) {
-          return Padding(
-            padding: EdgeInsets.only(top: _size.height * 0.05),
-            child: ListView.builder(
-              itemCount: _modesProvider.modes.length,
-              itemBuilder: (ctx, index) {
-                return Column(
-                  children: [
-                    ModeWidget(index,
-                        () => _modesProvider.onClickMode(context, index)),
-                    SizedBox(
-                      height: _size.height * 0.05,
-                    ),
-                  ],
-                );
-              },
-            ),
-          );
-        },
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, st) => Center(child: Text('Error: $e')),
+      body: Padding(
+        padding: EdgeInsets.only(top: _size.height * 0.05),
+        child: ListView.builder(
+          itemCount: _modesProvider.modes.length,
+          itemBuilder: (ctx, index) {
+            return Column(
+              children: [
+                ModeWidget(
+                    index, () => _modesProvider.onClickMode(context, index)),
+                SizedBox(
+                  height: _size.height * 0.05,
+                ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }

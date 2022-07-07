@@ -10,9 +10,9 @@ GameProvider selectCurrentProvider(
   return _modeProvider.state == 0
       ? watch(solveChangeNotifierProvider)
       : _modeProvider.state == 1
-          ? watch(timeIsEveryThingChangeNotifierProvider)
+          ? watch(randomSignChangeNotifierProvider)
           : _modeProvider.state == 2
-              ? watch(randomSignChangeNotifierProvider)
+              ? watch(timeIsEveryThingChangeNotifierProvider)
               : _modeProvider.state == 3
                   ? watch(doubleValueChangeNotifierProvider)
                   : watch(squareRootChangeNotifierProvider);

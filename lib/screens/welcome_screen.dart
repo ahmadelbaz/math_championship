@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:math_championship/providers/user_provider.dart';
+import 'package:math_championship/widgets/custom_alert_dialog.dart';
 import 'package:math_championship/widgets/custom_snack_bar.dart';
 import 'package:lottie/lottie.dart';
 import '../functions/play_sounds.dart';
@@ -15,6 +16,8 @@ final userChangeNotifierProvider =
 
 final userFutureProvider = FutureProvider((ref) async {
   final selected = await ref.read(userChangeNotifierProvider).getUserData();
+  ref.read(modesChangeNotifierProvider).getAllModes();
+  ref.read(pointsChangeNotifierProvider).getAllPoints();
   return selected;
 });
 
@@ -40,32 +43,56 @@ class WelcomeScreen extends ConsumerWidget {
 
   Future<bool> _onBackAlertDialog(BuildContext context) async {
     bool _quitOrNot = false;
-    await showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Text('Are you sure?'),
-        content: const Text('You will close the game, Are you sure ?'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
+    customAlertDialog(
+      const Text('Are you sure?'),
+      Text('You will close the game, Are you sure ?',
+          style: Theme.of(context).textTheme.headline3),
+      [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
 
-              _quitOrNot = false;
-            },
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () async {
-              _quitOrNot = true;
-              Navigator.of(context).pop();
-              await SystemChannels.platform
-                  .invokeMethod<void>('SystemNavigator.pop');
-            },
-            child: const Text('Quit'),
-          ),
-        ],
-      ),
+            _quitOrNot = false;
+          },
+          child: const Text('Cancel'),
+        ),
+        TextButton(
+          onPressed: () async {
+            _quitOrNot = true;
+            Navigator.of(context).pop();
+            await SystemChannels.platform
+                .invokeMethod<void>('SystemNavigator.pop');
+          },
+          child: const Text('Quit'),
+        ),
+      ],
     );
+    // showDialog(
+    //   context: context,
+    //   builder: (ctx) => AlertDialog(
+    //     title: const Text('Are you sure?'),
+    //     content: const Text('You will close the game, Are you sure ?'),
+    //     actions: [
+    //       TextButton(
+    //         onPressed: () {
+    //           Navigator.of(context).pop();
+
+    //           _quitOrNot = false;
+    //         },
+    //         child: const Text('Cancel'),
+    //       ),
+    //       TextButton(
+    //         onPressed: () async {
+    //           _quitOrNot = true;
+    //           Navigator.of(context).pop();
+    //           await SystemChannels.platform
+    //               .invokeMethod<void>('SystemNavigator.pop');
+    //         },
+    //         child: const Text('Quit'),
+    //       ),
+    //     ],
+    //   ),
+    // );
     log('this is return $_quitOrNot');
     return _quitOrNot;
   }
