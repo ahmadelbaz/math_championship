@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:math_championship/functions/play_sounds.dart';
 import 'package:math_championship/main.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-import 'package:math_championship/screens/start_screen.dart';
 import 'package:math_championship/widgets/custom_color_stack.dart';
 
+import '../widgets/custom_app_bar.dart';
 import '../widgets/custom_radio_list_tile.dart';
 
 final colorPickerStateProvider = StateProvider<List<Color>>((ref) => []);
@@ -22,16 +22,7 @@ class SettingsScreen extends ConsumerWidget {
         .addAll([Colors.white, Colors.white, Colors.white, Colors.white]);
     return Scaffold(
       backgroundColor: settingsProvider.currentTheme[0],
-      appBar: AppBar(
-        leading: BackButton(color: Theme.of(context).primaryColor),
-        title: Text(
-          'Settings',
-          style: TextStyle(color: Theme.of(context).primaryColor),
-        ),
-        centerTitle: true,
-        backgroundColor: settingsProvider.currentTheme[0],
-        elevation: 0,
-      ),
+      appBar: customAppBar(context, settingsProvider, 'Settings'),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListView(

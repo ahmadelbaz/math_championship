@@ -8,7 +8,6 @@ import 'package:math_championship/models/mode_model.dart';
 import 'package:math_championship/providers/points_provider.dart';
 
 import '../functions/start_mode_function.dart';
-import '../screens/start_screen.dart';
 import '../widgets/custom_alert_dialog.dart';
 
 class ModesProvider extends ChangeNotifier {

@@ -157,7 +157,10 @@ class GameScreen extends ConsumerWidget {
                       height: size.height * 0.03,
                     ),
                     Center(
-                      child: Text(answerProvider.state),
+                      child: Text(
+                        answerProvider.state,
+                        style: Theme.of(context).textTheme.subtitle2,
+                      ),
                     ),
                     SizedBox(
                       height: size.height * 0.03,

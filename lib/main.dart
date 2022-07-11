@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:math_championship/providers/settings_provider.dart';
 import 'package:math_championship/providers/store_provider.dart';
+import 'package:math_championship/screens/about_us_screen.dart';
 import 'package:math_championship/screens/game_screen.dart';
 import 'package:math_championship/screens/profile_screen.dart';
 import 'package:math_championship/screens/settings_screen.dart';
@@ -114,6 +115,7 @@ class MyApp extends ConsumerWidget {
         '/result_screen': (ctx) => const ResultScreen(),
         '/settings_screen': (ctx) => const SettingsScreen(),
         '/store_screen': (ctx) => const StoreScreen(),
+        '/aboutus_screen': (ctx) => const AboutUsScreen(),
       },
     );
   }

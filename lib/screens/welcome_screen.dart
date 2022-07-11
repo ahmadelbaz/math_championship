@@ -284,7 +284,8 @@ class WelcomeScreen extends ConsumerWidget {
                             ),
                             onPressed: () {
                               playGeneralSound(settingsProvider.sounds[1]);
-                              Navigator.of(context).pushNamed('/store_screen');
+                              Navigator.of(context)
+                                  .pushNamed('/aboutus_screen');
                             },
                             child: const Icon(
                                 Icons.system_security_update_warning_sharp),

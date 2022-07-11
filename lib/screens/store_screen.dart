@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:math_championship/constants.dart';
-import 'package:math_championship/screens/start_screen.dart';
+import 'package:math_championship/widgets/custom_app_bar.dart';
 import 'package:math_championship/widgets/custom_color_stack.dart';
 import 'package:math_championship/widgets/custom_snack_bar.dart';
 
@@ -16,19 +16,10 @@ class StoreScreen extends ConsumerWidget {
     final size = MediaQuery.of(context).size;
     final settingsProvider = watch(settingsChangeNotifierProvider);
     final storeProvider = watch(storeChangeNotifierProvider);
-    final modesProvider = watch(modesChangeNotifierProvider);
+    // final modesProvider = watch(modesChangeNotifierProvider);
     return Scaffold(
       backgroundColor: settingsProvider.currentTheme[0],
-      appBar: AppBar(
-        leading: BackButton(color: Theme.of(context).primaryColor),
-        title: Text(
-          'Store',
-          style: TextStyle(color: Theme.of(context).primaryColor),
-        ),
-        centerTitle: true,
-        backgroundColor: settingsProvider.currentTheme[0],
-        elevation: 0,
-      ),
+      appBar: customAppBar(context, settingsProvider, 'Store'),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListView(
