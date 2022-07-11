@@ -15,13 +15,13 @@ class SettingsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, watch) {
-    final _size = MediaQuery.of(context).size;
-    final _settingsProvider = watch(settingsChangeNotifierProvider);
+    final size = MediaQuery.of(context).size;
+    final settingsProvider = watch(settingsChangeNotifierProvider);
     final colorProvider = watch(colorPickerStateProvider);
     colorProvider.state
         .addAll([Colors.white, Colors.white, Colors.white, Colors.white]);
     return Scaffold(
-      backgroundColor: _settingsProvider.currentTheme[0],
+      backgroundColor: settingsProvider.currentTheme[0],
       appBar: AppBar(
         leading: BackButton(color: Theme.of(context).primaryColor),
         title: Text(
@@ -29,7 +29,7 @@ class SettingsScreen extends ConsumerWidget {
           style: TextStyle(color: Theme.of(context).primaryColor),
         ),
         centerTitle: true,
-        backgroundColor: _settingsProvider.currentTheme[0],
+        backgroundColor: settingsProvider.currentTheme[0],
         elevation: 0,
       ),
       body: Padding(
@@ -37,7 +37,7 @@ class SettingsScreen extends ConsumerWidget {
         child: ListView(
           children: [
             SizedBox(
-              height: _size.height * 0.02,
+              height: size.height * 0.02,
             ),
             Row(
               children: [
@@ -49,87 +49,87 @@ class SettingsScreen extends ConsumerWidget {
               ],
             ),
             SizedBox(
-              height: _size.height * 0.02,
+              height: size.height * 0.02,
             ),
             customRadioListTile(
               context,
-              _settingsProvider,
+              settingsProvider,
               'Enable Sounds',
-              _settingsProvider.sounds[0],
+              settingsProvider.sounds[0],
               (value) {
-                _settingsProvider.switchSounds(value);
+                settingsProvider.switchSounds(value);
                 return null;
               },
             ),
             customRadioListTile(
               context,
-              _settingsProvider,
+              settingsProvider,
               'Enable General sound',
-              _settingsProvider.sounds[0] ? _settingsProvider.sounds[1] : false,
+              settingsProvider.sounds[0] ? settingsProvider.sounds[1] : false,
               (value) {
-                _settingsProvider.switchGeneralSound(value);
+                settingsProvider.switchGeneralSound(value);
                 return null;
               },
             ),
             customRadioListTile(
               context,
-              _settingsProvider,
+              settingsProvider,
               'Enable Start game sound',
-              _settingsProvider.sounds[0] ? _settingsProvider.sounds[2] : false,
+              settingsProvider.sounds[0] ? settingsProvider.sounds[2] : false,
               (value) {
-                _settingsProvider.switchStartGameSound(value);
+                settingsProvider.switchStartGameSound(value);
                 return null;
               },
             ),
             customRadioListTile(
               context,
-              _settingsProvider,
+              settingsProvider,
               'Enable Score board sound',
-              _settingsProvider.sounds[0] ? _settingsProvider.sounds[3] : false,
+              settingsProvider.sounds[0] ? settingsProvider.sounds[3] : false,
               (value) {
-                _settingsProvider.switchScoreBoardSound(value);
+                settingsProvider.switchScoreBoardSound(value);
                 return null;
               },
             ),
             customRadioListTile(
               context,
-              _settingsProvider,
+              settingsProvider,
               'Enable Correct Answer sound',
-              _settingsProvider.sounds[0] ? _settingsProvider.sounds[4] : false,
+              settingsProvider.sounds[0] ? settingsProvider.sounds[4] : false,
               (value) {
-                _settingsProvider.switchCorrectAnswerSound(value);
+                settingsProvider.switchCorrectAnswerSound(value);
                 return null;
               },
             ),
             customRadioListTile(
               context,
-              _settingsProvider,
+              settingsProvider,
               'Enable Wrong Answer sound',
-              _settingsProvider.sounds[0] ? _settingsProvider.sounds[5] : false,
+              settingsProvider.sounds[0] ? settingsProvider.sounds[5] : false,
               (value) {
-                _settingsProvider.switchWrongAnswerSound(value);
+                settingsProvider.switchWrongAnswerSound(value);
                 return null;
               },
             ),
             customRadioListTile(
               context,
-              _settingsProvider,
+              settingsProvider,
               'Enable InGame Clear sound',
-              _settingsProvider.sounds[0] ? _settingsProvider.sounds[6] : false,
+              settingsProvider.sounds[0] ? settingsProvider.sounds[6] : false,
               (value) {
-                _settingsProvider.switchInGameClearSound(value);
+                settingsProvider.switchInGameClearSound(value);
                 return null;
               },
             ),
             SizedBox(
-              height: _size.height * 0.03,
+              height: size.height * 0.03,
             ),
             Text(
               'Themes',
               style: TextStyle(color: Theme.of(context).primaryColor),
             ),
             SizedBox(
-              height: _size.height * 0.02,
+              height: size.height * 0.02,
             ),
             SizedBox(
               width: 70,
@@ -139,20 +139,20 @@ class SettingsScreen extends ConsumerWidget {
                   physics: const ClampingScrollPhysics(),
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
-                  itemCount: _settingsProvider.themes.length,
+                  itemCount: settingsProvider.themes.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Row(
                       children: [
                         GestureDetector(
                           onTap: () {
-                            playScoreBoardSound(_settingsProvider.sounds[3]);
-                            _settingsProvider.changeCurrentTheme(index);
+                            playScoreBoardSound(settingsProvider.sounds[3]);
+                            settingsProvider.changeCurrentTheme(index);
                           },
                           onLongPress: () {
-                            _settingsProvider.deleteTheme(context, index);
+                            settingsProvider.deleteTheme(context, index);
                           },
                           child:
-                              CustomColorStack(_settingsProvider.themes[index]),
+                              CustomColorStack(settingsProvider.themes[index]),
                         ),
                         const SizedBox(
                           width: 20,
@@ -164,26 +164,26 @@ class SettingsScreen extends ConsumerWidget {
               ),
             ),
             SizedBox(
-              height: _size.height * 0.02,
+              height: size.height * 0.02,
             ),
             Center(
               child: TextButton(
                 onPressed: () async {
-                  if (_settingsProvider.canAddThemes) {
-                    _settingsProvider.addNewTheme([
+                  if (settingsProvider.canAddThemes) {
+                    settingsProvider.addNewTheme([
                       await showColorPicker(context, watch, 3),
                       await showColorPicker(context, watch, 2),
                       await showColorPicker(context, watch, 1),
                       await showColorPicker(context, watch, 0),
                     ]);
                   } else {
-                    _settingsProvider.unlockAddingTheme(
+                    settingsProvider.unlockAddingTheme(
                         context,
                         watch(pointsChangeNotifierProvider)
                             .getPoints()
                             .mathCoins,
                         watch(pointsChangeNotifierProvider),
-                        _settingsProvider);
+                        settingsProvider);
                   }
                 },
                 child: Text(

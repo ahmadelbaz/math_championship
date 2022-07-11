@@ -36,17 +36,17 @@ abstract class GameProvider extends ChangeNotifier {
 
   // set true answer based on current data(first num, sign etc)
   void setTrueAnswer() {
-    int _trueAnswer = 0;
+    int trueAnswer = 0;
     if (_gameModel.sign == '+') {
-      _trueAnswer = _gameModel.firstNum + _gameModel.secondNum;
+      trueAnswer = _gameModel.firstNum + _gameModel.secondNum;
     } else if (_gameModel.sign == '-') {
-      _trueAnswer = _gameModel.firstNum - _gameModel.secondNum;
+      trueAnswer = _gameModel.firstNum - _gameModel.secondNum;
     } else if (_gameModel.sign == 'X') {
-      _trueAnswer = _gameModel.firstNum * _gameModel.secondNum;
+      trueAnswer = _gameModel.firstNum * _gameModel.secondNum;
     } else if (_gameModel.sign == '/') {
-      _trueAnswer = _gameModel.firstNum ~/ _gameModel.secondNum;
+      trueAnswer = _gameModel.firstNum ~/ _gameModel.secondNum;
     }
-    _gameModel.trueAnswer = _trueAnswer;
+    _gameModel.trueAnswer = trueAnswer;
     notifyListeners();
   }
 

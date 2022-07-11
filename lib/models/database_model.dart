@@ -1,11 +1,19 @@
 class DatabaseModel {
-  String? table() {}
+  String? table() {
+    return null;
+  }
 
-  String? database() {}
+  String? database() {
+    return null;
+  }
 
-  String? getId() {}
+  String? getId() {
+    return null;
+  }
 
-  Map<String, dynamic>? toMap() {}
+  Map<String, dynamic>? toMap() {
+    return null;
+  }
 
-  DatabaseModel.fromMap(Map<String, dynamic> map) {}
+  DatabaseModel.fromMap(Map<String, dynamic> map);
 }

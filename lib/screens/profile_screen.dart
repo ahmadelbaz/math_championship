@@ -13,24 +13,24 @@ class ProfileScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, watch) {
-    final _size = MediaQuery.of(context).size;
-    var _userProvider = watch(userChangeNotifierProvider);
-    final _settingsProvider = watch(settingsChangeNotifierProvider);
+    final size = MediaQuery.of(context).size;
+    var userProvider = watch(userChangeNotifierProvider);
+    final settingsProvider = watch(settingsChangeNotifierProvider);
     // var _futureProvider = watch(userFutureProvider);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: _settingsProvider.currentTheme[0],
+        backgroundColor: settingsProvider.currentTheme[0],
         elevation: 0.0,
         title: Text(
-          _userProvider.getUser().name,
+          userProvider.getUser().name,
           style: TextStyle(color: Theme.of(context).primaryColor),
         ),
       ),
-      backgroundColor: _settingsProvider.currentTheme[0],
+      backgroundColor: settingsProvider.currentTheme[0],
       body: Column(
         children: [
           SizedBox(
-            height: _size.height * 0.05,
+            height: size.height * 0.05,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -71,27 +71,27 @@ class ProfileScreen extends ConsumerWidget {
             child: ListView(
               children: [
                 SizedBox(
-                  height: _size.height * 0.25,
+                  height: size.height * 0.25,
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      minimumSize: Size.fromHeight(_size.height * 0.07),
+                      minimumSize: Size.fromHeight(size.height * 0.07),
                       primary: Theme.of(context).primaryColor,
-                      onPrimary: _settingsProvider.currentTheme[0],
+                      onPrimary: settingsProvider.currentTheme[0],
                       shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(20)),
                       ),
                     ),
                     onPressed: () {
-                      playGeneralSound(_settingsProvider.sounds[1]);
+                      playGeneralSound(settingsProvider.sounds[1]);
                       if (nameController.text.isEmpty) {
                         customSnackBar('Please enter a name');
                       } else if (nameController.text == 'gguest') {
                         customSnackBar('Enter another name');
                       } else {
-                        _userProvider.updateUserName(nameController.text);
+                        userProvider.updateUserName(nameController.text);
                         Navigator.of(context).pop();
                       }
                     },

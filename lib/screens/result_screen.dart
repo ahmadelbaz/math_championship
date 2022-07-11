@@ -15,70 +15,70 @@ class ResultScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _size = MediaQuery.of(context).size;
-    final _args = ModalRoute.of(context)!.settings.arguments as List<String>;
-    final _pointsProvider = context.read(pointsChangeNotifierProvider);
-    final _settingsProvider = context.read(settingsChangeNotifierProvider);
-    _pointsProvider.updatePoints(int.parse(_args[2]));
+    final size = MediaQuery.of(context).size;
+    final args = ModalRoute.of(context)!.settings.arguments as List<String>;
+    final pointsProvider = context.read(pointsChangeNotifierProvider);
+    final settingsProvider = context.read(settingsChangeNotifierProvider);
+    pointsProvider.updatePoints(int.parse(args[2]));
     // close inGame provider
     WidgetsBinding.instance.addPostFrameCallback((duration) {
       context.read(inGameStateProvider).state = false;
     });
     return Scaffold(
-      backgroundColor: _settingsProvider.currentTheme[0],
+      backgroundColor: settingsProvider.currentTheme[0],
       body: SingleChildScrollView(
         child: Column(
           children: [
             SizedBox(
-              height: _size.height * 0.04,
+              height: size.height * 0.04,
             ),
-            _args[0] == 'Wrong Answer, try again!'
+            args[0] == 'Wrong Answer, try again!'
                 ? Lottie.asset(wrongAnswerAnimation,
-                    width: _size.width * 0.56, height: _size.height * 0.25)
+                    width: size.width * 0.56, height: size.height * 0.25)
                 : Lottie.asset(
-                    _args[0] == 'You ended this, try again!'
+                    args[0] == 'You ended this, try again!'
                         ? youEndedThisAnimation
-                        : _args[0] == 'Time\'s Up, try again!'
+                        : args[0] == 'Time\'s Up, try again!'
                             ? timeIsUpAnimation
                             : 'assets/animations/congrats.json',
                     width: 200,
                     height: 200),
             SizedBox(
-              height: _size.height * 0.02,
+              height: size.height * 0.02,
             ),
             Text(
-              _args[0],
+              args[0],
               style: TextStyle(
-                  fontSize: 18, color: _settingsProvider.currentTheme[1]),
+                  fontSize: 18, color: settingsProvider.currentTheme[1]),
             ),
             SizedBox(
-              height: _size.height * 0.02,
+              height: size.height * 0.02,
             ),
             Text(
-              _args[1],
+              args[1],
               style: TextStyle(
-                  fontSize: 18, color: _settingsProvider.currentTheme[1]),
+                  fontSize: 18, color: settingsProvider.currentTheme[1]),
             ),
             SizedBox(
-              height: _size.height * 0.04,
+              height: size.height * 0.04,
             ),
             Text(
-              'Score : ${_args[2]}',
+              'Score : ${args[2]}',
               style: Theme.of(context).textTheme.headline2,
             ),
             SizedBox(
-              height: _size.height * 0.02,
+              height: size.height * 0.02,
             ),
-            Text('High Score : ${_args[3]}',
+            Text('High Score : ${args[3]}',
                 style: Theme.of(context).textTheme.headline2),
             SizedBox(
-              height: _size.height * 0.04,
+              height: size.height * 0.04,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 pointIcon(),
-                Text(' +${_args[2]}',
+                Text(' +${args[2]}',
                     style: Theme.of(context).textTheme.headline5),
               ],
             ),
@@ -87,56 +87,56 @@ class ResultScreen extends StatelessWidget {
               children: [
                 coinIcon(),
                 Text(
-                  ' +${(int.parse(_args[2]) / 5).floor()}',
+                  ' +${(int.parse(args[2]) / 5).floor()}',
                   style: Theme.of(context).textTheme.headline5,
                 ),
               ],
             ),
             SizedBox(
-              height: _size.height * 0.04,
+              height: size.height * 0.04,
             ),
             Text(
-              _args[4],
+              args[4],
               style: Theme.of(context).textTheme.headline4,
             ),
             SizedBox(
-              height: _size.height * 0.04,
+              height: size.height * 0.04,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    minimumSize: Size(_size.width * 0.40, _size.height * 0.09),
+                    minimumSize: Size(size.width * 0.40, size.height * 0.09),
                     primary: Theme.of(context).primaryColor,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15)),
                   ),
                   onPressed: () {
-                    startMode(context.read, context, int.parse(_args[6]));
+                    startMode(context.read, context, int.parse(args[6]));
                   },
                   child: Text(
                     'Play again',
                     style: TextStyle(
-                      color: _settingsProvider.currentTheme[0],
+                      color: settingsProvider.currentTheme[0],
                     ),
                   ),
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    minimumSize: Size(_size.width * 0.40, _size.height * 0.09),
+                    minimumSize: Size(size.width * 0.40, size.height * 0.09),
                     primary: Theme.of(context).primaryColor,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15)),
                   ),
                   onPressed: () {
-                    playGeneralSound(_settingsProvider.sounds[1]);
+                    playGeneralSound(settingsProvider.sounds[1]);
                     Navigator.of(context).pushReplacementNamed('/start_screen');
                   },
                   child: Text(
                     'Main menu',
                     style: TextStyle(
-                      color: _settingsProvider.currentTheme[0],
+                      color: settingsProvider.currentTheme[0],
                     ),
                   ),
                 ),

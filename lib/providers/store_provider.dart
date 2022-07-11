@@ -16,7 +16,7 @@ class StoreProvider extends ChangeNotifier {
   final List<List<Color>> _themesForSale = [
     [const Color(0xffB10000), Colors.white, Colors.yellow, Colors.black],
     [const Color(0xff8200B6), Colors.white, Colors.yellow, Colors.black],
-    [const Color(0xff13AF00), Colors.white, Colors.cyan, Colors.black],
+    [const Color(0xff016E35), Colors.white, Colors.cyan, Colors.black],
     [const Color(0xffC90078), Colors.white, Colors.cyan, Colors.black],
   ];
   UnmodifiableListView get themesForSale =>
@@ -24,8 +24,8 @@ class StoreProvider extends ChangeNotifier {
   MyDatabase myDatabase = MyDatabase();
 
   onThemeClick(BuildContext context, int index) {
-    final _pointsProvider = context.read(pointsChangeNotifierProvider);
-    final _settingsProvider = context.read(settingsChangeNotifierProvider);
+    final pointsProvider = context.read(pointsChangeNotifierProvider);
+    final settingsProvider = context.read(settingsChangeNotifierProvider);
 
     customAlertDialog(
         CustomColorStack(_themesForSale[index]),
@@ -39,19 +39,19 @@ class StoreProvider extends ChangeNotifier {
               Navigator.of(context).pop();
             },
             child: Text('Cancel',
-                style: TextStyle(color: _settingsProvider.currentTheme[0])),
+                style: TextStyle(color: settingsProvider.currentTheme[0])),
           ),
           TextButton(
             onPressed: () async {
               Navigator.of(context).pop();
               await unlockTheme(
                   _themesForSale[index],
-                  _pointsProvider.getPoints().mathCoins,
-                  _pointsProvider,
-                  _settingsProvider);
+                  pointsProvider.getPoints().mathCoins,
+                  pointsProvider,
+                  settingsProvider);
             },
             child: Text('Unlock',
-                style: TextStyle(color: _settingsProvider.currentTheme[0])),
+                style: TextStyle(color: settingsProvider.currentTheme[0])),
           ),
         ]);
   }

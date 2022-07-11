@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -30,6 +33,9 @@ final pointsChangeNotifierProvider =
 
 final modeStateProvider = StateProvider<int>((ref) => 0);
 
+final timerStateProvider = StateProvider<Timer>(
+    (ref) => Timer.periodic(const Duration(seconds: 0), (_) {}));
+
 // futureProvider to get modes from database
 // final modesFutureProvider = FutureProvider(
 //   (ref) async {
@@ -41,6 +47,7 @@ final modeStateProvider = StateProvider<int>((ref) => 0);
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
+  AudioCache audioCache = AudioCache();
 
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   // SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -54,7 +61,7 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, watch) {
     // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
-    final _settingsProvider = watch(settingsChangeNotifierProvider);
+    final settingsProvider = watch(settingsChangeNotifierProvider);
     // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     //   statusBarColor: _settingsProvider.currentTheme[0], // status bar color
     // ));
@@ -67,35 +74,35 @@ class MyApp extends ConsumerWidget {
         appBarTheme: const AppBarTheme(
             // foregroundColor: Colors.teal //here you can give the text color
             ),
-        primaryColor: _settingsProvider.currentTheme[1],
+        primaryColor: settingsProvider.currentTheme[1],
         textTheme: TextTheme(
           headline1: const TextStyle(
             fontSize: 72.0,
           ),
           bodyText1: TextStyle(
             fontSize: 30.0,
-            color: _settingsProvider.currentTheme[3],
+            color: settingsProvider.currentTheme[3],
           ),
           bodyText2: const TextStyle(
             fontSize: 24.0,
           ),
           subtitle2: TextStyle(
-              fontSize: 35.0, color: _settingsProvider.currentTheme[2]),
+              fontSize: 35.0, color: settingsProvider.currentTheme[2]),
           headline2: TextStyle(
-              fontSize: 18.0, color: _settingsProvider.currentTheme[1]),
+              fontSize: 18.0, color: settingsProvider.currentTheme[1]),
           headline3: TextStyle(
               fontSize: 18.0,
-              color: _settingsProvider.currentTheme[0],
+              color: settingsProvider.currentTheme[0],
               fontFamily: 'rimouski'),
           headline4: TextStyle(
               fontSize: 32.0,
-              color: _settingsProvider.currentTheme[1],
+              color: settingsProvider.currentTheme[1],
               fontFamily: 'rimouski'),
           // this is for appBar
           headline5: TextStyle(
-              fontSize: 21.0, color: _settingsProvider.currentTheme[1]),
+              fontSize: 21.0, color: settingsProvider.currentTheme[1]),
           headline6: TextStyle(
-              fontSize: 36.0, color: _settingsProvider.currentTheme[0]),
+              fontSize: 36.0, color: settingsProvider.currentTheme[0]),
         ),
       ),
       routes: {

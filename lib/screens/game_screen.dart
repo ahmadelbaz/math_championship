@@ -11,6 +11,7 @@ import 'package:math_championship/providers/time_iseverything_provider.dart';
 import 'package:math_championship/screens/start_screen.dart';
 import 'package:math_championship/widgets/keyboard.dart';
 import '../functions/play_sounds.dart';
+import '../functions/timer.dart';
 import '../main.dart';
 
 final solveChangeNotifierProvider =
@@ -33,13 +34,13 @@ class GameScreen extends ConsumerWidget {
   const GameScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, watch) {
-    final _size = MediaQuery.of(context).size;
-    final _gameProvider = selectCurrentProvider(watch);
-    final _answerProvider = watch(answerStateProvider);
+    final size = MediaQuery.of(context).size;
+    final gameProvider = selectCurrentProvider(watch);
+    final answerProvider = watch(answerStateProvider);
     final widthProvider = watch(widthStateProvider);
-    final _stageProvider = watch(stageStateProvider);
-    final _timerProvider = watch(timerProvider);
-    final _settingsProvider = watch(settingsChangeNotifierProvider);
+    final stageProvider = watch(stageStateProvider);
+    final timerIntProvider = watch(timerStateIntProvider);
+    final settingsProvider = watch(settingsChangeNotifierProvider);
     return WillPopScope(
       onWillPop: () async {
         return false;
@@ -50,24 +51,24 @@ class GameScreen extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Text(
-                'Level  ${_gameProvider.gameModel.level}',
+                'Level  ${gameProvider.gameModel.level}',
                 style: Theme.of(context).textTheme.headline5,
               ),
               Text(
-                'Score  ${_gameProvider.gameModel.score}',
+                'Score  ${gameProvider.gameModel.score}',
                 style: TextStyle(color: Theme.of(context).primaryColor),
               ),
             ],
           ),
           automaticallyImplyLeading: false,
-          backgroundColor: _settingsProvider.currentTheme[0],
+          backgroundColor: settingsProvider.currentTheme[0],
           elevation: 0.0,
         ),
-        backgroundColor: _settingsProvider.currentTheme[0],
-        body: _stageProvider.state
+        backgroundColor: settingsProvider.currentTheme[0],
+        body: stageProvider.state
             ? Center(
                 child: Text(
-                  '${_timerProvider.state}',
+                  '${timerIntProvider.state}',
                   style: TextStyle(
                       fontSize: 60, color: Theme.of(context).primaryColor),
                 ),
@@ -76,7 +77,7 @@ class GameScreen extends ConsumerWidget {
                 child: Column(
                   children: [
                     SizedBox(
-                      height: _size.height * 0.05,
+                      height: size.height * 0.05,
                     ),
                     Row(
                       mainAxisSize: MainAxisSize.min,
@@ -96,18 +97,18 @@ class GameScreen extends ConsumerWidget {
                             fit: StackFit.expand,
                             children: [
                               CircularProgressIndicator(
-                                value: watch(modeStateProvider).state == 1
-                                    ? _gameProvider.gameModel.remainSeconds / 30
-                                    : _gameProvider.gameModel.remainSeconds / 5,
+                                value: watch(modeStateProvider).state == 2
+                                    ? gameProvider.gameModel.remainSeconds / 30
+                                    : gameProvider.gameModel.remainSeconds / 5,
                                 strokeWidth: 12,
                                 valueColor: AlwaysStoppedAnimation(
-                                    _settingsProvider.currentTheme[3]),
+                                    settingsProvider.currentTheme[3]),
                                 backgroundColor:
-                                    _settingsProvider.currentTheme[1],
+                                    settingsProvider.currentTheme[1],
                               ),
                               Center(
                                 child: Text(
-                                  '${_gameProvider.gameModel.remainSeconds}',
+                                  '${gameProvider.gameModel.remainSeconds}',
                                   style: Theme.of(context).textTheme.subtitle2,
                                 ),
                               ),
@@ -117,56 +118,56 @@ class GameScreen extends ConsumerWidget {
                       ],
                     ),
                     SizedBox(
-                      height: _size.height * 0.07,
+                      height: size.height * 0.07,
                     ),
                     Container(
-                      height: _size.height * 0.1,
+                      height: size.height * 0.1,
                       margin: const EdgeInsets.symmetric(horizontal: 20.0),
                       decoration: BoxDecoration(
                         border: Border.all(
                             color: Theme.of(context).primaryColor,
                             width: widthProvider.state),
                         borderRadius: BorderRadius.all(
-                          Radius.circular(_size.width * 0.06),
+                          Radius.circular(size.width * 0.06),
                         ),
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            '${_gameProvider.gameModel.firstNum}',
+                            '${gameProvider.gameModel.firstNum}',
                             style: Theme.of(context).textTheme.headline4,
                           ),
                           Padding(
                             padding: EdgeInsets.symmetric(
-                                horizontal: _size.width * 0.1),
+                                horizontal: size.width * 0.1),
                             child: Text(
-                              _gameProvider.gameModel.sign,
+                              gameProvider.gameModel.sign,
                               style: Theme.of(context).textTheme.headline4,
                             ),
                           ),
                           Text(
-                            '${_gameProvider.gameModel.secondNum}',
+                            '${gameProvider.gameModel.secondNum}',
                             style: Theme.of(context).textTheme.headline4,
                           ),
                         ],
                       ),
                     ),
                     SizedBox(
-                      height: _size.height * 0.03,
+                      height: size.height * 0.03,
                     ),
                     Center(
-                      child: Text(_answerProvider.state),
+                      child: Text(answerProvider.state),
                     ),
                     SizedBox(
-                      height: _size.height * 0.03,
+                      height: size.height * 0.03,
                     ),
                     KeyboardContainer(() {
                       endThis('You ended this, try again!');
                     }, () {
                       log('we want to check answer');
                       checkAnswer(watch);
-                    }, _gameProvider),
+                    }, gameProvider),
                   ],
                 ),
               ),
@@ -176,25 +177,28 @@ class GameScreen extends ConsumerWidget {
 
   // method to check user's answer
   void checkAnswer(T Function<T>(ProviderBase<Object?, T>) watch) {
-    final _gameProvider = selectCurrentProvider(watch);
-    final _answerProvider = watch(answerStateProvider);
-    final _settingsProvider = watch(settingsChangeNotifierProvider);
-    if (int.parse(_answerProvider.state) ==
-        _gameProvider.gameModel.trueAnswer) {
-      playCorrectAnswerSound(_settingsProvider.sounds[4]);
-      _answerProvider.state = '';
-      _gameProvider.updateScore();
-      _gameProvider.setQuestion();
+    final gameProvider = selectCurrentProvider(watch);
+    final answerProvider = watch(answerStateProvider);
+    final settingsProvider = watch(settingsChangeNotifierProvider);
+    if (int.parse(answerProvider.state) == gameProvider.gameModel.trueAnswer) {
+      playCorrectAnswerSound(settingsProvider.sounds[4]);
+      if (watch(modeStateProvider).state != 2) {
+        watch(timerStateProvider).state.cancel();
+        questionTimer();
+      }
+      answerProvider.state = '';
+      gameProvider.updateScore();
+      gameProvider.setQuestion();
       if (watch(widthStateProvider).state == 1) {
         watch(widthStateProvider).state = 5;
       } else {
         watch(widthStateProvider).state = 1;
       }
     } else {
-      _answerProvider.state = '';
+      answerProvider.state = '';
       endThis('Wrong Answer, try again!');
     }
-    if (_gameProvider.gameModel.score == 70) {
+    if (gameProvider.gameModel.score == 70) {
       endThis('WOWWWWW, Congratulations');
     }
   }

@@ -13,12 +13,12 @@ class StoreScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, watch) {
-    final _size = MediaQuery.of(context).size;
-    final _settingsProvider = watch(settingsChangeNotifierProvider);
-    final _storeProvider = watch(storeChangeNotifierProvider);
-    final _modesProvider = watch(modesChangeNotifierProvider);
+    final size = MediaQuery.of(context).size;
+    final settingsProvider = watch(settingsChangeNotifierProvider);
+    final storeProvider = watch(storeChangeNotifierProvider);
+    final modesProvider = watch(modesChangeNotifierProvider);
     return Scaffold(
-      backgroundColor: _settingsProvider.currentTheme[0],
+      backgroundColor: settingsProvider.currentTheme[0],
       appBar: AppBar(
         leading: BackButton(color: Theme.of(context).primaryColor),
         title: Text(
@@ -26,7 +26,7 @@ class StoreScreen extends ConsumerWidget {
           style: TextStyle(color: Theme.of(context).primaryColor),
         ),
         centerTitle: true,
-        backgroundColor: _settingsProvider.currentTheme[0],
+        backgroundColor: settingsProvider.currentTheme[0],
         elevation: 0,
       ),
       body: Padding(
@@ -34,7 +34,7 @@ class StoreScreen extends ConsumerWidget {
         child: ListView(
           children: [
             SizedBox(
-              height: _size.height * 0.02,
+              height: size.height * 0.02,
             ),
             Text(
               'Themes',
@@ -48,20 +48,20 @@ class StoreScreen extends ConsumerWidget {
                   physics: const ClampingScrollPhysics(),
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
-                  itemCount: _storeProvider.themesForSale.length,
+                  itemCount: storeProvider.themesForSale.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Row(
                       children: [
                         GestureDetector(
                           onTap: () {
-                            playScoreBoardSound(_settingsProvider.sounds[3]);
-                            _storeProvider.onThemeClick(context, index);
+                            playScoreBoardSound(settingsProvider.sounds[3]);
+                            storeProvider.onThemeClick(context, index);
                           },
                           onLongPress: () {
                             customSnackBar('$themePrice Math Coins');
                           },
                           child: CustomColorStack(
-                              _storeProvider.themesForSale[index]),
+                              storeProvider.themesForSale[index]),
                         ),
                         const SizedBox(
                           width: 20,

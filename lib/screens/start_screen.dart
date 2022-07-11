@@ -12,7 +12,7 @@ final inGameStateProvider = StateProvider<bool>((ref) => false);
 
 // provider to check on current stage (timer or start)
 final stageStateProvider = StateProvider<bool>((ref) => false);
-final timerProvider = StateProvider<int>((ref) => 3);
+final timerStateIntProvider = StateProvider<int>((ref) => 3);
 
 // // futureProvider to get modes from database
 // final modesFutureProvider = FutureProvider(
@@ -34,25 +34,25 @@ class StartScreen extends ConsumerWidget {
       DeviceOrientation.portraitUp,
     ]);
     // get screen size
-    final _size = MediaQuery.of(context).size;
-    final _modesProvider = watch(modesChangeNotifierProvider);
-    final _pointsProvider = watch(pointsChangeNotifierProvider);
-    final _timerProvider = watch(timerProvider);
-    final _stageProvider = watch(stageStateProvider);
+    final size = MediaQuery.of(context).size;
+    final modesProvider = watch(modesChangeNotifierProvider);
+    final pointsProvider = watch(pointsChangeNotifierProvider);
+    // final timerProvider = ref.watch(timerStateIntProvider.state);
+    // final stageProvider = ref.watch(stageStateProvider.state);
     // final _futureProvider = watch(userFutureProvider);
-    final _settingsProvider = watch(settingsChangeNotifierProvider);
+    final settingsProvider = watch(settingsChangeNotifierProvider);
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: _settingsProvider.currentTheme[0],
+        backgroundColor: settingsProvider.currentTheme[0],
         elevation: 0,
         automaticallyImplyLeading: false,
-        title: ScoreBoard(_pointsProvider.getPoints().mathPoints,
-            _pointsProvider.getPoints().mathCoins),
+        title: ScoreBoard(pointsProvider.getPoints().mathPoints,
+            pointsProvider.getPoints().mathCoins),
         actions: [
           IconButton(
             onPressed: () {
-              playGeneralSound(_settingsProvider.sounds[1]);
+              playGeneralSound(settingsProvider.sounds[1]);
               Navigator.of(context).pop();
             },
             icon: Icon(
@@ -62,7 +62,7 @@ class StartScreen extends ConsumerWidget {
           ),
           IconButton(
             onPressed: () {
-              playGeneralSound(_settingsProvider.sounds[1]);
+              playGeneralSound(settingsProvider.sounds[1]);
               Navigator.of(context).pushNamed('/settings_screen');
             },
             icon: Icon(
@@ -72,18 +72,18 @@ class StartScreen extends ConsumerWidget {
           ),
         ],
       ),
-      backgroundColor: _settingsProvider.currentTheme[0],
+      backgroundColor: settingsProvider.currentTheme[0],
       body: Padding(
-        padding: EdgeInsets.only(top: _size.height * 0.05),
+        padding: EdgeInsets.only(top: size.height * 0.05),
         child: ListView.builder(
-          itemCount: _modesProvider.modes.length,
+          itemCount: modesProvider.modes.length,
           itemBuilder: (ctx, index) {
             return Column(
               children: [
                 ModeWidget(
-                    index, () => _modesProvider.onClickMode(context, index)),
+                    index, () => modesProvider.onClickMode(context, index)),
                 SizedBox(
-                  height: _size.height * 0.05,
+                  height: size.height * 0.05,
                 ),
               ],
             );

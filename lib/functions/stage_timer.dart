@@ -10,22 +10,22 @@ import '../main.dart';
 
 Future<void> stageTimer(
     T Function<T>(ProviderBase<Object?, T>) watch, BuildContext context) async {
-  final _settingsProvider = watch(settingsChangeNotifierProvider);
-  final _timerProvider = watch(timerProvider);
-  final _stageStateProvider = watch(stageStateProvider);
-  playStartGameSound(_settingsProvider.sounds[2]);
-  _timerProvider.state = 3;
-  _stageStateProvider.state = true;
+  final settingsProvider = watch(settingsChangeNotifierProvider);
+  final timerIntProvider = watch(timerStateIntProvider);
+  final stageProvider = watch(stageStateProvider);
+  playStartGameSound(settingsProvider.sounds[2]);
+  timerIntProvider.state = 3;
+  stageProvider.state = true;
   const oneSec = Duration(seconds: 1);
   Timer.periodic(
     oneSec,
     (Timer timer) {
-      if (_timerProvider.state == 1) {
+      if (timerIntProvider.state == 1) {
         timer.cancel();
-        _stageStateProvider.state = false;
+        stageProvider.state = false;
         questionTimer();
       } else {
-        _timerProvider.state -= 1;
+        timerIntProvider.state -= 1;
       }
     },
   );

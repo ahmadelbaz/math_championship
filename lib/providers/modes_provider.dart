@@ -30,10 +30,10 @@ class ModesProvider extends ChangeNotifier {
 
   // method called when we click on any mode on 'start screen'
   void onClickMode(BuildContext context, int index) async {
-    final _pointsProvider = context.read(pointsChangeNotifierProvider);
-    final _settingsProvider = context.read(settingsChangeNotifierProvider);
+    final pointsProvider = context.read(pointsChangeNotifierProvider);
+    final settingsProvider = context.read(settingsChangeNotifierProvider);
     if (_modes[index].locked == 1) {
-      if (checkPrice(_modes[index].id, _pointsProvider.getPoints().mathCoins)) {
+      if (checkPrice(_modes[index].id, pointsProvider.getPoints().mathCoins)) {
         customAlertDialog(
           const Text('Unlock Mode'),
           Text(
@@ -45,16 +45,16 @@ class ModesProvider extends ChangeNotifier {
                 Navigator.of(context).pop();
               },
               child: Text('Cancel',
-                  style: TextStyle(color: _settingsProvider.currentTheme[0])),
+                  style: TextStyle(color: settingsProvider.currentTheme[0])),
             ),
             TextButton(
               onPressed: () async {
                 Navigator.of(context).pop();
                 unlockMode(_modes[index].id,
-                    _pointsProvider.getPoints().mathCoins, _pointsProvider);
+                    pointsProvider.getPoints().mathCoins, pointsProvider);
               },
               child: Text('Unlock',
-                  style: TextStyle(color: _settingsProvider.currentTheme[0])),
+                  style: TextStyle(color: settingsProvider.currentTheme[0])),
             ),
           ],
         );
@@ -71,7 +71,7 @@ class ModesProvider extends ChangeNotifier {
                   },
                   child: Text('Sure',
                       style:
-                          TextStyle(color: _settingsProvider.currentTheme[0])))
+                          TextStyle(color: settingsProvider.currentTheme[0])))
             ]);
       }
     } else {

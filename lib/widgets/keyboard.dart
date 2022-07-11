@@ -24,8 +24,8 @@ class KeyboardContainer extends ConsumerWidget {
     final deviceSize = MediaQuery.of(context).size;
     // providers we want to use here
     // final _modeProvider = watch(providerMode);
-    final _answerProvider = watch(answerStateProvider);
-    final _settingsProvider = watch(settingsChangeNotifierProvider);
+    final answerProvider = watch(answerStateProvider);
+    final settingsProvider = watch(settingsChangeNotifierProvider);
 
     // grid view values
     List<String> gridButtons = [
@@ -63,55 +63,55 @@ class KeyboardContainer extends ConsumerWidget {
                   // Navigate user to result screen with current score
                   endThis();
                 } else if (gridButtons[index] == 'Clear') {
-                  playInGameClearSound(_settingsProvider.sounds[6]);
+                  playInGameClearSound(settingsProvider.sounds[6]);
                   log('u r in clear');
                   // This means true answer is more that 1 digit
                   //  and the user wanna clear something he wrote
-                  if (_answerProvider.state.isNotEmpty) {
+                  if (answerProvider.state.isNotEmpty) {
                     log('answer is not empty');
-                    _answerProvider.state = _answerProvider.state
-                        .substring(0, _answerProvider.state.length - 1);
+                    answerProvider.state = answerProvider.state
+                        .substring(0, answerProvider.state.length - 1);
                   }
                 } else {
                   // sounds is here
                   // playInGameClickSound();
                   log('this is what u clicked ${gridButtons[index]}');
                   if (providerMode.gameModel.trueAnswer < 10) {
-                    _answerProvider.state = gridButtons[index];
+                    answerProvider.state = gridButtons[index];
                     checkAnswer();
                   } else if (providerMode.gameModel.trueAnswer > 9 &&
                       providerMode.gameModel.trueAnswer < 100) {
-                    if (_answerProvider.state.isEmpty) {
-                      _answerProvider.state = gridButtons[index];
-                      log(_answerProvider.state);
+                    if (answerProvider.state.isEmpty) {
+                      answerProvider.state = gridButtons[index];
+                      log(answerProvider.state);
                     } else {
-                      _answerProvider.state += gridButtons[index];
-                      log(_answerProvider.state);
+                      answerProvider.state += gridButtons[index];
+                      log(answerProvider.state);
                       checkAnswer();
                     }
                   } else if (providerMode.gameModel.trueAnswer > 99 &&
                       providerMode.gameModel.trueAnswer < 1000) {
-                    if (_answerProvider.state.isEmpty) {
-                      _answerProvider.state = gridButtons[index];
-                      log(_answerProvider.state);
-                    } else if (_answerProvider.state.length == 1) {
-                      _answerProvider.state += gridButtons[index];
+                    if (answerProvider.state.isEmpty) {
+                      answerProvider.state = gridButtons[index];
+                      log(answerProvider.state);
+                    } else if (answerProvider.state.length == 1) {
+                      answerProvider.state += gridButtons[index];
                     } else {
-                      _answerProvider.state += gridButtons[index];
-                      log(_answerProvider.state);
+                      answerProvider.state += gridButtons[index];
+                      log(answerProvider.state);
                       checkAnswer();
                     }
                   } else if (providerMode.gameModel.trueAnswer > 999 &&
                       providerMode.gameModel.trueAnswer < 10000) {
-                    if (_answerProvider.state.isEmpty) {
-                      _answerProvider.state = gridButtons[index];
-                      log(_answerProvider.state);
-                    } else if (_answerProvider.state.length == 1 ||
-                        _answerProvider.state.length == 2) {
-                      _answerProvider.state += gridButtons[index];
+                    if (answerProvider.state.isEmpty) {
+                      answerProvider.state = gridButtons[index];
+                      log(answerProvider.state);
+                    } else if (answerProvider.state.length == 1 ||
+                        answerProvider.state.length == 2) {
+                      answerProvider.state += gridButtons[index];
                     } else {
-                      _answerProvider.state += gridButtons[index];
-                      log(_answerProvider.state);
+                      answerProvider.state += gridButtons[index];
+                      log(answerProvider.state);
                       checkAnswer();
                     }
                   }
@@ -120,7 +120,7 @@ class KeyboardContainer extends ConsumerWidget {
               child: Text(
                 gridButtons[index],
                 style: TextStyle(
-                  color: _settingsProvider.currentTheme[0],
+                  color: settingsProvider.currentTheme[0],
                 ),
               ),
             ),

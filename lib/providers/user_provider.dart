@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:math_championship/database/database.dart';
-import 'package:math_championship/models/point_model.dart';
 import 'package:math_championship/models/user_model.dart';
 
 class UserProvider extends ChangeNotifier {

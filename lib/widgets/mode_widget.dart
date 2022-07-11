@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../functions/customize_date.dart';
 import '../main.dart';
-import '../screens/start_screen.dart';
 
 class ModeWidget extends ConsumerWidget {
   final int index;
@@ -17,16 +16,16 @@ class ModeWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, watch) {
     // needed modes provider
-    final _modesProvider = watch(modesChangeNotifierProvider);
-    final _settingsProvider = watch(settingsChangeNotifierProvider);
-    final _size = MediaQuery.of(context).size;
+    final modesProvider = watch(modesChangeNotifierProvider);
+    final settingsProvider = watch(settingsChangeNotifierProvider);
+    final size = MediaQuery.of(context).size;
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: _size.width * 0.06),
+      padding: EdgeInsets.symmetric(horizontal: size.width * 0.06),
       child: InkWell(
         highlightColor: Colors.grey,
         onTap: widgetTapped,
         child: Container(
-          height: _size.height * 0.2,
+          height: size.height * 0.2,
           width: double.infinity,
           decoration: BoxDecoration(
             color: Theme.of(context).primaryColor,
@@ -34,7 +33,7 @@ class ModeWidget extends ConsumerWidget {
               color: Theme.of(context).primaryColor,
             ),
             borderRadius: BorderRadius.all(
-              Radius.circular(_size.width * 0.06),
+              Radius.circular(size.width * 0.06),
             ),
           ),
           child: Column(
@@ -42,18 +41,18 @@ class ModeWidget extends ConsumerWidget {
               FittedBox(
                 fit: BoxFit.contain,
                 child: Text(
-                  _modesProvider.modes[index].name,
+                  modesProvider.modes[index].name,
                   style: Theme.of(context).textTheme.headline6,
                   maxLines: 1,
                 ),
               ),
               SizedBox(
-                height: _size.height * 0.03,
+                height: size.height * 0.03,
               ),
-              _modesProvider.modes[index].locked == 1
+              modesProvider.modes[index].locked == 1
                   ? Icon(
                       Icons.lock,
-                      color: _settingsProvider.currentTheme[0],
+                      color: settingsProvider.currentTheme[0],
                     )
                   : Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -61,7 +60,7 @@ class ModeWidget extends ConsumerWidget {
                         Row(
                           children: [
                             SizedBox(
-                              width: _size.width * 0.03,
+                              width: size.width * 0.03,
                             ),
                             const Image(
                               image: AssetImage('assets/images/score.png'),
@@ -69,10 +68,10 @@ class ModeWidget extends ConsumerWidget {
                               height: 35,
                             ),
                             SizedBox(
-                              width: _size.width * 0.03,
+                              width: size.width * 0.03,
                             ),
                             Text(
-                              '${_modesProvider.modes[index].highScore}',
+                              '${modesProvider.modes[index].highScore}',
                               style: Theme.of(context).textTheme.bodyText1,
                             ),
                           ],
@@ -80,12 +79,11 @@ class ModeWidget extends ConsumerWidget {
                         FittedBox(
                           fit: BoxFit.fitWidth,
                           child: Text(
-                            customizeDate(
-                                _modesProvider.modes[index].highScoreDateTime),
-                            style: _modesProvider.modes[index].highScore == 0
-                                ? TextStyle(
-                                    color: Theme.of(context).primaryColor)
-                                : Theme.of(context).textTheme.headline3,
+                            modesProvider.modes[index].highScore == 0
+                                ? 'No high score'
+                                : customizeDate(modesProvider
+                                    .modes[index].highScoreDateTime),
+                            style: Theme.of(context).textTheme.headline3,
                           ),
                         ),
                       ],

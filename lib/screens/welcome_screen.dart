@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:math_championship/providers/user_provider.dart';
 import 'package:math_championship/widgets/custom_alert_dialog.dart';
-import 'package:math_championship/widgets/custom_snack_bar.dart';
 import 'package:lottie/lottie.dart';
 import '../functions/play_sounds.dart';
 import '../main.dart';
@@ -26,23 +25,28 @@ class WelcomeScreen extends ConsumerWidget {
 
   DateTime timeBackPressed = DateTime.now();
 
-  Future<bool> _onBackPressed() async {
-    final difference = DateTime.now().difference(timeBackPressed);
-    final isExitWarning = difference >= const Duration(seconds: 2);
-
-    timeBackPressed = DateTime.now();
-
-    if (isExitWarning) {
-      customSnackBar('Press again to exit');
-      return false;
-    } else {
-      await SystemChannels.platform.invokeMethod<void>('SystemNavigator.pop');
-      return true;
-    }
+  static Future<void> pop({bool? animated}) async {
+    await SystemChannels.platform
+        .invokeMethod<void>('SystemNavigator.pop', animated);
   }
 
+  // Future<bool> _onBackPressed() async {
+  //   final difference = DateTime.now().difference(timeBackPressed);
+  //   final isExitWarning = difference >= const Duration(seconds: 2);
+
+  //   timeBackPressed = DateTime.now();
+
+  //   if (isExitWarning) {
+  //     customSnackBar('Press again to exit');
+  //     return false;
+  //   } else {
+  //     await SystemChannels.platform.invokeMethod<void>('SystemNavigator.pop');
+  //     return true;
+  //   }
+  // }
+
   Future<bool> _onBackAlertDialog(BuildContext context) async {
-    bool _quitOrNot = false;
+    bool quitOrNot = false;
     customAlertDialog(
       const Text('Are you sure?'),
       Text('You will close the game, Are you sure ?',
@@ -52,18 +56,27 @@ class WelcomeScreen extends ConsumerWidget {
           onPressed: () {
             Navigator.of(context).pop();
 
-            _quitOrNot = false;
+            quitOrNot = false;
           },
-          child: const Text('Cancel'),
+          child: Text('Cancel',
+              style: TextStyle(
+                  color: context
+                      .read(settingsChangeNotifierProvider)
+                      .currentTheme[0])),
         ),
         TextButton(
           onPressed: () async {
-            _quitOrNot = true;
+            quitOrNot = true;
             Navigator.of(context).pop();
-            await SystemChannels.platform
-                .invokeMethod<void>('SystemNavigator.pop');
+            // SystemNavigator.pop();
+
+            await pop();
           },
-          child: const Text('Quit'),
+          child: Text('Quit',
+              style: TextStyle(
+                  color: context
+                      .read(settingsChangeNotifierProvider)
+                      .currentTheme[0])),
         ),
       ],
     );
@@ -93,16 +106,16 @@ class WelcomeScreen extends ConsumerWidget {
     //     ],
     //   ),
     // );
-    log('this is return $_quitOrNot');
-    return _quitOrNot;
+    log('this is return $quitOrNot');
+    return quitOrNot;
   }
 
   @override
   Widget build(BuildContext context, watch) {
-    final _size = MediaQuery.of(context).size;
-    var _userProvider = watch(userChangeNotifierProvider);
-    var _futureProvider = watch(userFutureProvider);
-    final _settingsProvider = watch(settingsChangeNotifierProvider);
+    final size = MediaQuery.of(context).size;
+    var userProvider = watch(userChangeNotifierProvider);
+    var futureProvider = watch(userFutureProvider);
+    final settingsProvider = watch(settingsChangeNotifierProvider);
     TextStyle defaultStyle =
         TextStyle(color: Theme.of(context).primaryColor, fontSize: 20.0);
     TextStyle linkStyle = TextStyle(
@@ -111,23 +124,23 @@ class WelcomeScreen extends ConsumerWidget {
       color: Theme.of(context).primaryColor,
       decoration: TextDecoration.underline,
     );
-    return _futureProvider.when(
+    return futureProvider.when(
       data: (data) => WillPopScope(
         onWillPop: () => _onBackAlertDialog(context),
         child: Scaffold(
           appBar: AppBar(
-            backgroundColor: _settingsProvider.currentTheme[0],
+            backgroundColor: settingsProvider.currentTheme[0],
             elevation: 0.0,
             title: FittedBox(
               child: Text(
-                _userProvider.getUser().name == 'guest'
+                userProvider.getUser().name == 'guest'
                     ? 'Welcome to MathChampionship'
-                    : 'Welcome ${_userProvider.getUser().name}',
+                    : 'Welcome ${userProvider.getUser().name}',
                 style: TextStyle(color: Theme.of(context).primaryColor),
               ),
             ),
           ),
-          backgroundColor: _settingsProvider.currentTheme[0],
+          backgroundColor: settingsProvider.currentTheme[0],
           body: Column(
             children: [
               Expanded(
@@ -141,17 +154,17 @@ class WelcomeScreen extends ConsumerWidget {
                         children: <TextSpan>[
                           TextSpan(
                               style: const TextStyle(fontFamily: 'rimouski'),
-                              text: _userProvider.getUser().name == 'guest'
+                              text: userProvider.getUser().name == 'guest'
                                   ? 'You are playing as a guest, wanna '
                                   : ''),
                           TextSpan(
                             style: linkStyle,
-                            text: _userProvider.getUser().name == 'guest'
+                            text: userProvider.getUser().name == 'guest'
                                 ? 'Create Profile ?'
                                 : '',
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                if (_userProvider.getUser().name == 'guest') {
+                                if (userProvider.getUser().name == 'guest') {
                                   Navigator.of(context)
                                       .pushNamed('/profile_screen');
                                 }
@@ -161,26 +174,26 @@ class WelcomeScreen extends ConsumerWidget {
                       ),
                     ),
                     SizedBox(
-                      height: _size.height * 0.05,
+                      height: size.height * 0.05,
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          minimumSize: Size.fromHeight(_size.height * 0.07),
+                          minimumSize: Size.fromHeight(size.height * 0.07),
                           primary: Theme.of(context).primaryColor,
-                          onPrimary: _settingsProvider.currentTheme[0],
+                          onPrimary: settingsProvider.currentTheme[0],
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(20)),
                           ),
                         ),
                         onPressed: () {
-                          playGeneralSound(_settingsProvider.sounds[1]);
+                          playGeneralSound(settingsProvider.sounds[1]);
                           Navigator.of(context).pushNamed('/start_screen');
                         },
                         child: FittedBox(
                           child: Text(
-                            _userProvider.getUser().name == 'guest'
+                            userProvider.getUser().name == 'guest'
                                 ? 'Play as guest'
                                 : 'Play',
                             style: const TextStyle(fontSize: 55),
@@ -190,22 +203,22 @@ class WelcomeScreen extends ConsumerWidget {
                       ),
                     ),
                     SizedBox(
-                      height: _size.height * 0.04,
+                      height: size.height * 0.04,
                     ),
                     Padding(
                       padding:
-                          EdgeInsets.symmetric(horizontal: _size.width * 0.2),
+                          EdgeInsets.symmetric(horizontal: size.width * 0.2),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          minimumSize: Size.fromHeight(_size.height * 0.07),
+                          minimumSize: Size.fromHeight(size.height * 0.07),
                           primary: Theme.of(context).primaryColor,
-                          onPrimary: _settingsProvider.currentTheme[0],
+                          onPrimary: settingsProvider.currentTheme[0],
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(20)),
                           ),
                         ),
                         onPressed: () {
-                          playGeneralSound(_settingsProvider.sounds[1]);
+                          playGeneralSound(settingsProvider.sounds[1]);
                           Navigator.of(context).pushNamed('/profile_screen');
                         },
                         child: const Text(
@@ -215,7 +228,7 @@ class WelcomeScreen extends ConsumerWidget {
                       ),
                     ),
                     SizedBox(
-                      height: _size.height * 0.04,
+                      height: size.height * 0.04,
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -225,16 +238,34 @@ class WelcomeScreen extends ConsumerWidget {
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               minimumSize:
-                                  Size(_size.width * 0.2, _size.height * 0.07),
+                                  Size(size.width * 0.2, size.height * 0.07),
                               primary: Theme.of(context).primaryColor,
-                              onPrimary: _settingsProvider.currentTheme[0],
+                              onPrimary: settingsProvider.currentTheme[0],
                               shape: const RoundedRectangleBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20)),
                               ),
                             ),
                             onPressed: () {
-                              playGeneralSound(_settingsProvider.sounds[1]);
+                              playGeneralSound(settingsProvider.sounds[1]);
+                              Navigator.of(context)
+                                  .pushNamed('/settings_screen');
+                            },
+                            child: const Icon(Icons.settings),
+                          ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              minimumSize:
+                                  Size(size.width * 0.2, size.height * 0.07),
+                              primary: Theme.of(context).primaryColor,
+                              onPrimary: settingsProvider.currentTheme[0],
+                              shape: const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20)),
+                              ),
+                            ),
+                            onPressed: () {
+                              playGeneralSound(settingsProvider.sounds[1]);
                               Navigator.of(context).pushNamed('/store_screen');
                             },
                             child:
@@ -243,42 +274,42 @@ class WelcomeScreen extends ConsumerWidget {
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               minimumSize:
-                                  Size(_size.width * 0.2, _size.height * 0.07),
+                                  Size(size.width * 0.2, size.height * 0.07),
                               primary: Theme.of(context).primaryColor,
-                              onPrimary: _settingsProvider.currentTheme[0],
+                              onPrimary: settingsProvider.currentTheme[0],
                               shape: const RoundedRectangleBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20)),
                               ),
                             ),
                             onPressed: () {
-                              playGeneralSound(_settingsProvider.sounds[1]);
-                              Navigator.of(context)
-                                  .pushNamed('/settings_screen');
+                              playGeneralSound(settingsProvider.sounds[1]);
+                              Navigator.of(context).pushNamed('/store_screen');
                             },
-                            child: const Icon(Icons.settings),
+                            child: const Icon(
+                                Icons.system_security_update_warning_sharp),
                           ),
                         ],
                       ),
                     ),
                     SizedBox(
-                      height: _size.height * 0.04,
+                      height: size.height * 0.04,
                     ),
                     Padding(
                       padding:
-                          EdgeInsets.symmetric(horizontal: _size.width * 0.3),
+                          EdgeInsets.symmetric(horizontal: size.width * 0.3),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           minimumSize:
-                              Size(_size.width * 0.2, _size.height * 0.07),
+                              Size(size.width * 0.2, size.height * 0.07),
                           primary: Theme.of(context).primaryColor,
-                          onPrimary: _settingsProvider.currentTheme[0],
+                          onPrimary: settingsProvider.currentTheme[0],
                           shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(20)),
                           ),
                         ),
                         onPressed: () {
-                          playGeneralSound(_settingsProvider.sounds[1]);
+                          playGeneralSound(settingsProvider.sounds[1]);
                           _onBackAlertDialog(context);
                         },
                         child: const Text(
