@@ -13,12 +13,15 @@ import '../main.dart';
 final userChangeNotifierProvider =
     ChangeNotifierProvider<UserProvider>((ref) => UserProvider());
 
-final userFutureProvider = FutureProvider((ref) async {
-  final selected = await ref.read(userChangeNotifierProvider).getUserData();
-  ref.read(modesChangeNotifierProvider).getAllModes();
-  ref.read(pointsChangeNotifierProvider).getAllPoints();
-  return selected;
-});
+final userFutureProvider = FutureProvider(
+  (ref) async {
+    final selected = await ref.read(userChangeNotifierProvider).getUserData();
+    await ref.read(modesChangeNotifierProvider).getAllModes();
+    await ref.read(pointsChangeNotifierProvider).getAllPoints();
+    await ref.read(achievementsChangeNotifierProvider).getAllAchievements();
+    return selected;
+  },
+);
 
 class WelcomeScreen extends ConsumerWidget {
   WelcomeScreen({Key? key}) : super(key: key);
@@ -165,6 +168,7 @@ class WelcomeScreen extends ConsumerWidget {
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 if (userProvider.getUser().name == 'guest') {
+                                  playGeneralSound(settingsProvider.sounds[1]);
                                   Navigator.of(context)
                                       .pushNamed('/profile_screen');
                                 }

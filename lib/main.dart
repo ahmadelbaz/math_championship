@@ -4,6 +4,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:math_championship/providers/achievement_provider.dart';
 import 'package:math_championship/providers/settings_provider.dart';
 import 'package:math_championship/providers/store_provider.dart';
 import 'package:math_championship/screens/about_us_screen.dart';
@@ -31,6 +32,9 @@ final modesChangeNotifierProvider =
 
 final pointsChangeNotifierProvider =
     ChangeNotifierProvider<PointsProvider>((ref) => PointsProvider());
+
+final achievementsChangeNotifierProvider =
+    ChangeNotifierProvider<AchievementProvider>((ref) => AchievementProvider());
 
 final modeStateProvider = StateProvider<int>((ref) => 0);
 

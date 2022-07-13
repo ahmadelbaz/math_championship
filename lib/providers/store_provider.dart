@@ -44,10 +44,10 @@ class StoreProvider extends ChangeNotifier {
           TextButton(
             onPressed: () async {
               Navigator.of(context).pop();
-              await unlockTheme(
-                  _themesForSale[index],
-                  pointsProvider.getPoints().mathCoins,
-                  pointsProvider,
+              context
+                  .read(achievementsChangeNotifierProvider)
+                  .checkAchievement(2, pointsProvider);
+              await unlockTheme(context, _themesForSale[index], pointsProvider,
                   settingsProvider);
             },
             child: Text('Unlock',
@@ -56,16 +56,18 @@ class StoreProvider extends ChangeNotifier {
         ]);
   }
 
-  unlockTheme(List<Color> colors, int currentCoins,
+  unlockTheme(BuildContext context, List<Color> colors,
       PointsProvider pointsProvider, SettingsProvider settingsProvider) async {
-    if (currentCoins < themePrice) {
+    int currentCoins = pointsProvider.getPoints().mathCoins;
+    if (pointsProvider.getPoints().mathCoins < themePrice) {
       customSnackBar(
           'You don\'t have enough Math Coins to unlock this theme, collect some Math Coins and try again!');
     } else {
-      settingsProvider.addNewTheme(colors);
+      settingsProvider.addNewTheme(colors,
+          context.read(achievementsChangeNotifierProvider), pointsProvider);
       int newCoins = currentCoins - themePrice;
+      // await myDatabase.mathDatabase();
       pointsProvider.updateCoins(newCoins);
-      await myDatabase.mathDatabase();
     }
     notifyListeners();
   }

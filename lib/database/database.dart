@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:math_championship/models/achievement.dart';
 import 'package:math_championship/models/database_model.dart';
 import 'package:math_championship/models/mode_model.dart';
 import 'package:math_championship/models/point_model.dart';
@@ -9,9 +10,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'db_consts.dart';
 
-final dbProvider = ChangeNotifierProvider<MyDatabase>((ref) {
-  return MyDatabase();
-});
+final dbProvider = ChangeNotifierProvider<MyDatabase>(
+  (ref) {
+    return MyDatabase();
+  },
+);
 
 class MyDatabase extends ChangeNotifier {
   Future<Database> mathDatabase() async {
@@ -32,6 +35,10 @@ class MyDatabase extends ChangeNotifier {
       batch.execute('''CREATE TABLE user (
     id TEXT PRIMARY KEY, name TEXT, mathpoints INTEGER, mathcoins INTEGER
 )''');
+      batch.execute('DROP TABLE IF EXISTS achievements');
+      batch.execute('''CREATE TABLE achievements (
+    id TEXT PRIMARY KEY, task TEXT, price INTEGER, hasDone INTEGER
+)''');
       batch.insert('modes', solveMode.toMap()!,
           conflictAlgorithm: ConflictAlgorithm.replace);
       batch.insert('modes', randomSign.toMap()!,
@@ -45,6 +52,24 @@ class MyDatabase extends ChangeNotifier {
       batch.insert('points', pointsAndCoins.toMap()!,
           conflictAlgorithm: ConflictAlgorithm.replace);
       batch.insert('user', userData.toMap()!,
+          conflictAlgorithm: ConflictAlgorithm.replace);
+      batch.insert('achievements', allAchievements[0].toMap()!,
+          conflictAlgorithm: ConflictAlgorithm.replace);
+      batch.insert('achievements', allAchievements[1].toMap()!,
+          conflictAlgorithm: ConflictAlgorithm.replace);
+      batch.insert('achievements', allAchievements[2].toMap()!,
+          conflictAlgorithm: ConflictAlgorithm.replace);
+      batch.insert('achievements', allAchievements[3].toMap()!,
+          conflictAlgorithm: ConflictAlgorithm.replace);
+      batch.insert('achievements', allAchievements[4].toMap()!,
+          conflictAlgorithm: ConflictAlgorithm.replace);
+      batch.insert('achievements', allAchievements[5].toMap()!,
+          conflictAlgorithm: ConflictAlgorithm.replace);
+      batch.insert('achievements', allAchievements[6].toMap()!,
+          conflictAlgorithm: ConflictAlgorithm.replace);
+      batch.insert('achievements', allAchievements[7].toMap()!,
+          conflictAlgorithm: ConflictAlgorithm.replace);
+      batch.insert('achievements', allAchievements[8].toMap()!,
           conflictAlgorithm: ConflictAlgorithm.replace);
     }
 
@@ -113,14 +138,21 @@ class MyDatabase extends ChangeNotifier {
     final List<Map<String, dynamic>> maps = await db.query(table);
     List<Mode> modesModel = [];
     List<Mode> powerUpsModel = [];
+    List<Achievement> ahievements = [];
     for (var item in maps) {
       switch (table) {
         case 'modes':
           modesModel.add(Mode.fromMap(item));
           break;
+        case 'achievements':
+          ahievements.add(Achievement.fromMap(item));
       }
     }
-    return table == 'modes' ? modesModel : powerUpsModel;
+    return table == 'modes'
+        ? modesModel
+        : table == 'achievements'
+            ? ahievements
+            : powerUpsModel;
   }
 
   Future<DatabaseModel> getAllPointsOrUser(String table, String dbName) async {

@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../database/database.dart';
 import '../widgets/custom_alert_dialog.dart';
 import '../widgets/custom_color_stack.dart';
+import 'achievement_provider.dart';
 
 class SettingsProvider extends ChangeNotifier {
   SettingsProvider() {
@@ -192,22 +193,27 @@ class SettingsProvider extends ChangeNotifier {
   }
 
   _setSoundSettings() async {
-    List<String> _storedBools = [];
+    List<String> storedBools = [];
     for (bool b in _sounds) {
-      _storedBools.add((b ? 1 : 0).toString());
+      storedBools.add((b ? 1 : 0).toString());
     }
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setStringList(cashedSoundData, _storedBools);
+    await prefs.setStringList(cashedSoundData, storedBools);
     notifyListeners();
   }
 
-  addNewTheme(List<Color> colors) async {
+  addNewTheme(
+    List<Color> colors,
+    AchievementProvider achievementProvider,
+    PointsProvider pointsProvider,
+  ) async {
     // print(colors[0].toString());
     // _defaultThemes[3] = colors;
     _userThemes.add(colors);
     _themes.add(colors);
     _storeUserThemes();
     log('added');
+    achievementProvider.checkAchievement(3, pointsProvider);
     notifyListeners();
   }
 
@@ -272,7 +278,7 @@ class SettingsProvider extends ChangeNotifier {
               _canAddThemes = true;
               int newCoins = currentCoins - themePrice;
               pointsProvider.updateCoins(newCoins);
-              await myDatabase.mathDatabase();
+              // await myDatabase.mathDatabase();
             },
             child: Text('Unlock',
                 style: TextStyle(color: settingsProvider.currentTheme[0])),

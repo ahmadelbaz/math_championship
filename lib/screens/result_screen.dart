@@ -19,10 +19,28 @@ class ResultScreen extends StatelessWidget {
     final args = ModalRoute.of(context)!.settings.arguments as List<String>;
     final pointsProvider = context.read(pointsChangeNotifierProvider);
     final settingsProvider = context.read(settingsChangeNotifierProvider);
+    final achievementProvider =
+        context.read(achievementsChangeNotifierProvider);
     pointsProvider.updatePoints(int.parse(args[2]));
     // close inGame provider
     WidgetsBinding.instance.addPostFrameCallback((duration) {
       context.read(inGameStateProvider).state = false;
+      if (int.parse(args[2]) > int.parse(args[3]) && int.parse(args[3]) > 0) {
+        achievementProvider.checkAchievement(
+            7, context.read(pointsChangeNotifierProvider));
+      }
+      if (int.parse(args[2]) >= 10) {
+        achievementProvider.checkAchievement(
+            5, context.read(pointsChangeNotifierProvider));
+      }
+      if (int.parse(args[2]) >= 50) {
+        achievementProvider.checkAchievement(
+            6, context.read(pointsChangeNotifierProvider));
+      }
+      if (int.parse(args[2]) >= 70) {
+        achievementProvider.checkAchievement(
+            8, context.read(pointsChangeNotifierProvider));
+      }
     });
     return Scaffold(
       backgroundColor: settingsProvider.currentTheme[0],

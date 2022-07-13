@@ -11,7 +11,3 @@ const themePrice = 10;
 const canAddThemePrice = 50;
 
 const canAddThemeKey = 'can_add_theme';
-
-const achievements = {
-  'Create profile': 5,
-};

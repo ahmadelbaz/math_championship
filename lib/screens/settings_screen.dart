@@ -18,6 +18,7 @@ class SettingsScreen extends ConsumerWidget {
     final size = MediaQuery.of(context).size;
     final settingsProvider = watch(settingsChangeNotifierProvider);
     final colorProvider = watch(colorPickerStateProvider);
+    final achievementProvider = watch(achievementsChangeNotifierProvider);
     colorProvider.state
         .addAll([Colors.white, Colors.white, Colors.white, Colors.white]);
     return Scaffold(
@@ -138,6 +139,9 @@ class SettingsScreen extends ConsumerWidget {
                           onTap: () {
                             playScoreBoardSound(settingsProvider.sounds[3]);
                             settingsProvider.changeCurrentTheme(index);
+                            // achievement : Change theme
+                            achievementProvider.checkAchievement(
+                                1, watch(pointsChangeNotifierProvider));
                           },
                           onLongPress: () {
                             settingsProvider.deleteTheme(context, index);
@@ -166,7 +170,8 @@ class SettingsScreen extends ConsumerWidget {
                       await showColorPicker(context, watch, 2),
                       await showColorPicker(context, watch, 1),
                       await showColorPicker(context, watch, 0),
-                    ]);
+                    ], achievementProvider,
+                        watch(pointsChangeNotifierProvider));
                   } else {
                     settingsProvider.unlockAddingTheme(
                         context,

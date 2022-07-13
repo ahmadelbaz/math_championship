@@ -2,6 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:math_championship/database/database.dart';
 import 'package:math_championship/models/user_model.dart';
 
+import 'achievement_provider.dart';
+import 'points_provider.dart';
+
 class UserProvider extends ChangeNotifier {
   User _user = User(id: '', name: '', mathPoints: 0, mathCoins: 0);
 
@@ -22,7 +25,8 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateUserName(String name) async {
+  void updateUserName(AchievementProvider achievementProvider, String name,
+      PointsProvider pointsProvider) async {
     _user = User(
         id: _user.id,
         name: name,
@@ -30,6 +34,7 @@ class UserProvider extends ChangeNotifier {
         mathCoins: _user.mathCoins);
     await myDatabase.mathDatabase();
     await myDatabase.update(_user);
+    achievementProvider.checkAchievement(0, pointsProvider);
     notifyListeners();
   }
 

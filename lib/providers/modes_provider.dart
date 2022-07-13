@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:math_championship/database/database.dart';
 import 'package:math_championship/main.dart';
 import 'package:math_championship/models/mode_model.dart';
+import 'package:math_championship/providers/achievement_provider.dart';
 import 'package:math_championship/providers/points_provider.dart';
 
 import '../functions/start_mode_function.dart';
@@ -49,8 +50,11 @@ class ModesProvider extends ChangeNotifier {
             TextButton(
               onPressed: () async {
                 Navigator.of(context).pop();
-                unlockMode(_modes[index].id,
-                    pointsProvider.getPoints().mathCoins, pointsProvider);
+                unlockMode(
+                    _modes[index].id,
+                    pointsProvider.getPoints().mathCoins,
+                    pointsProvider,
+                    context.read(achievementsChangeNotifierProvider));
               },
               child: Text('Unlock',
                   style: TextStyle(color: settingsProvider.currentTheme[0])),
@@ -95,8 +99,8 @@ class ModesProvider extends ChangeNotifier {
     }
   }
 
-  void unlockMode(
-      String id, int currentCoins, PointsProvider pointsProvider) async {
+  void unlockMode(String id, int currentCoins, PointsProvider pointsProvider,
+      AchievementProvider achievementProvider) async {
     Mode newMode = _modes.firstWhere((element) => element.id == id);
     int index = _modes.indexOf(newMode);
     // if (_modes[index].price >= currentCoins) {
@@ -105,6 +109,7 @@ class ModesProvider extends ChangeNotifier {
     pointsProvider.updateCoins(newCoins);
     await myDatabase.mathDatabase();
     await myDatabase.update(_modes[index]);
+    achievementProvider.checkAchievement(4, pointsProvider);
     notifyListeners();
   }
 
