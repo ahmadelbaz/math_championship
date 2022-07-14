@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -52,7 +51,7 @@ final timerStateProvider = StateProvider<Timer>(
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
-  AudioCache audioCache = AudioCache();
+  // AudioCache audioCache = AudioCache();
 
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   // SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -66,6 +65,7 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, watch) {
     // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
+
     final settingsProvider = watch(settingsChangeNotifierProvider);
     // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     //   statusBarColor: _settingsProvider.currentTheme[0], // status bar color

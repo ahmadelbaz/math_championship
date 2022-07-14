@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:math_championship/providers/user_provider.dart';
 import 'package:math_championship/widgets/custom_alert_dialog.dart';
 import 'package:lottie/lottie.dart';
+import '../constants.dart';
 import '../functions/play_sounds.dart';
 import '../main.dart';
 
@@ -116,6 +117,8 @@ class WelcomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, watch) {
     final size = MediaQuery.of(context).size;
+    deviceWidth = MediaQuery.of(context).size.width;
+    deviceHeight = MediaQuery.of(context).size.width;
     var userProvider = watch(userChangeNotifierProvider);
     var futureProvider = watch(userFutureProvider);
     final settingsProvider = watch(settingsChangeNotifierProvider);

@@ -11,3 +11,6 @@ const themePrice = 10;
 const canAddThemePrice = 50;
 
 const canAddThemeKey = 'can_add_theme';
+
+var deviceWidth = 0.0;
+var deviceHeight = 0.0;

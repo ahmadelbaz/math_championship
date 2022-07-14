@@ -2,6 +2,7 @@
     package="com.example.math_championship">
    <application
         android:label="Math Championship"
+        android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
