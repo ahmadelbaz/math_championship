@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:math_championship/screens/welcome_screen.dart';
+import 'package:math_championship/widgets/custom_app_bar.dart';
 import 'package:math_championship/widgets/custom_snack_bar.dart';
 
 import '../functions/play_sounds.dart';
@@ -23,15 +24,9 @@ class ProfileScreen extends ConsumerWidget {
         TextPosition(offset: nameController.text.length));
     // var _futureProvider = watch(userFutureProvider);
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: settingsProvider.currentTheme[0],
-        elevation: 0.0,
-        title: Text(
-          userProvider.getUser().name,
-          style: TextStyle(color: Theme.of(context).primaryColor),
-        ),
-      ),
       backgroundColor: settingsProvider.currentTheme[0],
+      appBar:
+          customAppBar(context, settingsProvider, userProvider.getUser().name),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListView(

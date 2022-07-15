@@ -7,7 +7,7 @@ class TimeIsEverythingProvider extends GameProvider {
   setQestionDetails(int remSeconds, String sign, int firstNumMin,
       int firstNumMax, int secondNumMin, secondNumMax) {
     if (gameModel.score == 0) {
-      setRemainingSeconds(100);
+      setRemainingSeconds(30);
     }
     setSign(sign);
     if (sign == '/') {

@@ -272,7 +272,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                                 CircularProgressIndicator(
                                   value: watch(modeStateProvider).state == 2
                                       ? gameProvider.gameModel.remainSeconds /
-                                          100
+                                          30
                                       : gameProvider.gameModel.remainSeconds /
                                           5,
                                   strokeWidth: 12,

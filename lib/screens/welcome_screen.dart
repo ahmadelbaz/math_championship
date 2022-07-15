@@ -10,6 +10,7 @@ import 'package:lottie/lottie.dart';
 import '../constants.dart';
 import '../functions/play_sounds.dart';
 import '../main.dart';
+import '../widgets/score_board.dart';
 
 final userChangeNotifierProvider =
     ChangeNotifierProvider<UserProvider>((ref) => UserProvider());
@@ -120,6 +121,7 @@ class WelcomeScreen extends ConsumerWidget {
     deviceWidth = MediaQuery.of(context).size.width;
     deviceHeight = MediaQuery.of(context).size.width;
     var userProvider = watch(userChangeNotifierProvider);
+    final pointsProvider = watch(pointsChangeNotifierProvider);
     var futureProvider = watch(userFutureProvider);
     final settingsProvider = watch(settingsChangeNotifierProvider);
     TextStyle defaultStyle =
@@ -136,16 +138,23 @@ class WelcomeScreen extends ConsumerWidget {
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: settingsProvider.currentTheme[0],
-            elevation: 0.0,
-            title: FittedBox(
-              child: Text(
-                userProvider.getUser().name == 'guest'
-                    ? 'Welcome to MathChampionship'
-                    : 'Welcome ${userProvider.getUser().name}',
-                style: TextStyle(color: Theme.of(context).primaryColor),
-              ),
-            ),
+            elevation: 0,
+            automaticallyImplyLeading: false,
+            title: ScoreBoard(pointsProvider.getPoints().mathPoints,
+                pointsProvider.getPoints().mathCoins),
           ),
+          // AppBar(
+          //   backgroundColor: settingsProvider.currentTheme[0],
+          //   elevation: 0.0,
+          //   title: FittedBox(
+          //     child: Text(
+          //       userProvider.getUser().name == 'guest'
+          //           ? 'Welcome to MathChampionship'
+          //           : 'Welcome ${userProvider.getUser().name}',
+          //       style: TextStyle(color: Theme.of(context).primaryColor),
+          //     ),
+          //   ),
+          // ),
           backgroundColor: settingsProvider.currentTheme[0],
           body: Column(
             children: [
@@ -162,7 +171,7 @@ class WelcomeScreen extends ConsumerWidget {
                               style: const TextStyle(fontFamily: 'rimouski'),
                               text: userProvider.getUser().name == 'guest'
                                   ? 'You are playing as a guest, wanna '
-                                  : ''),
+                                  : 'Welcome ${userProvider.getUser().name}'),
                           TextSpan(
                             style: linkStyle,
                             text: userProvider.getUser().name == 'guest'

@@ -7,6 +7,7 @@ import 'package:math_championship/widgets/custom_snack_bar.dart';
 
 import '../functions/play_sounds.dart';
 import '../main.dart';
+import '../widgets/score_board.dart';
 
 class StoreScreen extends ConsumerWidget {
   const StoreScreen({Key? key}) : super(key: key);
@@ -16,6 +17,7 @@ class StoreScreen extends ConsumerWidget {
     final size = MediaQuery.of(context).size;
     final settingsProvider = watch(settingsChangeNotifierProvider);
     final storeProvider = watch(storeChangeNotifierProvider);
+    final pointsProvider = watch(pointsChangeNotifierProvider);
     // final modesProvider = watch(modesChangeNotifierProvider);
     return Scaffold(
       backgroundColor: settingsProvider.currentTheme[0],
@@ -24,6 +26,8 @@ class StoreScreen extends ConsumerWidget {
         padding: const EdgeInsets.all(8.0),
         child: ListView(
           children: [
+            ScoreBoard(pointsProvider.getPoints().mathPoints,
+                pointsProvider.getPoints().mathCoins),
             SizedBox(
               height: size.height * 0.02,
             ),
