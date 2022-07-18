@@ -31,8 +31,20 @@ class WelcomeScreen extends ConsumerWidget {
   DateTime timeBackPressed = DateTime.now();
 
   static Future<void> pop({bool? animated}) async {
-    await SystemChannels.platform
-        .invokeMethod<void>('SystemNavigator.pop', animated);
+    customAlertDialog(
+        const Text(
+          'Come back soon',
+          style: TextStyle(color: Colors.black),
+        ),
+        Container(
+            color: Colors.white,
+            child: Lottie.asset('assets/animations/bye.json')),
+        [],
+        hasBackColor: true);
+    Future.delayed(const Duration(seconds: 2), () async {
+      await SystemChannels.platform
+          .invokeMethod<void>('SystemNavigator.pop', animated);
+    });
   }
 
   // Future<bool> _onBackPressed() async {
@@ -127,7 +139,7 @@ class WelcomeScreen extends ConsumerWidget {
     TextStyle defaultStyle =
         TextStyle(color: Theme.of(context).primaryColor, fontSize: 20.0);
     TextStyle linkStyle = TextStyle(
-      fontFamily: 'rimouski',
+      fontFamily: settingsProvider.secondaryFont,
       fontSize: 32,
       color: Theme.of(context).primaryColor,
       decoration: TextDecoration.underline,
@@ -168,7 +180,8 @@ class WelcomeScreen extends ConsumerWidget {
                         style: defaultStyle,
                         children: <TextSpan>[
                           TextSpan(
-                              style: const TextStyle(fontFamily: 'rimouski'),
+                              style: TextStyle(
+                                  fontFamily: settingsProvider.secondaryFont),
                               text: userProvider.getUser().name == 'guest'
                                   ? 'You are playing as a guest, wanna '
                                   : 'Welcome ${userProvider.getUser().name}'),

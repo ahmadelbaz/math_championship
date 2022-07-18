@@ -10,13 +10,13 @@ void customSnackBar(String content) {
 
   // we want to remove any snackbar on screen if a new snackbar is coming
   ScaffoldMessenger.of(context!).removeCurrentSnackBar();
-  final _settingsProvider = context.read(settingsChangeNotifierProvider);
+  final settingsProvider = context.read(settingsChangeNotifierProvider);
   final snackBar = SnackBar(
     content: Text(
       content,
       style: TextStyle(
-          fontFamily: 'wheaton-capitals',
-          color: _settingsProvider.currentTheme[0]),
+          fontFamily: settingsProvider.mainFont,
+          color: settingsProvider.currentTheme[0]),
     ),
     behavior: SnackBarBehavior.floating,
     backgroundColor: Theme.of(context).primaryColor,

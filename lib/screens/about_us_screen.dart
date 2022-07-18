@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:math_championship/constants.dart';
 import 'package:math_championship/functions/donation_alert_dialog.dart';
 import 'package:math_championship/functions/feedback_alert_dialog.dart';
+import 'package:math_championship/screens/introduction_screen.dart';
 
 import '../functions/play_sounds.dart';
 import '../main.dart';
@@ -19,10 +20,12 @@ class AboutUsScreen extends ConsumerWidget {
       backgroundColor: settingsProvider.currentTheme[0],
       appBar: customAppBar(context, settingsProvider, 'About Us'),
       body: Padding(
-        padding: EdgeInsets.only(
-            right: 28.0, left: 28.0, bottom: deviceHeight * 0.6),
+        padding: const EdgeInsets.only(
+          right: 28.0,
+          left: 28.0,
+        ),
         child: ListView(
-          shrinkWrap: true,
+          // shrinkWrap: true,
           children: [
             SizedBox(
               height: size.height * 0.02,
@@ -32,7 +35,7 @@ class AboutUsScreen extends ConsumerWidget {
               child: Text(
                 'Math Championship is an app/game that we develop trying to improve math skills besides having fun.\nThe App still in BETA version and we are trying to improve it more and more.\nIf you want to support us you can',
                 style: TextStyle(
-                  fontFamily: 'rimouski',
+                  fontFamily: settingsProvider.secondaryFont,
                   color: Theme.of(context).primaryColor,
                   fontSize: 18,
                 ),
@@ -105,6 +108,25 @@ class AboutUsScreen extends ConsumerWidget {
                 child: Text(
                   'Rate the game',
                   style: TextStyle(fontSize: 35),
+                  maxLines: 1,
+                ),
+              ),
+            ),
+            SizedBox(
+              height: deviceHeight * 0.2,
+            ),
+            TextButton(
+              onPressed: () {
+                playGeneralSound(settingsProvider.sounds[1]);
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const OnBoardingPage()),
+                );
+              },
+              child: FittedBox(
+                child: Text(
+                  'Tutorial >>',
+                  style: TextStyle(
+                      fontSize: 35, color: settingsProvider.currentTheme[2]),
                   maxLines: 1,
                 ),
               ),

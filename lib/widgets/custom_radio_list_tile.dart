@@ -4,7 +4,7 @@ import '../providers/settings_provider.dart';
 
 Widget customRadioListTile(
     BuildContext context,
-    SettingsProvider _settingsProvider,
+    SettingsProvider settingsProvider,
     String radioText,
     bool radioValue,
     Function? Function(bool value) radioChanged) {
@@ -16,7 +16,7 @@ Widget customRadioListTile(
     trailing: Switch(
       value: radioValue,
       onChanged: radioChanged,
-      activeColor: _settingsProvider.currentTheme[3],
+      activeColor: settingsProvider.currentTheme[3],
     ),
   );
 }

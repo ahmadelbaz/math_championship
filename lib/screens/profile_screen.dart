@@ -37,6 +37,7 @@ class ProfileScreen extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: TextField(
+                style: TextStyle(color: settingsProvider.currentTheme[1]),
                 controller: nameController,
                 keyboardType: TextInputType.text,
                 textCapitalization: TextCapitalization.sentences,
@@ -118,7 +119,7 @@ class ProfileScreen extends ConsumerWidget {
                         Text(
                           achievementProvider.achievements[index].task,
                           style: TextStyle(
-                            fontFamily: 'rimouski',
+                            fontFamily: settingsProvider.secondaryFont,
                             fontSize: 18,
                             color: settingsProvider.currentTheme[1],
                             decoration:

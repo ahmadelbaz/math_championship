@@ -71,6 +71,10 @@ class MyDatabase extends ChangeNotifier {
           conflictAlgorithm: ConflictAlgorithm.replace);
       batch.insert('achievements', allAchievements[8].toMap()!,
           conflictAlgorithm: ConflictAlgorithm.replace);
+      batch.insert('achievements', allAchievements[9].toMap()!,
+          conflictAlgorithm: ConflictAlgorithm.replace);
+      batch.insert('achievements', allAchievements[10].toMap()!,
+          conflictAlgorithm: ConflictAlgorithm.replace);
     }
 
     // First version of the database

@@ -4,7 +4,9 @@ import '../main.dart';
 // because we have a lot of snackbars in the app
 // we take it as separated function and call it when it's needed
 void customAlertDialog(Widget title, Widget content, List<Widget> actions,
-    {double height = 0.0}) {
+    {double height = 0.0,
+    bool hasBackColor = false,
+    bool isFullScreen = false}) {
   // we get context ftom globalKey to use it here
   BuildContext? context = navigatorKey.currentContext;
 
@@ -12,7 +14,8 @@ void customAlertDialog(Widget title, Widget content, List<Widget> actions,
   showDialog(
     context: context!,
     builder: (ctx) => AlertDialog(
-      backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor:
+          hasBackColor ? Colors.white : Theme.of(context).primaryColor,
       title: title,
       content: height != 0.0
           ? SizedBox(

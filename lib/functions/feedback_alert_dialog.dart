@@ -19,7 +19,7 @@ feedbackAlertDialog(BuildContext context) {
         TextField(
           style: TextStyle(
             color: settingsProvider.currentTheme[0],
-            fontFamily: 'rimouski',
+            fontFamily: settingsProvider.secondaryFont,
           ),
           cursorColor: settingsProvider.currentTheme[0],
           controller: subject,
@@ -62,12 +62,11 @@ feedbackAlertDialog(BuildContext context) {
           focusNode: feedbackFocusNode,
           style: TextStyle(
             color: settingsProvider.currentTheme[0],
-            fontFamily: 'rimouski',
+            fontFamily: settingsProvider.secondaryFont,
           ),
           cursorColor: settingsProvider.currentTheme[0],
           controller: body,
           keyboardType: TextInputType.text,
-          // autofocus: true,
           decoration: InputDecoration(
             labelText: 'Feedback',
             labelStyle: TextStyle(
@@ -110,7 +109,7 @@ feedbackAlertDialog(BuildContext context) {
         ),
       ),
       TextButton(
-        onPressed: () {
+        onPressed: () async {
           Navigator.of(context).pop();
           String? encodeQueryParameters(Map<String, String> params) {
             return params.entries

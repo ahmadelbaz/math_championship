@@ -3,11 +3,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:is_first_run/is_first_run.dart';
 import 'package:math_championship/providers/achievement_provider.dart';
 import 'package:math_championship/providers/settings_provider.dart';
 import 'package:math_championship/providers/store_provider.dart';
 import 'package:math_championship/screens/about_us_screen.dart';
 import 'package:math_championship/screens/game_screen.dart';
+import 'package:math_championship/screens/introduction_screen.dart';
 import 'package:math_championship/screens/profile_screen.dart';
 import 'package:math_championship/screens/settings_screen.dart';
 import 'package:math_championship/screens/store_screen.dart';
@@ -49,9 +51,13 @@ final timerStateProvider = StateProvider<Timer>(
 //   },
 // );
 
-void main() {
+bool isFirstTime = true;
+
+Future<void> main() async {
   runApp(const ProviderScope(child: MyApp()));
   // AudioCache audioCache = AudioCache();
+
+  isFirstTime = await IsFirstRun.isFirstRun();
 
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   // SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -75,7 +81,7 @@ class MyApp extends ConsumerWidget {
       navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        fontFamily: 'wheaton-capitals',
+        fontFamily: settingsProvider.mainFont,
         appBarTheme: const AppBarTheme(
             // foregroundColor: Colors.teal //here you can give the text color
             ),
@@ -98,11 +104,11 @@ class MyApp extends ConsumerWidget {
           headline3: TextStyle(
               fontSize: 18.0,
               color: settingsProvider.currentTheme[0],
-              fontFamily: 'rimouski'),
+              fontFamily: settingsProvider.secondaryFont),
           headline4: TextStyle(
               fontSize: 32.0,
               color: settingsProvider.currentTheme[1],
-              fontFamily: 'rimouski'),
+              fontFamily: settingsProvider.secondaryFont),
           // this is for appBar
           headline5: TextStyle(
               fontSize: 21.0, color: settingsProvider.currentTheme[1]),
@@ -112,7 +118,7 @@ class MyApp extends ConsumerWidget {
       ),
       routes: {
         // '/': (ctx) => HomeScreen(),
-        '/': (ctx) => WelcomeScreen(),
+        '/': (ctx) => isFirstTime ? const OnBoardingPage() : WelcomeScreen(),
         '/profile_screen': (ctx) => ProfileScreen(),
         '/start_screen': (ctx) => StartScreen(),
         '/game_screen': (ctx) => const GameScreen(),

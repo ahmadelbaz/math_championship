@@ -21,6 +21,10 @@ class StoreProvider extends ChangeNotifier {
   ];
   UnmodifiableListView get themesForSale =>
       UnmodifiableListView(_themesForSale);
+
+  final List<String> _fontsForSale = [thirdFont, fourthFont, fifthFont];
+  UnmodifiableListView get fontsForSale => UnmodifiableListView(_fontsForSale);
+
   MyDatabase myDatabase = MyDatabase();
 
   onThemeClick(BuildContext context, int index) {
@@ -28,7 +32,7 @@ class StoreProvider extends ChangeNotifier {
     final settingsProvider = context.read(settingsChangeNotifierProvider);
 
     customAlertDialog(
-        CustomColorStack(_themesForSale[index]),
+        customColorStack(_themesForSale[index]),
         Text(
           'Do you want to unlock this theme ?\nIt will cost you \'$themePrice Math Coins\'',
           style: Theme.of(context).textTheme.headline3,
@@ -44,14 +48,56 @@ class StoreProvider extends ChangeNotifier {
           TextButton(
             onPressed: () async {
               Navigator.of(context).pop();
+              // achievement : Buy new theme
               context
                   .read(achievementsChangeNotifierProvider)
-                  .checkAchievement(2, pointsProvider);
+                  .checkAchievement(3, pointsProvider);
               await unlockTheme(context, _themesForSale[index], pointsProvider,
                   settingsProvider);
             },
             child: Text('Unlock',
                 style: TextStyle(color: settingsProvider.currentTheme[0])),
+          ),
+        ]);
+  }
+
+  onFontClick(BuildContext context, int index) {
+    final pointsProvider = context.read(pointsChangeNotifierProvider);
+    final settingsProvider = context.read(settingsChangeNotifierProvider);
+
+    customAlertDialog(
+        Text(
+          'Play',
+          style: TextStyle(fontFamily: _fontsForSale[index]),
+        ),
+        Text(
+          'Do you want to unlock this font ?\nIt will cost you \'$fontPrice Math Coins\'',
+          style: Theme.of(context).textTheme.headline3,
+        ),
+        [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('Cancel',
+                style: TextStyle(color: settingsProvider.currentTheme[0])),
+          ),
+          TextButton(
+            onPressed: () async {
+              Navigator.of(context).pop();
+              // achievement : Buy new font
+              context
+                  .read(achievementsChangeNotifierProvider)
+                  .checkAchievement(4, pointsProvider);
+              await unlockFont(context, _fontsForSale[index], pointsProvider,
+                  settingsProvider);
+            },
+            child: Text(
+              'Unlock',
+              style: TextStyle(
+                color: settingsProvider.currentTheme[0],
+              ),
+            ),
           ),
         ]);
   }
@@ -63,7 +109,26 @@ class StoreProvider extends ChangeNotifier {
       customSnackBar(
           'You don\'t have enough Math Coins to unlock this theme, collect some Math Coins and try again!');
     } else {
-      settingsProvider.addNewTheme(colors,
+      settingsProvider.addNewTheme(
+          colors,
+          context.read(achievementsChangeNotifierProvider),
+          pointsProvider,
+          false);
+      int newCoins = currentCoins - themePrice;
+      // await myDatabase.mathDatabase();
+      pointsProvider.updateCoins(newCoins);
+    }
+    notifyListeners();
+  }
+
+  unlockFont(BuildContext context, String font, PointsProvider pointsProvider,
+      SettingsProvider settingsProvider) async {
+    int currentCoins = pointsProvider.getPoints().mathCoins;
+    if (pointsProvider.getPoints().mathCoins < fontPrice) {
+      customSnackBar(
+          'You don\'t have enough Math Coins to unlock this font, collect some Math Coins and try again!');
+    } else {
+      settingsProvider.addNewFont(font,
           context.read(achievementsChangeNotifierProvider), pointsProvider);
       int newCoins = currentCoins - themePrice;
       // await myDatabase.mathDatabase();

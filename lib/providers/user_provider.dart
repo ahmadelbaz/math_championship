@@ -34,6 +34,7 @@ class UserProvider extends ChangeNotifier {
         mathCoins: _user.mathCoins);
     await myDatabase.mathDatabase();
     await myDatabase.update(_user);
+    // achievement : Create profile
     achievementProvider.checkAchievement(0, pointsProvider);
     notifyListeners();
   }

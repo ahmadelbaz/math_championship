@@ -59,20 +59,22 @@ DatabaseModel userData =
 List<Achievement> allAchievements = [
   Achievement(id: '500', task: 'Create profile', price: 5, hasDone: false),
   Achievement(id: '501', task: 'Change Theme', price: 5, hasDone: false),
-  Achievement(id: '502', task: 'Buy new Theme', price: 5, hasDone: false),
-  Achievement(id: '503', task: 'Create new Theme', price: 5, hasDone: false),
-  Achievement(id: '504', task: 'Unlock new mode', price: 5, hasDone: false),
+  Achievement(id: '502', task: 'Change Font', price: 5, hasDone: false),
+  Achievement(id: '503', task: 'Buy new Theme', price: 5, hasDone: false),
+  Achievement(id: '504', task: 'Buy new Font', price: 5, hasDone: false),
+  Achievement(id: '505', task: 'Create new Theme', price: 5, hasDone: false),
+  Achievement(id: '506', task: 'Unlock new mode', price: 5, hasDone: false),
   Achievement(
-      id: '505',
+      id: '507',
       task: 'Score 10 Math Points in one game',
       price: 5,
       hasDone: false),
   Achievement(
-      id: '506',
+      id: '508',
       task: 'Score 50 Math Points in one game',
       price: 10,
       hasDone: false),
   Achievement(
-      id: '507', task: 'Break your high score', price: 20, hasDone: false),
-  Achievement(id: '508', task: 'Win one game', price: 50, hasDone: false),
+      id: '509', task: 'Break your high score', price: 20, hasDone: false),
+  Achievement(id: '510', task: 'Win one game', price: 50, hasDone: false),
 ];

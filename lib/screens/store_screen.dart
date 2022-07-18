@@ -18,7 +18,6 @@ class StoreScreen extends ConsumerWidget {
     final settingsProvider = watch(settingsChangeNotifierProvider);
     final storeProvider = watch(storeChangeNotifierProvider);
     final pointsProvider = watch(pointsChangeNotifierProvider);
-    // final modesProvider = watch(modesChangeNotifierProvider);
     return Scaffold(
       backgroundColor: settingsProvider.currentTheme[0],
       appBar: customAppBar(context, settingsProvider, 'Store'),
@@ -55,8 +54,51 @@ class StoreScreen extends ConsumerWidget {
                           onLongPress: () {
                             customSnackBar('$themePrice Math Coins');
                           },
-                          child: CustomColorStack(
+                          child: customColorStack(
                               storeProvider.themesForSale[index]),
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            ),
+            SizedBox(
+              height: size.height * 0.02,
+            ),
+            Text(
+              'Fonts',
+              style: TextStyle(color: Theme.of(context).primaryColor),
+            ),
+            SizedBox(
+              width: 70,
+              height: 100,
+              child: Center(
+                child: ListView.builder(
+                  physics: const ClampingScrollPhysics(),
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: storeProvider.fontsForSale.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            playScoreBoardSound(settingsProvider.sounds[3]);
+                            storeProvider.onFontClick(context, index);
+                          },
+                          onLongPress: () {
+                            customSnackBar('$fontPrice Math Coins');
+                          },
+                          child: Text(
+                            'Play',
+                            style: TextStyle(
+                                fontFamily: storeProvider.fontsForSale[index],
+                                fontSize: 35),
+                          ),
                         ),
                         const SizedBox(
                           width: 20,

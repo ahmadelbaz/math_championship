@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -14,8 +15,11 @@ import 'achievement_provider.dart';
 
 class SettingsProvider extends ChangeNotifier {
   SettingsProvider() {
+    _getMainFont();
+    _getSecondaryFont();
     _getCurrentTheme();
     _getAllThemes();
+    _getAllFonts();
     _getSoundSettings();
     getAddingThemeValue();
   }
@@ -28,38 +32,42 @@ class SettingsProvider extends ChangeNotifier {
   final List<List<Color>> _userThemes = [];
   List<List<Color>> get userThemes => _userThemes;
 
+  List<String> _userFonts = [];
+  List<String> get userFonts => _userFonts;
+
   final List<List<Color>> _themes = [];
   List<List<Color>> get themes => _themes;
 
+  final List<String> _fonts = [];
+  List<String> get fonts => _fonts;
+
   final List<List<Color>> _defaultThemes = [
-    [
-      Colors.cyan.shade700,
-      const Color.fromARGB(255, 3, 23, 61),
-      const Color(0xFFECEFF1),
-      const Color(0xFFFFDE03)
-    ],
-    [
-      const Color(0xFFFFDE03),
-      Colors.black,
-      const Color(0xFF0336FF),
-      Colors.pink
-    ],
-    [
-      Colors.black,
-      Colors.cyan,
-      Colors.pink,
-      Colors.yellow,
-    ],
+    firstTheme,
+    secondTheme,
+    thirdTheme,
   ];
   List<List<Color>> get defaultThemes => _defaultThemes;
 
   final List<Color> _currentTheme = [
     const Color(0xFFFFDE03),
     Colors.black,
+    Colors.pink,
     const Color(0xFF0336FF),
-    Colors.pink
   ];
   List<Color> get currentTheme => _currentTheme;
+
+  final List<String> _defaultFonts = [
+    firstFont,
+    secondFont,
+    // thirdFont,
+    // fourthFont,
+    // fifthFont
+  ];
+  UnmodifiableListView get defaultFonts => UnmodifiableListView(_defaultFonts);
+  String _mainFont = firstFont;
+  String get mainFont => _mainFont;
+  String _secondaryFont = secondFont;
+  String get secondaryFont => _secondaryFont;
 
   bool _canAddThemes = false;
   bool get canAddThemes => _canAddThemes;
@@ -124,6 +132,14 @@ class SettingsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  _getAllFonts() async {
+    await _getUserFonts();
+    _fonts.clear();
+    _fonts.addAll(_defaultFonts);
+    _fonts.addAll(_userFonts);
+    notifyListeners();
+  }
+
   _getCurrentTheme() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (!prefs.containsKey(cashedCurrentThemeData)) {
@@ -180,6 +196,28 @@ class SettingsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // method to get Fonts that user added from shared pref
+  _getUserFonts() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // prefs.clear();
+    if (!prefs.containsKey(cashedUserFontData)) {
+      return;
+    }
+    var value = prefs.getStringList(cashedUserFontData);
+    _userFonts = value!;
+    notifyListeners();
+  }
+
+  // method to store themes that user added in shared pref
+  _storeUserFonts() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.containsKey(cashedUserFontData)) {
+      await prefs.remove(cashedUserFontData);
+    }
+    await prefs.setStringList(cashedUserFontData, _userFonts);
+    notifyListeners();
+  }
+
   _getSoundSettings() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (!prefs.containsKey(cashedSoundData)) {
@@ -202,25 +240,40 @@ class SettingsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  addNewTheme(
-    List<Color> colors,
-    AchievementProvider achievementProvider,
-    PointsProvider pointsProvider,
-  ) async {
+  addNewTheme(List<Color> colors, AchievementProvider achievementProvider,
+      PointsProvider pointsProvider, bool addNewThemeAchievement) async {
     // print(colors[0].toString());
     // _defaultThemes[3] = colors;
     _userThemes.add(colors);
     _themes.add(colors);
     _storeUserThemes();
     log('added');
-    achievementProvider.checkAchievement(3, pointsProvider);
+    if (addNewThemeAchievement) {
+      // achievement : Create new theme
+      achievementProvider.checkAchievement(5, pointsProvider);
+    }
+    notifyListeners();
+  }
+
+  addNewFont(
+    String font,
+    AchievementProvider achievementProvider,
+    PointsProvider pointsProvider,
+  ) async {
+    // print(colors[0].toString());
+    // _defaultThemes[3] = colors;
+    _userFonts.add(font);
+    _fonts.add(font);
+    _storeUserFonts();
+    log('added');
+    // achievementProvider.checkAchievement(3, pointsProvider);
     notifyListeners();
   }
 
   deleteTheme(BuildContext context, int index) {
     if (index > defaultThemes.length - 1) {
       customAlertDialog(
-          CustomColorStack(_themes[index]),
+          customColorStack(_themes[index]),
           Text(
               'This theme will be deletd even if it is a purchased theme or created theme.\nAre you sure you want to delete it ?',
               style: Theme.of(context).textTheme.headline3),
@@ -241,11 +294,56 @@ class SettingsProvider extends ChangeNotifier {
                 customSnackBar('Theme deleted!');
                 notifyListeners();
               },
-              child: Text('Delete', style: TextStyle(color: _currentTheme[0])),
+              child: Text(
+                'Delete',
+                style: TextStyle(
+                  color: _currentTheme[0],
+                ),
+              ),
             ),
           ]);
     } else {
       customSnackBar('Original theme cannot be deleted!');
+    }
+  }
+
+  deleteFont(BuildContext context, int index) {
+    if (index > defaultFonts.length - 1) {
+      customAlertDialog(
+          Text(
+            'Select',
+            style: TextStyle(fontFamily: _fonts[index]),
+          ),
+          Text(
+              'This font will be deletd even if it is a purchased font.\nAre you sure you want to delete it ?',
+              style: Theme.of(context).textTheme.headline3),
+          [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel', style: TextStyle(color: _currentTheme[0])),
+            ),
+            TextButton(
+              onPressed: () async {
+                Navigator.of(context).pop();
+                playInGameClearSound(_sounds[6]);
+                _fonts.removeAt(index);
+                _userFonts.removeAt(index - 2);
+                _storeUserFonts();
+                customSnackBar('Font deleted!');
+                notifyListeners();
+              },
+              child: Text(
+                'Delete',
+                style: TextStyle(
+                  color: _currentTheme[0],
+                ),
+              ),
+            ),
+          ]);
+    } else {
+      customSnackBar('Original Font cannot be deleted!');
     }
   }
 
@@ -295,6 +393,38 @@ class SettingsProvider extends ChangeNotifier {
       await prefs.setBool(canAddThemeKey, false);
     }
     _canAddThemes = prefs.getBool(canAddThemeKey)!;
+    notifyListeners();
+  }
+
+  setMainFont(String font) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(mainFontKey, font);
+    _mainFont = font;
+    notifyListeners();
+  }
+
+  _getMainFont() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (!prefs.containsKey(mainFontKey)) {
+      await prefs.setString(mainFontKey, firstFont);
+    }
+    _mainFont = prefs.getString(mainFontKey)!;
+    notifyListeners();
+  }
+
+  setSecondaryFont(String font) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(secondaryFontKey, font);
+    _secondaryFont = font;
+    notifyListeners();
+  }
+
+  _getSecondaryFont() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (!prefs.containsKey(secondaryFontKey)) {
+      await prefs.setString(secondaryFontKey, secondFont);
+    }
+    _secondaryFont = prefs.getString(secondaryFontKey)!;
     notifyListeners();
   }
 }

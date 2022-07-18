@@ -23,19 +23,19 @@ donationAlertDialog(BuildContext context) {
     const Text('Donate'),
     Column(
       children: [
-        TextButton.icon(
-          onPressed: _launchUrl,
-          icon: Icon(
+        ListTile(
+          onTap: _launchUrl,
+          leading: Icon(
             Icons.paypal_outlined,
             color: settingsProvider.currentTheme[0],
           ),
-          label: Text(
+          title: Text(
             'Paybal',
             style: Theme.of(context).textTheme.headline3,
           ),
         ),
-        TextButton.icon(
-          onPressed: () {
+        ListTile(
+          onTap: () {
             Clipboard.setData(
               const ClipboardData(
                 text: "+201010825280",
@@ -44,17 +44,17 @@ donationAlertDialog(BuildContext context) {
             Navigator.of(context).pop();
             customSnackBar('Copied to Clipboard');
           },
-          icon: Icon(
+          leading: Icon(
             Icons.money_rounded,
             color: settingsProvider.currentTheme[0],
           ),
-          label: Text(
+          title: Text(
             'Vodafone cash',
             style: Theme.of(context).textTheme.headline3,
           ),
         ),
-        TextButton.icon(
-          onPressed: () {
+        ListTile(
+          onTap: () {
             Clipboard.setData(
               const ClipboardData(
                 text: "+201145009965",
@@ -63,11 +63,11 @@ donationAlertDialog(BuildContext context) {
             Navigator.of(context).pop();
             customSnackBar('Copied to Clipboard');
           },
-          icon: Icon(
+          leading: Icon(
             Icons.money_rounded,
             color: settingsProvider.currentTheme[0],
           ),
-          label: Text(
+          title: Text(
             'Etisalat cash',
             style: Theme.of(context).textTheme.headline3,
           ),
@@ -87,6 +87,6 @@ donationAlertDialog(BuildContext context) {
         ),
       ),
     ],
-    height: deviceHeight * 0.4,
+    height: deviceHeight * 0.5,
   );
 }

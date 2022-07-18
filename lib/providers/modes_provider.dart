@@ -109,7 +109,8 @@ class ModesProvider extends ChangeNotifier {
     pointsProvider.updateCoins(newCoins);
     await myDatabase.mathDatabase();
     await myDatabase.update(_modes[index]);
-    achievementProvider.checkAchievement(4, pointsProvider);
+    // achievement : Unlock New mode
+    achievementProvider.checkAchievement(6, pointsProvider);
     notifyListeners();
   }
 

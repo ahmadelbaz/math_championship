@@ -25,21 +25,25 @@ class ResultScreen extends StatelessWidget {
     // close inGame provider
     WidgetsBinding.instance.addPostFrameCallback((duration) {
       context.read(inGameStateProvider).state = false;
+      // achievement : break your high score
       if (int.parse(args[2]) > int.parse(args[3]) && int.parse(args[3]) > 0) {
+        achievementProvider.checkAchievement(
+            9, context.read(pointsChangeNotifierProvider));
+      }
+      // achievement : Score 10 Math Points
+      if (int.parse(args[2]) >= 10) {
         achievementProvider.checkAchievement(
             7, context.read(pointsChangeNotifierProvider));
       }
-      if (int.parse(args[2]) >= 10) {
-        achievementProvider.checkAchievement(
-            5, context.read(pointsChangeNotifierProvider));
-      }
+      // achievement : Score 50 Math Points
       if (int.parse(args[2]) >= 50) {
         achievementProvider.checkAchievement(
-            6, context.read(pointsChangeNotifierProvider));
+            8, context.read(pointsChangeNotifierProvider));
       }
+      // achievement : Win one game
       if (int.parse(args[2]) >= 70) {
         achievementProvider.checkAchievement(
-            8, context.read(pointsChangeNotifierProvider));
+            10, context.read(pointsChangeNotifierProvider));
       }
     });
     return Scaffold(

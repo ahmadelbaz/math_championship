@@ -3,8 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:math_championship/functions/play_sounds.dart';
 import 'package:math_championship/main.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:math_championship/widgets/custom_alert_dialog.dart';
 import 'package:math_championship/widgets/custom_color_stack.dart';
 
+import '../constants.dart';
 import '../widgets/custom_app_bar.dart';
 import '../widgets/custom_radio_list_tile.dart';
 
@@ -28,9 +30,9 @@ class SettingsScreen extends ConsumerWidget {
         padding: const EdgeInsets.all(8.0),
         child: ListView(
           children: [
-            SizedBox(
-              height: size.height * 0.02,
-            ),
+            // SizedBox(
+            //   height: size.height * 0.02,
+            // ),
             Row(
               children: [
                 Text(
@@ -40,9 +42,9 @@ class SettingsScreen extends ConsumerWidget {
                 // there is more to add here
               ],
             ),
-            SizedBox(
-              height: size.height * 0.02,
-            ),
+            // SizedBox(
+            //   height: size.height * 0.01,
+            // ),
             customRadioListTile(
               context,
               settingsProvider,
@@ -113,9 +115,15 @@ class SettingsScreen extends ConsumerWidget {
                 return null;
               },
             ),
-            SizedBox(
-              height: size.height * 0.03,
+            Divider(
+              endIndent: deviceWidth * 0.15,
+              indent: deviceWidth * 0.15,
+              color: settingsProvider.currentTheme[1].withOpacity(.3),
+              thickness: 1,
             ),
+            // SizedBox(
+            //   height: size.height * 0.01,
+            // ),
             Text(
               'Themes',
               style: TextStyle(color: Theme.of(context).primaryColor),
@@ -147,7 +155,7 @@ class SettingsScreen extends ConsumerWidget {
                             settingsProvider.deleteTheme(context, index);
                           },
                           child:
-                              CustomColorStack(settingsProvider.themes[index]),
+                              customColorStack(settingsProvider.themes[index]),
                         ),
                         const SizedBox(
                           width: 20,
@@ -158,9 +166,9 @@ class SettingsScreen extends ConsumerWidget {
                 ),
               ),
             ),
-            SizedBox(
-              height: size.height * 0.02,
-            ),
+            // SizedBox(
+            //   height: size.height * 0.02,
+            // ),
             Center(
               child: TextButton(
                 onPressed: () async {
@@ -170,8 +178,8 @@ class SettingsScreen extends ConsumerWidget {
                       await showColorPicker(context, watch, 2),
                       await showColorPicker(context, watch, 1),
                       await showColorPicker(context, watch, 0),
-                    ], achievementProvider,
-                        watch(pointsChangeNotifierProvider));
+                    ], achievementProvider, watch(pointsChangeNotifierProvider),
+                        true);
                   } else {
                     settingsProvider.unlockAddingTheme(
                         context,
@@ -187,7 +195,113 @@ class SettingsScreen extends ConsumerWidget {
                   style: TextStyle(color: Theme.of(context).primaryColor),
                 ),
               ),
-            )
+            ),
+            // SizedBox(
+            //   height: size.height * 0.01,
+            // ),
+            Divider(
+              endIndent: deviceWidth * 0.15,
+              indent: deviceWidth * 0.15,
+              color: settingsProvider.currentTheme[1].withOpacity(.3),
+              thickness: 1,
+            ),
+            Text(
+              'Fonts',
+              style: TextStyle(color: Theme.of(context).primaryColor),
+            ),
+            SizedBox(
+              width: 50,
+              height: 50,
+              child: Center(
+                child: ListView.builder(
+                  physics: const ClampingScrollPhysics(),
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: settingsProvider.fonts.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            playScoreBoardSound(settingsProvider.sounds[3]);
+                            customAlertDialog(
+                              const Text('Select type'),
+                              Column(
+                                children: [
+                                  ListTile(
+                                    onTap: () {
+                                      playGeneralSound(
+                                          settingsProvider.sounds[1]);
+                                      settingsProvider.setMainFont(
+                                        settingsProvider.fonts[index],
+                                      );
+                                      Navigator.of(context).pop();
+                                      // achievement : Change font
+                                      achievementProvider.checkAchievement(2,
+                                          watch(pointsChangeNotifierProvider));
+                                    },
+                                    title: Text(
+                                      'Main Font',
+                                      style:
+                                          Theme.of(context).textTheme.headline3,
+                                    ),
+                                  ),
+                                  ListTile(
+                                    onTap: () {
+                                      playGeneralSound(
+                                          settingsProvider.sounds[1]);
+                                      settingsProvider.setSecondaryFont(
+                                          settingsProvider.fonts[index]);
+                                      Navigator.of(context).pop();
+                                      // achievement : Change font
+                                      achievementProvider.checkAchievement(2,
+                                          watch(pointsChangeNotifierProvider));
+                                    },
+                                    title: Text(
+                                      'Secondary Font',
+                                      style:
+                                          Theme.of(context).textTheme.headline3,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text(
+                                    'Cancel',
+                                    style: TextStyle(
+                                      color: settingsProvider.currentTheme[0],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                              height: deviceHeight * 0.4,
+                            );
+                          },
+                          onLongPress: () {
+                            settingsProvider.deleteFont(context, index);
+                          },
+                          child: Text(
+                            'Select',
+                            style: TextStyle(
+                              fontFamily: settingsProvider.fonts[index],
+                              color: Theme.of(context).primaryColor,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            ),
           ],
         ),
       ),

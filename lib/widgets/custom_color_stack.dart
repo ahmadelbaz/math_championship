@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Widget CustomColorStack(List<Color> colors) {
+Widget customColorStack(List<Color> colors) {
   return Stack(
     alignment: Alignment.center,
     children: [

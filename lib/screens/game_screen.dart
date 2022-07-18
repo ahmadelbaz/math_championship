@@ -408,7 +408,8 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
     final settingsProvider = watch(settingsChangeNotifierProvider);
     if (int.parse(answerProvider.state) == gameProvider.gameModel.trueAnswer) {
       await controller.forward();
-      playCorrectAnswerSound(settingsProvider.sounds[4]);
+      // playCorrectAnswerSound(settingsProvider.sounds[4]);
+      playScoreBoardSound(settingsProvider.sounds[4]);
       answerProvider.state = '';
       gameProvider.updateScore();
       gameProvider.setQuestion();
