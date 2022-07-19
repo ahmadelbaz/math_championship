@@ -108,7 +108,7 @@ class SettingsScreen extends ConsumerWidget {
             customRadioListTile(
               context,
               settingsProvider,
-              'Enable InGame Clear sound',
+              'Enable Clear sound',
               settingsProvider.sounds[0] ? settingsProvider.sounds[6] : false,
               (value) {
                 settingsProvider.switchInGameClearSound(value);
@@ -174,10 +174,11 @@ class SettingsScreen extends ConsumerWidget {
                 onPressed: () async {
                   if (settingsProvider.canAddThemes) {
                     settingsProvider.addNewTheme([
-                      await showColorPicker(context, watch, 3),
-                      await showColorPicker(context, watch, 2),
-                      await showColorPicker(context, watch, 1),
-                      await showColorPicker(context, watch, 0),
+                      await showColorPicker(context, watch, 'Primary Color', 3),
+                      await showColorPicker(
+                          context, watch, 'Secondary Color', 2),
+                      await showColorPicker(context, watch, 'Third Color', 1),
+                      await showColorPicker(context, watch, 'Fourth Color', 0),
                     ], achievementProvider, watch(pointsChangeNotifierProvider),
                         true);
                   } else {
@@ -308,61 +309,80 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  Future<Color> showColorPicker(BuildContext context,
-      T Function<T>(ProviderBase<Object?, T>) watch, int index) async {
+  Future<Color> showColorPicker(
+      BuildContext context,
+      T Function<T>(ProviderBase<Object?, T>) watch,
+      String title,
+      int index) async {
     final colorProvider = watch(colorPickerStateProvider);
-    // colorProvider.state
-    //     .addAll([Colors.white, Colors.white, Colors.white, Colors.white]);
-    Color fc = Colors.white;
-    Color changeColor = Colors.white;
-    await showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (_) => AlertDialog(
-              title: const Text('Pick a color!'),
-              content: SingleChildScrollView(
-                child: ColorPicker(
-                  pickerColor: fc,
-                  onColorChanged: (color) {
-                    colorProvider.state[index] = color;
-                    fc = color;
-                  },
-                ),
-                // Use Material color picker:
-                //
-                // child: MaterialPicker(
-                //   pickerColor: fc,
-                //   onColorChanged: (color) {
-                //     colorProvider.state[index] = color;
-                //     fc = color;
-                //   },
-                // showLabel: true, // only on portrait mode
-                // ),
-                //
-                // Use Block color picker:
-                //
-                // child: BlockPicker(
-                //   pickerColor: currentColor,
-                //   onColorChanged: changeColor,
-                // ),
-                //
-                // child: MultipleChoiceBlockPicker(
-                //   pickerColors: currentColors,
-                //   onColorsChanged: changeColors,
-                // ),
-              ),
-              actions: [
-                ElevatedButton(
-                  child: const Text('Got it'),
-                  onPressed: () {
-                    colorProvider.state[index] = fc;
-                    print(colorProvider.state[index]);
-                    Navigator.of(context).pop();
-                    // return colorProvider.state[index];
-                  },
-                ),
-              ],
-            ));
+    Color newColor = Colors.white;
+    // Color changeColor = Colors.white;
+    await customAlertDialog(
+      Text(title),
+      SingleChildScrollView(
+        child: ColorPicker(
+          pickerColor: newColor,
+          onColorChanged: (color) {
+            colorProvider.state[index] = color;
+            newColor = color;
+          },
+        ),
+      ),
+      [
+        TextButton(
+          child: Text('Cancel',
+              style: TextStyle(
+                  color: context
+                      .read(settingsChangeNotifierProvider)
+                      .currentTheme[0])),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        TextButton(
+          child: Text('Select',
+              style: TextStyle(
+                  color: context
+                      .read(settingsChangeNotifierProvider)
+                      .currentTheme[0])),
+          onPressed: () {
+            colorProvider.state[index] = newColor;
+            Navigator.of(context).pop();
+          },
+        ),
+      ],
+    );
+    // await showDialog(
+    //   context: context,
+    //   barrierDismissible: false,
+    //   builder: (_) => AlertDialog(
+    //     title: const Text('Pick a color!'),
+    //     content: SingleChildScrollView(
+    //       child: ColorPicker(
+    //         pickerColor: newColor,
+    //         onColorChanged: (color) {
+    //           colorProvider.state[index] = color;
+    //           newColor = color;
+    //         },
+    //       ),
+    //     ),
+    //     actions: [
+    //       ElevatedButton(
+    //         child: const Text('Cancel'),
+    //         onPressed: () {
+    //           Navigator.of(context).pop();
+    //         },
+    //       ),
+    //       ElevatedButton(
+    //         child: const Text('Select'),
+    //         onPressed: () {
+    //           colorProvider.state[index] = newColor;
+    //           Navigator.of(context).pop();
+    //         },
+    //       ),
+    //     ],
+    //   ),
+    // );
     return colorProvider.state[index];
   }
 }

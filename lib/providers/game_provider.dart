@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import '../functions/randoms.dart';
@@ -98,8 +100,9 @@ abstract class GameProvider extends ChangeNotifier {
             _gameModel.secondNum == lastFirst ||
         _gameModel.secondNum == lastSecond) {
       // there is a repetation so set new numbers
-      setFirstAndSecondNums(
-          firstNumMin, firstNumMax, secondNumMin, secondNumMax);
+      log('REPETITION');
+      // setFirstAndSecondNums(
+      //     firstNumMin, firstNumMax, secondNumMin, secondNumMax);
       checkRepetationAndSubmit(
           firstNumMin, firstNumMax, secondNumMin, secondNumMax);
     } else {
@@ -117,5 +120,27 @@ abstract class GameProvider extends ChangeNotifier {
     setSecondNum(generateRandomNum(secondNumMin, secondNumMax));
   }
 
+  void createDivisionQs(
+      int firstNumMin, int firstNumMax, int factorNumMin, int factorNumMax) {
+    int firstNum = generateRandomNum(firstNumMin, firstNumMax);
+    int factorNum = generateRandomNum(factorNumMin, factorNumMax);
+    int secondNum = firstNum * factorNum;
+    if (firstNum == lastFirst ||
+        firstNum == lastSecond && secondNum == lastFirst ||
+        secondNum == lastSecond) {
+      // there is a repetation so set new numbers
+      log('REPETITION');
+      createDivisionQs(firstNumMin, firstNumMax, factorNumMin, factorNumMax);
+    } else {
+// no repetation so submit the question
+      _lastFirst = secondNum;
+      _lastSecond = firstNum;
+      setFirstNum(secondNum);
+      setSecondNum(firstNum);
+      setTrueAnswer();
+    }
+  }
+
+  // TODO : when user win a game
   youAreWinner() {}
 }

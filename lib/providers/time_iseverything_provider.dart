@@ -25,15 +25,15 @@ class TimeIsEverythingProvider extends GameProvider {
     notifyListeners();
   }
 
-  void createDivisionQs(
-      int firstNumMin, int firstNumMax, int factorNumMin, int factorNumMax) {
-    int firstNum = generateRandomNum(firstNumMin, firstNumMax);
-    int factorNum = generateRandomNum(factorNumMin, factorNumMax);
-    int secondNum = firstNum * factorNum;
-    setFirstNum(secondNum);
-    setSecondNum(firstNum);
-    setTrueAnswer();
-  }
+  // void createDivisionQs(
+  //     int firstNumMin, int firstNumMax, int factorNumMin, int factorNumMax) {
+  //   int firstNum = generateRandomNum(firstNumMin, firstNumMax);
+  //   int factorNum = generateRandomNum(factorNumMin, factorNumMax);
+  //   int secondNum = firstNum * factorNum;
+  //   setFirstNum(secondNum);
+  //   setSecondNum(firstNum);
+  //   setTrueAnswer();
+  // }
 
   @override
   setQuestion() {

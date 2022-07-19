@@ -25,12 +25,13 @@ class OnBoardingPageState extends State<OnBoardingPage> {
     );
   }
 
-  Widget _buildImage(String assetName) {
+  Widget _buildImage(String assetName, Color borderColor) {
     return Padding(
       padding: const EdgeInsets.only(top: 50),
       child: Container(
           decoration: BoxDecoration(
             border: Border.all(
+              color: borderColor,
               width: 3,
             ),
             borderRadius: const BorderRadius.all(
@@ -105,28 +106,28 @@ class OnBoardingPageState extends State<OnBoardingPage> {
           title: "Create a profile",
           body:
               "First, Create a profile (if you want) by adding your name and click save.",
-          image: _buildImage('profile.jpg'),
+          image: _buildImage('profile.jpg', settingsProvider.currentTheme[1]),
           decoration: pageDecoration,
         ),
         PageViewModel(
           title: "Modes to play",
           body:
               "There are some modes that you can play. Some of them are available and the rest are locked and you can unlock them with Math Coins.",
-          image: _buildImage('start.jpg'),
+          image: _buildImage('start.jpg', settingsProvider.currentTheme[1]),
           decoration: pageDecoration,
         ),
         PageViewModel(
           title: "Playing a game",
           body:
               "You gain Math Points by answering problems. If the answer is more than one digit you can see it below the question and you can also delete what you typed with the 'clear' button.",
-          image: _buildImage('game.jpg'),
+          image: _buildImage('game.jpg', settingsProvider.currentTheme[1]),
           decoration: pageDecoration,
         ),
         PageViewModel(
           title: "Settings",
           body:
               "In settings you can edit sounds and change the theme.\nYou can also add your custom theme.",
-          image: _buildImage('settings.jpg'),
+          image: _buildImage('settings.jpg', settingsProvider.currentTheme[1]),
           decoration: pageDecoration,
         ),
         // PageViewModel(
@@ -145,13 +146,14 @@ class OnBoardingPageState extends State<OnBoardingPage> {
           title: "Math Points & Coins",
           body:
               "Math Points can only be earned by playing.\nMath Coins can be earned by playing games, achievements and maybe other ways in the future.",
-          image: _buildImage('scoreboard.jpg'),
+          image:
+              _buildImage('scoreboard.jpg', settingsProvider.currentTheme[1]),
           decoration: pageDecoration,
         ),
         PageViewModel(
           title: "Store",
           body: "From store you can buy new themes and other things.",
-          image: _buildImage('store.jpg'),
+          image: _buildImage('store.jpg', settingsProvider.currentTheme[1]),
           decoration: pageDecoration,
           footer: ElevatedButton(
             onPressed: () {

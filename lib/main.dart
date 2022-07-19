@@ -51,13 +51,15 @@ final timerStateProvider = StateProvider<Timer>(
 //   },
 // );
 
-bool isFirstTime = true;
+bool isFirstTime1 = false;
+bool isFirstTime2 = false;
 
 Future<void> main() async {
   runApp(const ProviderScope(child: MyApp()));
   // AudioCache audioCache = AudioCache();
 
-  isFirstTime = await IsFirstRun.isFirstRun();
+  // isFirstTime = await IsFirstRun.isFirstRun();
+  // isFirstTime1 = await IsFirstRun.isFirstCall();
 
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   // SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -65,67 +67,97 @@ Future<void> main() async {
   // ));
 }
 
-class MyApp extends ConsumerWidget {
+checkFirstTime() async {
+  WidgetsBinding.instance.addPostFrameCallback((_) async {
+    isFirstTime1 = await IsFirstRun.isFirstCall();
+    isFirstTime2 = await IsFirstRun.isFirstRun();
+  });
+}
+
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, watch) {
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    checkFirstTime();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // checkFirstTime();
     // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
 
-    final settingsProvider = watch(settingsChangeNotifierProvider);
     // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     //   statusBarColor: _settingsProvider.currentTheme[0], // status bar color
     // ));
-    return MaterialApp(
-      // onGenerateRoute: generateRoute,
-      navigatorKey: navigatorKey,
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        fontFamily: settingsProvider.mainFont,
-        appBarTheme: const AppBarTheme(
-            // foregroundColor: Colors.teal //here you can give the text color
+    return Consumer(
+      builder: (context, watch, child) {
+        final settingsProvider = watch(settingsChangeNotifierProvider);
+        return MaterialApp(
+          // onGenerateRoute: generateRoute,
+          navigatorKey: navigatorKey,
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            fontFamily: settingsProvider.mainFont,
+            appBarTheme: const AppBarTheme(
+                // foregroundColor: Colors.teal //here you can give the text color
+                ),
+            primaryColor: settingsProvider.currentTheme[1],
+            textTheme: TextTheme(
+              headline1: const TextStyle(
+                fontSize: 72.0,
+              ),
+              bodyText1: TextStyle(
+                fontSize: 30.0,
+                color: settingsProvider.currentTheme[3],
+              ),
+              bodyText2: const TextStyle(
+                fontSize: 24.0,
+              ),
+              subtitle2: TextStyle(
+                  fontSize: 35.0, color: settingsProvider.currentTheme[2]),
+              headline2: TextStyle(
+                  fontSize: 18.0, color: settingsProvider.currentTheme[1]),
+              headline3: TextStyle(
+                  fontSize: 18.0,
+                  color: settingsProvider.currentTheme[0],
+                  fontFamily: settingsProvider.secondaryFont),
+              headline4: TextStyle(
+                fontSize: 32.0,
+                color: settingsProvider.currentTheme[1],
+                fontFamily: settingsProvider.secondaryFont,
+              ),
+              // this is for appBar
+              headline5: TextStyle(
+                fontSize: 21.0,
+                color: settingsProvider.currentTheme[1],
+              ),
+              headline6: TextStyle(
+                fontSize: 36.0,
+                color: settingsProvider.currentTheme[0],
+              ),
             ),
-        primaryColor: settingsProvider.currentTheme[1],
-        textTheme: TextTheme(
-          headline1: const TextStyle(
-            fontSize: 72.0,
           ),
-          bodyText1: TextStyle(
-            fontSize: 30.0,
-            color: settingsProvider.currentTheme[3],
-          ),
-          bodyText2: const TextStyle(
-            fontSize: 24.0,
-          ),
-          subtitle2: TextStyle(
-              fontSize: 35.0, color: settingsProvider.currentTheme[2]),
-          headline2: TextStyle(
-              fontSize: 18.0, color: settingsProvider.currentTheme[1]),
-          headline3: TextStyle(
-              fontSize: 18.0,
-              color: settingsProvider.currentTheme[0],
-              fontFamily: settingsProvider.secondaryFont),
-          headline4: TextStyle(
-              fontSize: 32.0,
-              color: settingsProvider.currentTheme[1],
-              fontFamily: settingsProvider.secondaryFont),
-          // this is for appBar
-          headline5: TextStyle(
-              fontSize: 21.0, color: settingsProvider.currentTheme[1]),
-          headline6: TextStyle(
-              fontSize: 36.0, color: settingsProvider.currentTheme[0]),
-        ),
-      ),
-      routes: {
-        // '/': (ctx) => HomeScreen(),
-        '/': (ctx) => isFirstTime ? const OnBoardingPage() : WelcomeScreen(),
-        '/profile_screen': (ctx) => ProfileScreen(),
-        '/start_screen': (ctx) => StartScreen(),
-        '/game_screen': (ctx) => const GameScreen(),
-        '/result_screen': (ctx) => const ResultScreen(),
-        '/settings_screen': (ctx) => const SettingsScreen(),
-        '/store_screen': (ctx) => const StoreScreen(),
-        '/aboutus_screen': (ctx) => const AboutUsScreen(),
+          routes: {
+            // '/': (ctx) => HomeScreen(),
+            '/': (ctx) => isFirstTime1 && isFirstTime2
+                ? const OnBoardingPage()
+                : WelcomeScreen(),
+            '/profile_screen': (ctx) => ProfileScreen(),
+            '/start_screen': (ctx) => StartScreen(),
+            '/game_screen': (ctx) => const GameScreen(),
+            '/result_screen': (ctx) => const ResultScreen(),
+            '/settings_screen': (ctx) => const SettingsScreen(),
+            '/store_screen': (ctx) => const StoreScreen(),
+            '/aboutus_screen': (ctx) => const AboutUsScreen(),
+          },
+        );
       },
     );
   }

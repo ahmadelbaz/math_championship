@@ -121,10 +121,12 @@ feedbackAlertDialog(BuildContext context) {
           final Uri emailLaunchUri = Uri(
             scheme: 'mailto',
             path: 'ahmeed.elbaz@gmail.com',
-            query: encodeQueryParameters(<String, String>{
-              'subject': subject.text,
-              'body': body.text,
-            }),
+            query: encodeQueryParameters(
+              <String, String>{
+                'subject': subject.text,
+                'body': body.text,
+              },
+            ),
           );
 
           launchUrl(emailLaunchUri, mode: LaunchMode.platformDefault);

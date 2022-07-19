@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
 List<Color> firstTheme = [
-  Colors.cyan.shade700,
-  const Color.fromARGB(255, 3, 23, 61),
-  const Color(0xFFECEFF1),
-  const Color(0xFFFFDE03)
-];
-List<Color> secondTheme = [
   const Color(0xFFFFDE03),
   Colors.black,
   Colors.pink,
   const Color(0xFF0336FF),
+];
+List<Color> secondTheme = [
+  Colors.cyan.shade700,
+  const Color.fromARGB(255, 3, 23, 61),
+  const Color(0xFFECEFF1),
+  const Color(0xFFFFDE03)
 ];
 const List<Color> thirdTheme = [
   Colors.black,

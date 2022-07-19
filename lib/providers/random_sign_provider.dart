@@ -58,13 +58,23 @@ class RandomSignProvider extends GameProvider {
     notifyListeners();
   }
 
-  void createDivisionQs(
-      int firstNumMin, int firstNumMax, int factorNumMin, int factorNumMax) {
-    int firstNum = generateRandomNum(firstNumMin, firstNumMax);
-    int factorNum = generateRandomNum(factorNumMin, factorNumMax);
-    int secondNum = firstNum * factorNum;
-    setFirstNum(secondNum);
-    setSecondNum(firstNum);
-    setTrueAnswer();
-  }
+//   void createDivisionQs(
+//       int firstNumMin, int firstNumMax, int factorNumMin, int factorNumMax) {
+//     int firstNum = generateRandomNum(firstNumMin, firstNumMax);
+//     int factorNum = generateRandomNum(factorNumMin, factorNumMax);
+//     int secondNum = firstNum * factorNum;
+//     if (firstNum == lastFirst ||
+//         firstNum == lastSecond && secondNum == lastFirst ||
+//         secondNum == lastSecond) {
+//       // there is a repetation so set new numbers
+//       createDivisionQs(firstNumMin, firstNumMax, factorNumMin, factorNumMax);
+//     } else {
+// // no repetation so submit the question
+//       lastFirst = secondNum;
+//       _lastSecond = firstNum;
+//       setFirstNum(secondNum);
+//       setSecondNum(firstNum);
+//       setTrueAnswer();
+//     }
+//   }
 }
