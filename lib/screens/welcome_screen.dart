@@ -65,7 +65,10 @@ class WelcomeScreen extends ConsumerWidget {
   Future<bool> _onBackAlertDialog(BuildContext context) async {
     bool quitOrNot = false;
     customAlertDialog(
-      const Text('Are you sure?'),
+      const FittedBox(
+          child: Text(
+        'Are you sure?',
+      )),
       Text('You will close the game, Are you sure ?',
           style: Theme.of(context).textTheme.headline3),
       [

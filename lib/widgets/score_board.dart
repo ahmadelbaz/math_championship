@@ -15,7 +15,7 @@ class ScoreBoard extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final _settingsProvider = context.read(settingsChangeNotifierProvider);
+    final settingsProvider = context.read(settingsChangeNotifierProvider);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
@@ -23,7 +23,7 @@ class ScoreBoard extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: () {
-              playScoreBoardSound(_settingsProvider.sounds[3]);
+              playScoreBoardSound(settingsProvider.sounds[3]);
               customSnackBar('Math Points');
             },
             child: Row(
@@ -36,7 +36,7 @@ class ScoreBoard extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              playScoreBoardSound(_settingsProvider.sounds[3]);
+              playScoreBoardSound(settingsProvider.sounds[3]);
               customSnackBar('Math Coins');
             },
             child: Row(

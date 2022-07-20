@@ -35,7 +35,7 @@ class ModesProvider extends ChangeNotifier {
     if (_modes[index].locked == 1) {
       if (checkPrice(_modes[index].id, pointsProvider.getPoints().mathCoins)) {
         customAlertDialog(
-          const Text('Unlock Mode'),
+          const FittedBox(child: Text('Unlock Mode')),
           Text(
               'Do you want to unlock \'${_modes[index].name}\' mode for \'${_modes[index].price} Math Coins\' ?',
               style: Theme.of(context).textTheme.headline3),
@@ -63,9 +63,9 @@ class ModesProvider extends ChangeNotifier {
         );
       } else {
         customAlertDialog(
-            const Text('Not enough money!'),
+            const FittedBox(child: Text('Not enough money!')),
             Text(
-                'You don\'t have enough coins, keep going and try again later.',
+                'You don\'t have enough coins, you need \'${_modes[index].price} Math Coins\' to unlock this mode, keep going and try again later.',
                 style: Theme.of(context).textTheme.headline3),
             [
               TextButton(

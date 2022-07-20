@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:math_championship/constants.dart';
+import 'package:math_championship/functions/contact_us_dialog.dart';
 import 'package:math_championship/functions/donation_alert_dialog.dart';
 import 'package:math_championship/functions/feedback_alert_dialog.dart';
 import 'package:math_championship/screens/introduction_screen.dart';
@@ -61,7 +62,6 @@ class AboutUsScreen extends ConsumerWidget {
                 child: Text(
                   'Give us feedback',
                   style: TextStyle(fontSize: 35),
-                  maxLines: 1,
                 ),
               ),
             ),
@@ -85,7 +85,6 @@ class AboutUsScreen extends ConsumerWidget {
                 child: Text(
                   'Donate',
                   style: TextStyle(fontSize: 35),
-                  maxLines: 1,
                 ),
               ),
             ),
@@ -108,7 +107,29 @@ class AboutUsScreen extends ConsumerWidget {
                 child: Text(
                   'Rate the game',
                   style: TextStyle(fontSize: 35),
-                  maxLines: 1,
+                ),
+              ),
+            ),
+            SizedBox(
+              height: deviceHeight * 0.05,
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                fixedSize: Size.fromHeight(size.height * 0.07),
+                primary: Theme.of(context).primaryColor,
+                onPrimary: settingsProvider.currentTheme[0],
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                ),
+              ),
+              onPressed: () {
+                playGeneralSound(settingsProvider.sounds[1]);
+                contactUsAlertDialog(context);
+              },
+              child: const FittedBox(
+                child: Text(
+                  'Contact us',
+                  style: TextStyle(fontSize: 35),
                 ),
               ),
             ),

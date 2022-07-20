@@ -22,7 +22,14 @@ class StoreProvider extends ChangeNotifier {
   UnmodifiableListView get themesForSale =>
       UnmodifiableListView(_themesForSale);
 
-  final List<String> _fontsForSale = [thirdFont, fourthFont, fifthFont];
+  final List<String> _fontsForSale = [
+    thirdFont,
+    fourthFont,
+    fifthFont,
+    sixthFont,
+    seventhFont,
+    eighthFont
+  ];
   UnmodifiableListView get fontsForSale => UnmodifiableListView(_fontsForSale);
 
   MyDatabase myDatabase = MyDatabase();
@@ -136,4 +143,6 @@ class StoreProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  deleteFont(int index) {}
 }

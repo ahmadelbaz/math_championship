@@ -51,7 +51,7 @@ DatabaseModel sqrRoot = Mode(
   highScoreDateTime: DateTime.now(),
 );
 // add initial values for mathPoints and mathCoins
-DatabaseModel pointsAndCoins = Point(id: '321', mathPoints: 0, mathCoins: 500);
+DatabaseModel pointsAndCoins = Point(id: '321', mathPoints: 215, mathCoins: 78);
 // add initial values for User data
 DatabaseModel userData =
     User(id: '1000', name: 'guest', mathPoints: 0, mathCoins: 0);
@@ -77,4 +77,5 @@ List<Achievement> allAchievements = [
   Achievement(
       id: '509', task: 'Break your high score', price: 20, hasDone: false),
   Achievement(id: '510', task: 'Win one game', price: 50, hasDone: false),
+  Achievement(id: '511', task: 'Send a feedback', price: 50, hasDone: false),
 ];

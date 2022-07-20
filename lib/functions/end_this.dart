@@ -31,7 +31,7 @@ Future<void> endThis(String loseReason) async {
       '${gameProvider.gameModel.firstNum}     ${gameProvider.gameModel.sign}     ${gameProvider.gameModel.secondNum}     =     ${gameProvider.gameModel.trueAnswer}';
   if (gameProvider.gameModel.score >
       modesProvider.modes[modeProvider.state].highScore) {
-    message = 'Congrats, you got new High Score';
+    message = 'Congrats🎉 you got new High Score';
     await modesProvider.updateHighScore(gameProvider.gameModel.score,
         modesProvider.modes[modeProvider.state].id);
   }

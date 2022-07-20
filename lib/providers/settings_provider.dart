@@ -24,6 +24,9 @@ class SettingsProvider extends ChangeNotifier {
     getAddingThemeValue();
   }
 
+  bool _isFirstTimeApp = true;
+  bool get isFirstTimeApp => _isFirstTimeApp;
+
   MyDatabase myDatabase = MyDatabase();
 
   final List<bool> _sounds = [true, true, true, true, true, true, true];
@@ -71,6 +74,11 @@ class SettingsProvider extends ChangeNotifier {
 
   bool _canAddThemes = false;
   bool get canAddThemes => _canAddThemes;
+
+  setIsFirstTime(bool value) {
+    _isFirstTimeApp = value;
+    notifyListeners();
+  }
 
   switchSounds(bool value) {
     for (int n = 0; n < _sounds.length; n++) {
@@ -356,7 +364,7 @@ class SettingsProvider extends ChangeNotifier {
           'You don\'t have enough Math Coins to unlock this, try to collect enough Math Coins and try again!');
     } else {
       customAlertDialog(
-        const Text('Are you sure ?'),
+        const FittedBox(child: Text('Are you sure ?')),
         Text(
             'Do you want to unlock ability to add custom themes for $canAddThemePrice Math Coins\' ?',
             style: Theme.of(context).textTheme.headline3),

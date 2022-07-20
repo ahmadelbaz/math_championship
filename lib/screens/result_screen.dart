@@ -62,7 +62,7 @@ class ResultScreen extends StatelessWidget {
                         ? youEndedThisAnimation
                         : args[0] == 'Time\'s Up, try again!'
                             ? timeIsUpAnimation
-                            : 'assets/animations/congrats.json',
+                            : congratsAnimation,
                     width: 200,
                     height: 200),
             SizedBox(
@@ -76,10 +76,15 @@ class ResultScreen extends StatelessWidget {
             SizedBox(
               height: size.height * 0.02,
             ),
-            Text(
-              args[1],
-              style: TextStyle(
-                  fontSize: 18, color: settingsProvider.currentTheme[1]),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: FittedBox(
+                child: Text(
+                  args[1],
+                  style: TextStyle(
+                      fontSize: 18, color: settingsProvider.currentTheme[1]),
+                ),
+              ),
             ),
             SizedBox(
               height: size.height * 0.04,

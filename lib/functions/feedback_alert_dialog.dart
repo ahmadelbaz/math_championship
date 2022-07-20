@@ -130,6 +130,9 @@ feedbackAlertDialog(BuildContext context) {
           );
 
           launchUrl(emailLaunchUri, mode: LaunchMode.platformDefault);
+          context
+              .read(achievementsChangeNotifierProvider)
+              .checkAchievement(11, context.read(pointsChangeNotifierProvider));
         },
         child: Text(
           'Send',

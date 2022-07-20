@@ -25,6 +25,8 @@ const timeIsUpAnimation = 'assets/animations/time.json';
 
 const wrongAnswerAnimation = 'assets/animations/sadrobot.json';
 
+const congratsAnimation = 'assets/animations/congrats.json';
+
 const cashedCurrentThemeData = 'cashed_current_theme_data';
 const cashedUserThemeData = 'cashed_User_theme_data';
 const cashedUserFontData = 'cashed_User_Font_data';
@@ -42,7 +44,10 @@ const firstFont = 'wheaton-capitals';
 const secondFont = 'rimouski';
 const thirdFont = 'BubblegumSans';
 const fourthFont = 'MotionControl-Bold';
-const fifthFont = '';
+const fifthFont = 'Lobster';
+const sixthFont = 'Changa';
+const seventhFont = 'RubikMoonrocks';
+const eighthFont = '';
 
 var deviceWidth = 0.0;
 var deviceHeight = 0.0;

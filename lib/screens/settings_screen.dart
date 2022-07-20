@@ -226,7 +226,7 @@ class SettingsScreen extends ConsumerWidget {
                           onTap: () {
                             playScoreBoardSound(settingsProvider.sounds[3]);
                             customAlertDialog(
-                              const Text('Select type'),
+                              const FittedBox(child: Text('Select type')),
                               Column(
                                 children: [
                                   ListTile(
@@ -318,7 +318,7 @@ class SettingsScreen extends ConsumerWidget {
     Color newColor = Colors.white;
     // Color changeColor = Colors.white;
     await customAlertDialog(
-      Text(title),
+      FittedBox(child: Text(title)),
       SingleChildScrollView(
         child: ColorPicker(
           pickerColor: newColor,

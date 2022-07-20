@@ -33,7 +33,7 @@ class AchievementProvider extends ChangeNotifier {
       playScoreBoardSound(
           context!.read(settingsChangeNotifierProvider).sounds[3]);
       customAlertDialog(
-          const Text('🎉 Achievement Unlocked! 🎉'),
+          const FittedBox(child: Text('🎉Achievement Unlocked!🎉')),
           Text(
               '${_achievements[index].task}.\n\n${_achievements[index].price} Math Coins added',
               style: Theme.of(context).textTheme.headline3),
