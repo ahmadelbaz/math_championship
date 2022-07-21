@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:math_championship/functions/play_sounds.dart';
@@ -21,8 +23,8 @@ class SettingsScreen extends ConsumerWidget {
     final settingsProvider = watch(settingsChangeNotifierProvider);
     final colorProvider = watch(colorPickerStateProvider);
     final achievementProvider = watch(achievementsChangeNotifierProvider);
-    colorProvider.state
-        .addAll([Colors.white, Colors.white, Colors.white, Colors.white]);
+    // colorProvider.state
+    //     .addAll([Colors.white, Colors.white, Colors.white, Colors.white]);
     return Scaffold(
       backgroundColor: settingsProvider.currentTheme[0],
       appBar: customAppBar(context, settingsProvider, 'Settings'),
@@ -173,14 +175,32 @@ class SettingsScreen extends ConsumerWidget {
               child: TextButton(
                 onPressed: () async {
                   if (settingsProvider.canAddThemes) {
-                    settingsProvider.addNewTheme([
-                      await showColorPicker(context, watch, 'Primary Color', 3),
-                      await showColorPicker(
-                          context, watch, 'Secondary Color', 2),
-                      await showColorPicker(context, watch, 'Third Color', 1),
-                      await showColorPicker(context, watch, 'Fourth Color', 0),
-                    ], achievementProvider, watch(pointsChangeNotifierProvider),
-                        true);
+                    colorProvider.state = [];
+                    colorProvider.state.addAll(
+                      [Colors.white, Colors.white, Colors.white, Colors.white],
+                    );
+                    await showColorPicker(context, watch, 'Primary Color', 3)
+                        .then((value) async => value
+                            ? await showColorPicker(context, watch, 'Secondary Color', 2)
+                                .then((value2) async => value2
+                                    ? await showColorPicker(
+                                            context, watch, 'Third Color', 1)
+                                        .then((value3) async => value3
+                                            ? await showColorPicker(
+                                                context, watch, 'Fourth Color', 0)
+                                            : false)
+                                    : false)
+                            : false)
+                        .then((value4) => value4
+                            ? settingsProvider.addNewTheme([
+                                colorProvider.state[3],
+                                colorProvider.state[2],
+                                colorProvider.state[1],
+                                colorProvider.state[0],
+                              ], achievementProvider,
+                                watch(pointsChangeNotifierProvider), true)
+                            : false);
+                    log('list : ${colorProvider.state}');
                   } else {
                     settingsProvider.unlockAddingTheme(
                         context,
@@ -309,13 +329,14 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
-  Future<Color> showColorPicker(
+  Future<bool> showColorPicker(
       BuildContext context,
       T Function<T>(ProviderBase<Object?, T>) watch,
       String title,
       int index) async {
     final colorProvider = watch(colorPickerStateProvider);
     Color newColor = Colors.white;
+    bool returnValue = false;
     // Color changeColor = Colors.white;
     await customAlertDialog(
       FittedBox(child: Text(title)),
@@ -336,6 +357,7 @@ class SettingsScreen extends ConsumerWidget {
                       .read(settingsChangeNotifierProvider)
                       .currentTheme[0])),
           onPressed: () {
+            returnValue = false;
             Navigator.of(context).pop();
           },
         ),
@@ -346,6 +368,7 @@ class SettingsScreen extends ConsumerWidget {
                       .read(settingsChangeNotifierProvider)
                       .currentTheme[0])),
           onPressed: () {
+            returnValue = true;
             colorProvider.state[index] = newColor;
             Navigator.of(context).pop();
           },
@@ -383,6 +406,6 @@ class SettingsScreen extends ConsumerWidget {
     //     ],
     //   ),
     // );
-    return colorProvider.state[index];
+    return returnValue;
   }
 }

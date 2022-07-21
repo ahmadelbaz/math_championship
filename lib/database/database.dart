@@ -39,44 +39,40 @@ class MyDatabase extends ChangeNotifier {
       batch.execute('''CREATE TABLE achievements (
     id TEXT PRIMARY KEY, task TEXT, price INTEGER, hasDone INTEGER
 )''');
-      batch.insert('modes', solveMode.toMap()!,
-          conflictAlgorithm: ConflictAlgorithm.replace);
-      batch.insert('modes', randomSign.toMap()!,
-          conflictAlgorithm: ConflictAlgorithm.replace);
-      batch.insert('modes', timeIsEveyThing.toMap()!,
-          conflictAlgorithm: ConflictAlgorithm.replace);
-      batch.insert('modes', doubleValue.toMap()!,
-          conflictAlgorithm: ConflictAlgorithm.replace);
-      batch.insert('modes', sqrRoot.toMap()!,
-          conflictAlgorithm: ConflictAlgorithm.replace);
+      for (DatabaseModel n in allModes) {
+        batch.insert('modes', n.toMap()!,
+            conflictAlgorithm: ConflictAlgorithm.replace);
+      }
       batch.insert('points', pointsAndCoins.toMap()!,
           conflictAlgorithm: ConflictAlgorithm.replace);
       batch.insert('user', userData.toMap()!,
           conflictAlgorithm: ConflictAlgorithm.replace);
-      batch.insert('achievements', allAchievements[0].toMap()!,
-          conflictAlgorithm: ConflictAlgorithm.replace);
-      batch.insert('achievements', allAchievements[1].toMap()!,
-          conflictAlgorithm: ConflictAlgorithm.replace);
-      batch.insert('achievements', allAchievements[2].toMap()!,
-          conflictAlgorithm: ConflictAlgorithm.replace);
-      batch.insert('achievements', allAchievements[3].toMap()!,
-          conflictAlgorithm: ConflictAlgorithm.replace);
-      batch.insert('achievements', allAchievements[4].toMap()!,
-          conflictAlgorithm: ConflictAlgorithm.replace);
-      batch.insert('achievements', allAchievements[5].toMap()!,
-          conflictAlgorithm: ConflictAlgorithm.replace);
-      batch.insert('achievements', allAchievements[6].toMap()!,
-          conflictAlgorithm: ConflictAlgorithm.replace);
-      batch.insert('achievements', allAchievements[7].toMap()!,
-          conflictAlgorithm: ConflictAlgorithm.replace);
-      batch.insert('achievements', allAchievements[8].toMap()!,
-          conflictAlgorithm: ConflictAlgorithm.replace);
-      batch.insert('achievements', allAchievements[9].toMap()!,
-          conflictAlgorithm: ConflictAlgorithm.replace);
-      batch.insert('achievements', allAchievements[10].toMap()!,
-          conflictAlgorithm: ConflictAlgorithm.replace);
-      batch.insert('achievements', allAchievements[11].toMap()!,
-          conflictAlgorithm: ConflictAlgorithm.replace);
+      for (Achievement n in allAchievements) {
+        batch.insert('achievements', n.toMap()!,
+            conflictAlgorithm: ConflictAlgorithm.replace);
+      }
+      // batch.insert('achievements', allAchievements[1].toMap()!,
+      //     conflictAlgorithm: ConflictAlgorithm.replace);
+      // batch.insert('achievements', allAchievements[2].toMap()!,
+      //     conflictAlgorithm: ConflictAlgorithm.replace);
+      // batch.insert('achievements', allAchievements[3].toMap()!,
+      //     conflictAlgorithm: ConflictAlgorithm.replace);
+      // batch.insert('achievements', allAchievements[4].toMap()!,
+      //     conflictAlgorithm: ConflictAlgorithm.replace);
+      // batch.insert('achievements', allAchievements[5].toMap()!,
+      //     conflictAlgorithm: ConflictAlgorithm.replace);
+      // batch.insert('achievements', allAchievements[6].toMap()!,
+      //     conflictAlgorithm: ConflictAlgorithm.replace);
+      // batch.insert('achievements', allAchievements[7].toMap()!,
+      //     conflictAlgorithm: ConflictAlgorithm.replace);
+      // batch.insert('achievements', allAchievements[8].toMap()!,
+      //     conflictAlgorithm: ConflictAlgorithm.replace);
+      // batch.insert('achievements', allAchievements[9].toMap()!,
+      //     conflictAlgorithm: ConflictAlgorithm.replace);
+      // batch.insert('achievements', allAchievements[10].toMap()!,
+      //     conflictAlgorithm: ConflictAlgorithm.replace);
+      // batch.insert('achievements', allAchievements[11].toMap()!,
+      //     conflictAlgorithm: ConflictAlgorithm.replace);
     }
 
     // First version of the database

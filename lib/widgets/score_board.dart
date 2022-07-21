@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/src/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:math_championship/widgets/custom_snack_bar.dart';
 
 import '../functions/play_sounds.dart';
