@@ -89,6 +89,9 @@ class ProfileScreen extends ConsumerWidget {
                     //this needs to be fixed it should be 'guest' not 'gguest'
                   } else if (nameController.text == 'guest') {
                     customSnackBar('Enter another name');
+                  } else if (nameController.text.length > 20) {
+                    customSnackBar(
+                        'More than 20 characters? really? keep the weight off.');
                   } else {
                     userProvider.updateUserName(achievementProvider,
                         nameController.text, pointsProvider);

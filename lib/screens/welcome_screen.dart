@@ -7,7 +7,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:math_championship/providers/user_provider.dart';
 import 'package:math_championship/widgets/custom_alert_dialog.dart';
 import 'package:lottie/lottie.dart';
-import '../constants.dart';
 import '../functions/play_sounds.dart';
 import '../main.dart';
 import '../widgets/score_board.dart';
@@ -32,9 +31,11 @@ class WelcomeScreen extends ConsumerWidget {
 
   static Future<void> pop({bool? animated}) async {
     customAlertDialog(
-        const Text(
-          'Come back soon',
-          style: TextStyle(color: Colors.black),
+        const FittedBox(
+          child: Text(
+            'Come back soon',
+            style: TextStyle(color: Colors.black),
+          ),
         ),
         Container(
             color: Colors.white,
@@ -133,8 +134,8 @@ class WelcomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, watch) {
     final size = MediaQuery.of(context).size;
-    deviceWidth = MediaQuery.of(context).size.width;
-    deviceHeight = MediaQuery.of(context).size.width;
+    // deviceWidth = MediaQuery.of(context).size.width;
+    // deviceHeight = MediaQuery.of(context).size.width;
     var userProvider = watch(userChangeNotifierProvider);
     final pointsProvider = watch(pointsChangeNotifierProvider);
     var futureProvider = watch(userFutureProvider);
@@ -178,6 +179,7 @@ class WelcomeScreen extends ConsumerWidget {
                   children: [
                     Lottie.asset('assets/animations/math.json'),
                     RichText(
+                      maxLines: 3,
                       textAlign: TextAlign.center,
                       text: TextSpan(
                         style: defaultStyle,

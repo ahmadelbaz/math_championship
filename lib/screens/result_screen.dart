@@ -122,10 +122,35 @@ class ResultScreen extends StatelessWidget {
             SizedBox(
               height: size.height * 0.04,
             ),
-            Text(
-              args[4],
-              style: Theme.of(context).textTheme.headline4,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(
+                  args[4],
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+                Text(
+                  args[5],
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+                Text(
+                  args[6],
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+                Text(
+                  '=',
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+                Text(
+                  args[7],
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+              ],
             ),
+            // Text(
+            //   args[4],
+            //   style: Theme.of(context).textTheme.headline4,
+            // ),
             SizedBox(
               height: size.height * 0.04,
             ),
@@ -140,7 +165,7 @@ class ResultScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(15)),
                   ),
                   onPressed: () {
-                    startMode(context.read, context, int.parse(args[6]));
+                    startMode(context.read, context, int.parse(args[9]));
                   },
                   child: Text(
                     'Play again',

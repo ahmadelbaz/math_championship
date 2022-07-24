@@ -6,11 +6,14 @@ import 'package:url_launcher/url_launcher.dart';
 import '../main.dart';
 import '../widgets/custom_alert_dialog.dart';
 
+// We call this method when user click on feedback button (inside about us screen)
 feedbackAlertDialog(BuildContext context) {
+  // We create text editing controller to control text fields
   final TextEditingController subject = TextEditingController();
   final TextEditingController body = TextEditingController();
   // we use this node to easily tavel from textfield to another
   final feedbackFocusNode = FocusNode();
+  // Creating an instance from settings provider
   final settingsProvider = context.read(settingsChangeNotifierProvider);
   customAlertDialog(
     const Text('Feedback'),
@@ -52,6 +55,7 @@ feedbackAlertDialog(BuildContext context) {
             ),
           ),
           onSubmitted: (_) {
+            // Move to next text field
             feedbackFocusNode.requestFocus();
           },
         ),
@@ -111,6 +115,7 @@ feedbackAlertDialog(BuildContext context) {
       TextButton(
         onPressed: () async {
           Navigator.of(context).pop();
+          // Navigate to mail app to send feedback
           String? encodeQueryParameters(Map<String, String> params) {
             return params.entries
                 .map((MapEntry<String, String> e) =>
@@ -120,7 +125,7 @@ feedbackAlertDialog(BuildContext context) {
 
           final Uri emailLaunchUri = Uri(
             scheme: 'mailto',
-            path: 'ahmeed.elbaz@gmail.com',
+            path: myEmail,
             query: encodeQueryParameters(
               <String, String>{
                 'subject': subject.text,

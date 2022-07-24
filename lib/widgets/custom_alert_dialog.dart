@@ -15,6 +15,8 @@ Future<void> customAlertDialog(
   await showDialog(
     context: context!,
     builder: (ctx) => AlertDialog(
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(32.0))),
       backgroundColor:
           hasBackColor ? Colors.white : Theme.of(context).primaryColor,
       title: title,

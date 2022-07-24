@@ -4,59 +4,14 @@ import '../models/mode_model.dart';
 import '../models/point_model.dart';
 import '../models/user_model.dart';
 
-// we will create all modes and add it here
-// first mode 'Solve'
-// DatabaseModel solveMode = Mode(
-//   id: '100',
-//   name: 'Solve',
-//   highScore: 0,
-//   price: 0,
-//   locked: 0,
-//   highScoreDateTime: DateTime.now(),
-// );
-
-// DatabaseModel randomSign = Mode(
-//   id: '101',
-//   name: 'Random Sign',
-//   highScore: 0,
-//   price: 20,
-//   locked: 1,
-//   highScoreDateTime: DateTime.now(),
-// );
-// third mode 'Time is everything'
-// DatabaseModel timeIsEveyThing = Mode(
-//   id: '102',
-//   name: 'Time is eveything',
-//   highScore: 0,
-//   price: 50,
-//   locked: 1,
-//   highScoreDateTime: DateTime.now(),
-// );
-// Fourth mode 'Double Value'
-// DatabaseModel doubleValue = Mode(
-//   id: '103',
-//   name: 'Double Value',
-//   highScore: 0,
-//   price: 50,
-//   locked: 1,
-//   highScoreDateTime: DateTime.now(),
-// );
-// Fifth mode 'Square Root'
-// DatabaseModel sqrRoot = Mode(
-//   id: '104',
-//   name: 'Square Root',
-//   highScore: 0,
-//   price: 50,
-//   locked: 1,
-//   highScoreDateTime: DateTime.now(),
-// );
-// add initial values for mathPoints and mathCoins
-DatabaseModel pointsAndCoins = Point(id: '321', mathPoints: 215, mathCoins: 78);
+// Add initial values for mathPoints and mathCoins
+DatabaseModel pointsAndCoins = Point(id: '321', mathPoints: 0, mathCoins: 0);
 // add initial values for User data
-DatabaseModel userData =
-    User(id: '1000', name: 'guest', mathPoints: 0, mathCoins: 0);
+DatabaseModel userData = User(id: '1000', name: 'guest');
 
+// Creating all game modes
 List<Mode> allModes = [
+// First mode 'Solve'
   Mode(
     id: '100',
     name: 'Solve',
@@ -65,6 +20,7 @@ List<Mode> allModes = [
     locked: 0,
     highScoreDateTime: DateTime.now(),
   ),
+  // second mode 'Random Sign'
   Mode(
     id: '101',
     name: 'Random Sign',
@@ -73,6 +29,7 @@ List<Mode> allModes = [
     locked: 1,
     highScoreDateTime: DateTime.now(),
   ),
+  // third mode 'Time is everything'
   Mode(
     id: '102',
     name: 'Time is eveything',
@@ -81,6 +38,7 @@ List<Mode> allModes = [
     locked: 1,
     highScoreDateTime: DateTime.now(),
   ),
+  // Fourth mode 'Double Value'
   Mode(
     id: '103',
     name: 'Double Value',
@@ -89,6 +47,7 @@ List<Mode> allModes = [
     locked: 1,
     highScoreDateTime: DateTime.now(),
   ),
+  // Fifth mode 'Square Root'
   Mode(
     id: '104',
     name: 'Square Root',
@@ -99,6 +58,7 @@ List<Mode> allModes = [
   ),
 ];
 
+// Creating all achievements in the game
 List<Achievement> allAchievements = [
   Achievement(id: '500', task: 'Create profile', price: 5, hasDone: false),
   Achievement(id: '501', task: 'Change Theme', price: 5, hasDone: false),

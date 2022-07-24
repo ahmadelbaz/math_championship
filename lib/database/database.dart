@@ -6,19 +6,20 @@ import 'package:math_championship/models/point_model.dart';
 import 'package:math_championship/models/user_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'db_consts.dart';
 
-final dbProvider = ChangeNotifierProvider<MyDatabase>(
-  (ref) {
-    return MyDatabase();
-  },
-);
+// final dbProvider = ChangeNotifierProvider<MyDatabase>(
+//   (ref) {
+//     return MyDatabase();
+//   },
+// );
 
 class MyDatabase extends ChangeNotifier {
   Future<Database> mathDatabase() async {
+    // Method for version 1 of the database
     void createTablesV1(Batch batch) {
+      // Creating tables if not found
       batch.execute('DROP TABLE IF EXISTS modes');
       batch.execute('''CREATE TABLE modes (
     id TEXT PRIMARY KEY, name TEXT, highscore INTEGER, price INEGER, locked INEGER, datetime INTEGER
@@ -39,6 +40,7 @@ class MyDatabase extends ChangeNotifier {
       batch.execute('''CREATE TABLE achievements (
     id TEXT PRIMARY KEY, task TEXT, price INTEGER, hasDone INTEGER
 )''');
+// Adding default data to tables in DB
       for (DatabaseModel n in allModes) {
         batch.insert('modes', n.toMap()!,
             conflictAlgorithm: ConflictAlgorithm.replace);
@@ -51,28 +53,6 @@ class MyDatabase extends ChangeNotifier {
         batch.insert('achievements', n.toMap()!,
             conflictAlgorithm: ConflictAlgorithm.replace);
       }
-      // batch.insert('achievements', allAchievements[1].toMap()!,
-      //     conflictAlgorithm: ConflictAlgorithm.replace);
-      // batch.insert('achievements', allAchievements[2].toMap()!,
-      //     conflictAlgorithm: ConflictAlgorithm.replace);
-      // batch.insert('achievements', allAchievements[3].toMap()!,
-      //     conflictAlgorithm: ConflictAlgorithm.replace);
-      // batch.insert('achievements', allAchievements[4].toMap()!,
-      //     conflictAlgorithm: ConflictAlgorithm.replace);
-      // batch.insert('achievements', allAchievements[5].toMap()!,
-      //     conflictAlgorithm: ConflictAlgorithm.replace);
-      // batch.insert('achievements', allAchievements[6].toMap()!,
-      //     conflictAlgorithm: ConflictAlgorithm.replace);
-      // batch.insert('achievements', allAchievements[7].toMap()!,
-      //     conflictAlgorithm: ConflictAlgorithm.replace);
-      // batch.insert('achievements', allAchievements[8].toMap()!,
-      //     conflictAlgorithm: ConflictAlgorithm.replace);
-      // batch.insert('achievements', allAchievements[9].toMap()!,
-      //     conflictAlgorithm: ConflictAlgorithm.replace);
-      // batch.insert('achievements', allAchievements[10].toMap()!,
-      //     conflictAlgorithm: ConflictAlgorithm.replace);
-      // batch.insert('achievements', allAchievements[11].toMap()!,
-      //     conflictAlgorithm: ConflictAlgorithm.replace);
     }
 
     // First version of the database
@@ -88,7 +68,6 @@ class MyDatabase extends ChangeNotifier {
     );
   }
 
-  // try to use it
   Future<Database> getDatabase(DatabaseModel model) async {
     return await getDatabaseByName('${model.database()}');
   }
@@ -98,21 +77,21 @@ class MyDatabase extends ChangeNotifier {
       case 'math_database':
         return mathDatabase();
       default:
-        return null!;
+        return mathDatabase();
     }
   }
 
+  // Insert in DB method using table name & the data itself
   Future<void> insert(DatabaseModel model) async {
-    // final db = await dogDatabase();
     final db = await getDatabase(model);
     db.insert(
       model.table()!,
       model.toMap()!,
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
-    // db.close();
   }
 
+  // Update data in DB method using table name, the new data & id
   Future<void> update(DatabaseModel model) async {
     final db = await getDatabase(model);
     db.update(
@@ -122,9 +101,9 @@ class MyDatabase extends ChangeNotifier {
       whereArgs: [model.getId()],
     );
     notifyListeners();
-    // db.close();
   }
 
+  // Delete data from DB method using table name & id
   Future<void> delete(DatabaseModel model) async {
     final db = await getDatabase(model);
     db.delete(
@@ -132,9 +111,9 @@ class MyDatabase extends ChangeNotifier {
       where: 'id = ?',
       whereArgs: [model.getId()],
     );
-    // db.close();
   }
 
+  // Method to get data from database to use it in the app
   Future<List<DatabaseModel>> getAll(String table, String dbName) async {
     final db = await getDatabaseByName(dbName);
     final List<Map<String, dynamic>> maps = await db.query(table);
@@ -157,11 +136,12 @@ class MyDatabase extends ChangeNotifier {
             : powerUpsModel;
   }
 
+  // Method to get points & user data from database to use it in the app
   Future<DatabaseModel> getAllPointsOrUser(String table, String dbName) async {
     final db = await getDatabaseByName(dbName);
     final List<Map<String, dynamic>> maps = await db.query(table);
     Point points = Point(id: '', mathPoints: 0, mathCoins: 0);
-    User user = User(id: '', name: '', mathPoints: 0, mathCoins: 0);
+    User user = User(id: '', name: '');
     for (var item in maps) {
       switch (table) {
         case 'points':

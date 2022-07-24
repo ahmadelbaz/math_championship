@@ -1,3 +1,4 @@
+// method that takes date and customize it to be readable
 String customizeDate(DateTime highScoreDateTime) {
   String hourIn12System = '${highScoreDateTime.hour}';
   String day = highScoreDateTime.day < 10

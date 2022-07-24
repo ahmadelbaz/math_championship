@@ -8,15 +8,19 @@ import 'package:url_launcher/url_launcher.dart';
 import '../main.dart';
 import '../widgets/custom_alert_dialog.dart';
 
-final Uri _paybalUrl = Uri.parse('http://paypal.me/ahmadelbazdev');
+final Uri _paybalUrl = Uri.parse(myPaybal);
 
+// Method to open any link in external browser in user device
 Future<void> _launchUrl() async {
-  if (!await launchUrl(_paybalUrl,
-      mode: LaunchMode.externalNonBrowserApplication)) {
+  if (!await launchUrl(
+    _paybalUrl,
+    mode: LaunchMode.externalNonBrowserApplication,
+  )) {
     throw 'Could not launch $_paybalUrl';
   }
 }
 
+// Method for alert dialog that appears when user click on donation button (inside about us screen)
 donationAlertDialog(BuildContext context) {
   final settingsProvider = context.read(settingsChangeNotifierProvider);
   customAlertDialog(
@@ -38,10 +42,11 @@ donationAlertDialog(BuildContext context) {
           onTap: () {
             Clipboard.setData(
               const ClipboardData(
-                text: "+201010825280",
+                text: mySecondNumber,
               ),
             );
             Navigator.of(context).pop();
+            // When user click on the number it gets copied in clipboard
             customSnackBar('Copied to Clipboard');
           },
           leading: Icon(
@@ -57,7 +62,7 @@ donationAlertDialog(BuildContext context) {
           onTap: () {
             Clipboard.setData(
               const ClipboardData(
-                text: "+201145009965",
+                text: myFirstNumber,
               ),
             );
             Navigator.of(context).pop();

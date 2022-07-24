@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 
+const myEmail = 'ahmeed.elbaz@gmail.com';
+const myFirstNumber = '+201145009965';
+const mySecondNumber = '+201010825280';
+const myPaybal = 'http://paypal.me/ahmadelbazdev';
+
 List<Color> firstTheme = [
   const Color(0xFFFFDE03),
   Colors.black,

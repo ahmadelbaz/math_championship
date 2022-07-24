@@ -60,7 +60,7 @@ class SettingsScreen extends ConsumerWidget {
             customRadioListTile(
               context,
               settingsProvider,
-              'Enable General sound',
+              'General sound',
               settingsProvider.sounds[0] ? settingsProvider.sounds[1] : false,
               (value) {
                 settingsProvider.switchGeneralSound(value);
@@ -70,7 +70,7 @@ class SettingsScreen extends ConsumerWidget {
             customRadioListTile(
               context,
               settingsProvider,
-              'Enable Start game sound',
+              'Start game sound',
               settingsProvider.sounds[0] ? settingsProvider.sounds[2] : false,
               (value) {
                 settingsProvider.switchStartGameSound(value);
@@ -80,7 +80,7 @@ class SettingsScreen extends ConsumerWidget {
             customRadioListTile(
               context,
               settingsProvider,
-              'Enable Score board sound',
+              'Score board sound',
               settingsProvider.sounds[0] ? settingsProvider.sounds[3] : false,
               (value) {
                 settingsProvider.switchScoreBoardSound(value);
@@ -90,7 +90,7 @@ class SettingsScreen extends ConsumerWidget {
             customRadioListTile(
               context,
               settingsProvider,
-              'Enable Correct Answer sound',
+              'Correct Answer sound',
               settingsProvider.sounds[0] ? settingsProvider.sounds[4] : false,
               (value) {
                 settingsProvider.switchCorrectAnswerSound(value);
@@ -100,7 +100,7 @@ class SettingsScreen extends ConsumerWidget {
             customRadioListTile(
               context,
               settingsProvider,
-              'Enable Wrong Answer sound',
+              'Wrong Answer sound',
               settingsProvider.sounds[0] ? settingsProvider.sounds[5] : false,
               (value) {
                 settingsProvider.switchWrongAnswerSound(value);
@@ -110,7 +110,7 @@ class SettingsScreen extends ConsumerWidget {
             customRadioListTile(
               context,
               settingsProvider,
-              'Enable Clear sound',
+              'Clear sound',
               settingsProvider.sounds[0] ? settingsProvider.sounds[6] : false,
               (value) {
                 settingsProvider.switchInGameClearSound(value);
