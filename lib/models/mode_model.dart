@@ -1,5 +1,6 @@
 import 'database_model.dart';
 
+// Model for mode (like, solve, random sign etc)
 class Mode implements DatabaseModel {
   String id = '';
   String name = '';
@@ -16,7 +17,9 @@ class Mode implements DatabaseModel {
       required this.locked,
       required this.highScoreDateTime});
 
+  // Handle the data that is coming from db
   Mode.fromMap(Map<String, dynamic> map) {
+    // Convert int to DateTime (becauze we cant store DateTime type in sqlite)
     DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(map['datetime']);
     id = map['id'];
     name = map['name'];
@@ -41,8 +44,10 @@ class Mode implements DatabaseModel {
     return 'modes';
   }
 
+  // Handle the data before storing it in db
   @override
   Map<String, dynamic>? toMap() {
+    // Convert DateTime to int
     int storedDateTime = highScoreDateTime.millisecondsSinceEpoch;
     return {
       'id': id,

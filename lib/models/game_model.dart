@@ -1,3 +1,4 @@
+// Model for game, its more wide than one mode, its for all modes
 class GameModel {
   int firstNum;
   int secondNum;

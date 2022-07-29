@@ -1,5 +1,7 @@
 import 'package:math_championship/models/database_model.dart';
 
+
+// Model for Math Points and Math Coins
 class Point implements DatabaseModel {
   String id = '';
   int mathPoints = 0;
@@ -7,6 +9,7 @@ class Point implements DatabaseModel {
 
   Point({required this.id, required this.mathPoints, required this.mathCoins});
 
+  // Handle the data that is coming from db
   Point.fromMap(Map<String, dynamic> map) {
     id = map['id'];
     mathPoints = map['mathpoints'];
@@ -28,6 +31,7 @@ class Point implements DatabaseModel {
     return 'points';
   }
 
+  // Handle the data before storing it in db
   @override
   Map<String, dynamic>? toMap() {
     return {
